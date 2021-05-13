@@ -1,0 +1,56 @@
++ sastojci
+----------------------
++ algoritmi
+   + euklidov algoritam                     |   |   prezentacija
+   + miller rabin algoritam                 |   |   prezentacija
+   + brza eksponencijacija                  |   |   prezentacija
+   + keygen                                 |   |   prezentacija
+   -----
+   + dsa za potpisivanje                    |   |   prezentacija
+   + elgamal za enkripciju                  |   |   https://en.wikipedia.org/wiki/ElGamal_encryption
+   + triple des (encrypt-decrypt-encrypt)   |   |   prezentacija
+   + idea                                   |   |   https://en.wikipedia.org/wiki/International_Data_Encryption_Algorithm
+   -----
+   + sha1                                   |   |   ?
+   + zip                                    |   |   ?
+   + radix64                                |   |   https://datatracker.ietf.org/doc/html/rfc4880#section-6.1
+
++ strukture
+   + public keyring i private keyring       |   |   prezentacija
+   + poruka                                 |   |   prezentacija
+   + ascii armor                            |   |   https://datatracker.ietf.org/doc/html/rfc4880#section-6.2
+
++ algoritmi ii
+   + samo slanje poruke                     |   |   ?
+   + racunanje poverenja                    |   |   prezentacija
+   + key parsing i export                   |   |   ?
+   + generisanje sesijskih kljuceva         |   |   prezentacija (mozemo i nesto drugacije)
+
++ interfejs (swing u netbeans-u?)
+   + send
+   + receive
+   + contacts
+   + personal keys
+   + settings?
+
+
+
++ pitanja
+----------------------
++ sta od kriptografskih algoritama treba napraviti?
+   + sha1, zip, ...?
+   + da li treba racunati poverenje?
+
++ da li treba slati sertifikate i kako?
+
++ kako radi elgamal za enkripciju?
+
++ kako poslati poruku koriscenjem pgp protokola?
+   + verovatno java ima neki paket za slanje email-ova, ali pitanje je sta prima kao argumente
+   -- ne salje se poruka, vec se cuva kao fajl (.pgpm)
+
++ ne brinemo o side channel napadima?
+   + brza eksponencijacija i slicno
+   + brisanje privatnog kljuca iz memorije cim vise nije potreban?
+      + treba koristiti char[] za kljuceve (a ne string jer je string immutable!)
+   
