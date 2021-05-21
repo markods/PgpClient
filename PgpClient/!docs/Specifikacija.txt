@@ -1,0 +1,48 @@
++ sastojci
+----------------------
+
++ strukture
+   + public keyring i private keyring       | U |   prezentacija
+   + poruka                                 | M |   prezentacija
+   + ascii armor                            | U |   https://datatracker.ietf.org/doc/html/rfc4880#section-6.2
+
++ algoritmi
+   + ascii armor (key) import i export      | U |   https://datatracker.ietf.org/doc/html/rfc4880#section-6.2
+   + generisanje sesijskih kljuceva         | M |   prezentacija
+   + slanje poruke (enkripcija, auth, ...)  | M |   prezentacija
+
++ interfejs (swing u netbeans-u)
+   + send email                             | M |   netbeans
+   + receive email                          | M |   netbeans
+   + public i private keyring               | M |   netbeans
+
+
+
++ pitanja
+----------------------
++ sta od kriptografskih algoritama treba napraviti? -- sve u bouncy castle-u
+   + sha1, zip, ...?
+
++ da li treba racunati poverenje? -- ne
+
++ da li treba slati sertifikate i kako? -- ne treba
+
++ kako radi elgamal za enkripciju? -- ima u bouncy castle-u
+
++ kako poslati poruku koriscenjem pgp protokola? -- ne salje se poruka vec se cuva kao .pgpm fajl
+   + verovatno java ima neki paket za slanje email-ova, ali pitanje je sta prima kao argumente
+
++ ne brinemo o side channel napadima? -- ne brinemo o tome
+   + brza eksponencijacija i slicno
+   + brisanje privatnog kljuca iz memorije cim vise nije potreban?
+      + treba koristiti char[] za kljuceve (a ne string jer je string immutable!)
+   
++ da li se poruka moze poslati ka vise primalaca istovremeno (vise primalaca u "to" polju)?
+   + da li primalac treba da moze da vidi sve ostale primaoce?
+
+
++ kako enkriptovati poruku sa vise javnih kljuceva?
+   + da li se sesijski kljuc enkriptuje sa N javnih kljuceva primaoca?
+   + da li je sama poruka enkriptovana jednom sa PU1, a zatim cela! poruka sa PU2, itd.?
+
+
