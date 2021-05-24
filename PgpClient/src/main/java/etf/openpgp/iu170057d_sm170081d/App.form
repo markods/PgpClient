@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="Pretty Good Privacy Client"/>
-    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[640, 480]"/>
-    </Property>
     <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[640, 480]"/>
     </Property>
@@ -37,7 +34,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="jTabs" pref="454" max="32767" attributes="0"/>
+              <Component id="jTabs" pref="534" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
               <Component id="jStatusbar" min="-2" pref="26" max="-2" attributes="0"/>
           </Group>
@@ -49,6 +46,9 @@
       <Properties>
         <Property name="tabLayoutPolicy" type="int" value="1"/>
         <Property name="doubleBuffered" type="boolean" value="true"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[640, 480]"/>
+        </Property>
       </Properties>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
@@ -75,13 +75,13 @@
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jSend_FromLabel" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jSend_ToLabel" max="32767" attributes="0"/>
+                          <Component id="jSend_FromLabel" alignment="0" min="-2" pref="54" max="-2" attributes="0"/>
+                          <Component id="jSend_ToLabel" min="-2" pref="54" max="-2" attributes="0"/>
                           <Component id="jSend_SubjectLabel" alignment="0" min="-2" pref="54" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jSend_FromDropdown" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jSend_FromDropdown" alignment="0" pref="452" max="32767" attributes="0"/>
                           <Component id="jSend_ToDropdown" alignment="0" max="32767" attributes="0"/>
                           <Component id="jSend_SubjectTextbox" alignment="0" max="32767" attributes="0"/>
                       </Group>
@@ -90,28 +90,28 @@
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jSend_EncryptionLabel" pref="69" max="32767" attributes="0"/>
-                          <Component id="jSend_SignatureLabel" max="32767" attributes="0"/>
+                          <Component id="jSend_EncryptionLabel" min="-2" pref="69" max="-2" attributes="0"/>
+                          <Component id="jSend_SignatureLabel" min="-2" pref="69" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jSend_EncryptionDropdown" pref="192" max="32767" attributes="0"/>
-                          <Component id="jSend_SignatureTextbox" max="32767" attributes="0"/>
+                          <Component id="jSend_EncryptionDropdown" pref="194" max="32767" attributes="0"/>
+                          <Component id="jSend_SignatureTextbox" pref="194" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="jSend_CompressedCheckbox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jSend_EncodedCheckbox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="91" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jSend_PassphraseLabel" min="-2" pref="77" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jSend_PassphraseTextbox" max="32767" attributes="0"/>
+                              <Component id="jSend_PassphrasePasswordbox" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jSend_TestButton" min="-2" max="-2" attributes="0"/>
+                              <Component id="jSend_TestButton" min="-2" pref="60" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -124,41 +124,41 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jSend_FromLabel" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Component id="jSend_FromDropdown" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jSend_FromDropdown" min="-2" pref="26" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jSend_ToDropdown" max="-2" attributes="0"/>
+                                  <Component id="jSend_ToDropdown" min="-2" pref="26" max="-2" attributes="0"/>
                                   <Component id="jSend_ToLabel" min="-2" pref="26" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jSend_SubjectLabel" pref="26" max="32767" attributes="0"/>
-                                  <Component id="jSend_SubjectTextbox" max="32767" attributes="0"/>
+                                  <Component id="jSend_SubjectLabel" min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Component id="jSend_SubjectTextbox" min="-2" pref="26" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="jSend_SendButton" min="-2" pref="90" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="200" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="280" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jSend_PassphraseTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                               <Component id="jSend_TestButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jSend_PassphraseLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="jSend_PassphrasePasswordbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="jSend_SignatureLabel" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jSend_SignatureTextbox" alignment="0" pref="26" max="32767" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="jSend_SignatureLabel" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="jSend_SignatureTextbox" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jSend_EncryptionLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="jSend_EncryptionDropdown" alignment="3" max="-2" attributes="0"/>
-                          <Component id="jSend_CompressedCheckbox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jSend_EncodedCheckbox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jSend_EncryptionDropdown" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jSend_CompressedCheckbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jSend_EncodedCheckbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -186,11 +186,14 @@
               <Properties>
                 <Property name="maximumRowCount" type="int" value="16"/>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Item 1"/>
-                    <StringItem index="1" value="Item 2"/>
-                    <StringItem index="2" value="Item 3"/>
-                    <StringItem index="3" value="Item 4"/>
+                  <StringArray count="7">
+                    <StringItem index="0" value="pera@gmail.com       |   AAAA AAAA BBBB BBBB"/>
+                    <StringItem index="1" value="pera@gmail.com       |   AB01 5912 7EFF 0DFD"/>
+                    <StringItem index="2" value="pera@gmail.com       |   za slanje zikinoj firmi"/>
+                    <StringItem index="3" value="pera@gmail.com       |   &lt;no signature&gt;"/>
+                    <StringItem index="4" value="pera@hotmail.com    |   ABCD EF012 3456 789A"/>
+                    <StringItem index="5" value="pera@hotmail.com    |   &lt;no signature&gt;"/>
+                    <StringItem index="6" value=" "/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -203,10 +206,10 @@
                 <Property name="maximumRowCount" type="int" value="16"/>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="4">
-                    <StringItem index="0" value="Item 1"/>
-                    <StringItem index="1" value="Item 2"/>
-                    <StringItem index="2" value="Item 3"/>
-                    <StringItem index="3" value="Item 4"/>
+                    <StringItem index="0" value="zika@gmail.com       |   FF01 FFFF FFFF BBBB"/>
+                    <StringItem index="1" value="zika@gmail.com       |   zikin glavni javni kljuc"/>
+                    <StringItem index="2" value="zika@hotmail.com    |   ABCD EF012 3456 789A"/>
+                    <StringItem index="3" value=" "/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -224,7 +227,9 @@
                 <Component class="javax.swing.JTextArea" name="jSend_BodyTextarea">
                   <Properties>
                     <Property name="columns" type="int" value="20"/>
+                    <Property name="lineWrap" type="boolean" value="true"/>
                     <Property name="tabSize" type="int" value="4"/>
+                    <Property name="name" type="java.lang.String" value="" noResource="true"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -245,7 +250,7 @@
             <Component class="javax.swing.JTextField" name="jSend_SignatureTextbox">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
-                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="text" type="java.lang.String" value="DSA 4096"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jSend_EncryptionLabel">
@@ -272,8 +277,6 @@
                 <Property name="text" type="java.lang.String" value="Passphrase"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jSend_PassphraseTextbox">
-            </Component>
             <Component class="javax.swing.JCheckBox" name="jSend_CompressedCheckbox">
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
@@ -291,6 +294,11 @@
             <Component class="javax.swing.JButton" name="jSend_TestButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Test"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JPasswordField" name="jSend_PassphrasePasswordbox">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="passphrase"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -316,46 +324,46 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jRecv_FromLabel" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jRecv_ToLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jRecv_FromLabel" alignment="0" min="-2" pref="54" max="-2" attributes="0"/>
+                          <Component id="jRecv_ToLabel" alignment="0" min="-2" pref="54" max="-2" attributes="0"/>
                           <Component id="jRecv_SubjectLabel" alignment="0" min="-2" pref="54" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jRecv_FromDropdown" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jRecv_ToDropdown" alignment="0" max="32767" attributes="0"/>
                           <Component id="jRecv_SubjectTextbox" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jRecv_FromTextbox" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jRecv_ToTextbox" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jRecv_SaveButton" max="32767" attributes="0"/>
-                          <Component id="jRecv_OpenButton" max="32767" attributes="0"/>
+                          <Component id="jRecv_SaveButton" min="-2" pref="60" max="-2" attributes="0"/>
+                          <Component id="jRecv_OpenButton" min="-2" pref="60" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jRecv_EncryptionLabel" alignment="0" pref="69" max="32767" attributes="0"/>
-                          <Component id="jRecv_SignatureLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jRecv_EncryptionLabel" alignment="0" min="-2" pref="69" max="-2" attributes="0"/>
+                          <Component id="jRecv_SignatureLabel" alignment="0" min="-2" pref="69" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jRecv_SignatureTextbox" min="-2" pref="192" max="-2" attributes="0"/>
-                          <Component id="jRecv_EncryptionTextbox" min="-2" pref="192" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jRecv_SignatureTextbox" pref="194" max="32767" attributes="0"/>
+                          <Component id="jRecv_EncryptionTextbox" pref="194" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Component id="jRecv_CompressedCheckbox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jRecv_EncodedCheckbox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="91" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
+                          <Group type="102" attributes="0">
                               <Component id="jRecv_PassphraseLabel" min="-2" pref="77" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jRecv_PassphraseTextbox" max="32767" attributes="0"/>
+                              <Component id="jRecv_PassphrasePasswordbox" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jRecv_TestButton" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRecv_DecryptButton" min="-2" pref="60" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -372,41 +380,43 @@
                               <Component id="jRecv_SaveButton" min="-2" pref="42" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jRecv_FromLabel" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Component id="jRecv_FromDropdown" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jRecv_FromLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Component id="jRecv_FromTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jRecv_ToLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Component id="jRecv_ToTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jRecv_ToDropdown" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jRecv_ToLabel" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jRecv_SubjectLabel" alignment="0" pref="26" max="32767" attributes="0"/>
-                                  <Component id="jRecv_SubjectTextbox" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jRecv_SubjectLabel" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Component id="jRecv_SubjectTextbox" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
                       <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" pref="200" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" pref="280" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jRecv_SignatureLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jRecv_SignatureLabel" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                               <Component id="jRecv_SignatureTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                              <Component id="jRecv_CompressedCheckbox" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jRecv_EncodedCheckbox" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRecv_CompressedCheckbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="jRecv_EncodedCheckbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jRecv_EncryptionLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="jRecv_EncryptionTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="jRecv_PassphraseTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                              <Component id="jRecv_TestButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRecv_DecryptButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jRecv_PassphraseLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="jRecv_PassphrasePasswordbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jRecv_EncryptionLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="jRecv_EncryptionTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -430,38 +440,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jRecv_SubjectTextbox">
-            </Component>
-            <Component class="javax.swing.JComboBox" name="jRecv_FromDropdown">
               <Properties>
-                <Property name="maximumRowCount" type="int" value="16"/>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Item 1"/>
-                    <StringItem index="1" value="Item 2"/>
-                    <StringItem index="2" value="Item 3"/>
-                    <StringItem index="3" value="Item 4"/>
-                  </StringArray>
-                </Property>
+                <Property name="editable" type="boolean" value="false"/>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="jRecv_ToDropdown">
-              <Properties>
-                <Property name="maximumRowCount" type="int" value="16"/>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Item 1"/>
-                    <StringItem index="1" value="Item 2"/>
-                    <StringItem index="2" value="Item 3"/>
-                    <StringItem index="3" value="Item 4"/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane2">
               <AuxValues>
@@ -472,6 +453,7 @@
               <SubComponents>
                 <Component class="javax.swing.JTextArea" name="jRecv_BodyTextarea">
                   <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="tabSize" type="int" value="4"/>
                   </Properties>
@@ -491,7 +473,6 @@
             <Component class="javax.swing.JTextField" name="jRecv_SignatureTextbox">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
-                <Property name="focusable" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jRecv_EncryptionLabel">
@@ -503,8 +484,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Passphrase"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="jRecv_PassphraseTextbox">
             </Component>
             <Component class="javax.swing.JCheckBox" name="jRecv_CompressedCheckbox">
               <Properties>
@@ -522,20 +501,34 @@
                 <Property name="horizontalTextPosition" type="int" value="10"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jRecv_TestButton">
+            <Component class="javax.swing.JButton" name="jRecv_DecryptButton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Test"/>
+                <Property name="text" type="java.lang.String" value="Decr."/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jRecv_EncryptionTextbox">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
-                <Property name="focusable" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jRecv_SaveButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Save"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jRecv_FromTextbox">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jRecv_ToTextbox">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JPasswordField" name="jRecv_PassphrasePasswordbox">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="passphrase"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -560,66 +553,77 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
+                      <Component id="jCont_EmailTextbox" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jCont_EmailLabel" min="-2" pref="45" max="-2" attributes="0"/>
-                                          <Component id="jCont_PublicKeyLabel" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jCont_EncrPrivateKeyLabel" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="0" pref="144" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Component id="jCont_PublicKeyTextbox" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jCont_EncrPrivateKeyTextbox" alignment="1" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jCont_PublicKeyExportButton" linkSize="1" max="32767" attributes="0"/>
-                                  <Component id="jCont_EncrPrivateKeyExportButton" linkSize="1" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jCont_EncrPrivateKeyImportButton" linkSize="1" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jCont_PublicKeyImportButton" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="jCont_EmailTextbox" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jCont_KeyIdLabel" alignment="0" min="-2" pref="77" max="-2" attributes="0"/>
-                                  <Component id="jCont_KeyIdTextbox" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <Component id="jCont_KeyIdLabel" alignment="0" min="-2" pref="77" max="-2" attributes="0"/>
+                          <Component id="jCont_KeyIdTextbox" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jCont_CreatedTextbox" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
-                          <Component id="jCont_CreatedLabel" alignment="0" min="-2" pref="77" max="-2" attributes="0"/>
-                          <Component id="jCont_AlgorithmDropdown" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jCont_AlgorithmLabel" alignment="0" min="-2" pref="77" max="-2" attributes="0"/>
-                          <Component id="jCont_KeyNameTextbox" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jCont_KeyNameLabel" alignment="0" min="-2" pref="77" max="-2" attributes="0"/>
+                          <Component id="jCont_KeyNameLabel" min="-2" pref="77" max="-2" attributes="0"/>
+                          <Component id="jCont_KeyNameTextbox" min="-2" pref="160" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="jScrollPane3" alignment="0" pref="578" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jCont_PassphraseLabel" min="-2" pref="77" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="jCont_PassphrasePasswordbox" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jCont_AlgorithmLabel" min="-2" pref="77" max="-2" attributes="0"/>
+                          <Component id="jCont_AlgorithmDropdown" min="-2" pref="160" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jCont_CreatedLabel" min="-2" pref="77" max="-2" attributes="0"/>
+                          <Component id="jCont_CreatedTextbox" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="314" max="32767" attributes="0"/>
-                      <Component id="jCont_TestButton" min="-2" pref="80" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="jCont_OkButton" min="-2" pref="80" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jCont_CancelButton" min="-2" pref="80" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane3" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jCont_PublicKeyTextbox" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jCont_EncrPrivateKeyTextbox" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jCont_EmailLabel" min="-2" pref="45" max="-2" attributes="0"/>
+                                  <Component id="jCont_PublicKeyLabel" min="-2" pref="68" max="-2" attributes="0"/>
+                                  <Component id="jCont_EncrPrivateKeyLabel" min="-2" pref="130" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jCont_EncrPrivateKeyExportButton" min="-2" pref="67" max="-2" attributes="0"/>
+                          <Component id="jCont_PublicKeyExportButton" min="-2" pref="67" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jCont_PublicKeyImportButton" alignment="1" min="-2" pref="67" max="-2" attributes="0"/>
+                          <Component id="jCont_EncrPrivateKeyImportButton" alignment="1" min="-2" pref="67" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jScrollPane3" pref="94" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                      <Component id="jScrollPane3" pref="121" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jCont_EmailLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="jCont_KeyIdLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
@@ -632,35 +636,47 @@
                           <Component id="jCont_KeyNameTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jCont_PublicKeyLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="jCont_AlgorithmLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="jCont_PassphraseLabel" min="-2" pref="26" max="-2" attributes="0"/>
+                                  <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
+                                  <Component id="jCont_PassphrasePasswordbox" min="-2" pref="26" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jCont_CreatedLabel" min="-2" pref="26" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                                  <Component id="jCont_CreatedTextbox" min="-2" pref="26" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="jCont_AlgorithmLabel" min="-2" pref="26" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                              <Component id="jCont_AlgorithmDropdown" min="-2" pref="26" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jCont_PublicKeyLabel" min="-2" pref="26" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jCont_PublicKeyImportButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jCont_PublicKeyExportButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jCont_PublicKeyTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="jCont_AlgorithmDropdown" alignment="3" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jCont_CreatedLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="jCont_EncrPrivateKeyLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jCont_EncrPrivateKeyLabel" min="-2" pref="26" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jCont_CreatedTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="jCont_EncrPrivateKeyImportButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jCont_EncrPrivateKeyExportButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jCont_EncrPrivateKeyTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jCont_CancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jCont_OkButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jCont_TestButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jCont_CancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -738,7 +754,6 @@
             <Component class="javax.swing.JTextField" name="jCont_EmailTextbox">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
-                <Property name="focusable" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jCont_KeyIdLabel">
@@ -823,11 +838,6 @@
                 <Property name="text" type="java.lang.String" value="OK"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jCont_TestButton">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Test"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JComboBox" name="jCont_AlgorithmDropdown">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -841,6 +851,16 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
+            <Component class="javax.swing.JLabel" name="jCont_PassphraseLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Passphrase"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JPasswordField" name="jCont_PassphrasePasswordbox">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="passphrase"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>
@@ -848,6 +868,7 @@
     <Component class="javax.swing.JTextField" name="jStatusbar">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
+        <Property name="text" type="java.lang.String" value="Success"/>
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>

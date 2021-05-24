@@ -8,13 +8,18 @@
 
 + algoritmi
    + ascii armor (key) import i export      | U |   https://datatracker.ietf.org/doc/html/rfc4880#section-6.2
-   + generisanje sesijskih kljuceva         | M |   prezentacija
+   + generisanje sesijskih kljuceva         | U |   prezentacija
    + slanje poruke (enkripcija, auth, ...)  | M |   prezentacija
 
-+ interfejs (swing u netbeans-u)
++ interfejs
    + send email                             | M |   netbeans
    + receive email                          | M |   netbeans
    + public i private keyring               | M |   netbeans
+
++ interfejs listeneri
+   + send email                             | U |   netbeans
+   + receive email                          | U |   netbeans
+   + public i private keyring               | U |   netbeans
 
 
 
@@ -40,9 +45,11 @@
 + da li se poruka moze poslati ka vise primalaca istovremeno (vise primalaca u "to" polju)?
    + da li primalac treba da moze da vidi sve ostale primaoce?
 
-
 + kako enkriptovati poruku sa vise javnih kljuceva?
    + da li se sesijski kljuc enkriptuje sa N javnih kljuceva primaoca?
    + da li je sama poruka enkriptovana jednom sa PU1, a zatim cela! poruka sa PU2, itd.?
+
+
+
 
 
