@@ -42,10 +42,10 @@
    + brisanje privatnog kljuca iz memorije cim vise nije potreban?
       + treba koristiti char[] za kljuceve (a ne string jer je string immutable!)
    
-+ da li se poruka moze poslati ka vise primalaca istovremeno (vise primalaca u "to" polju)?
-   + da li primalac treba da moze da vidi sve ostale primaoce?
++ da li se poruka moze poslati ka vise primalaca istovremeno (vise primalaca u "to" polju)? -- DA!!!
+   + da li primalac treba da moze da vidi sve ostale primaoce? -- ne
 
-+ kako enkriptovati poruku sa vise javnih kljuceva?
++ kako enkriptovati poruku sa vise javnih kljuceva? -- TREBA!!!
    + da li se sesijski kljuc enkriptuje sa N javnih kljuceva primaoca?
    + da li je sama poruka enkriptovana jednom sa PU1, a zatim cela! poruka sa PU2, itd.?
 

@@ -148,10 +148,8 @@
                               <Component id="jSend_PassphraseLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                               <Component id="jSend_PassphrasePasswordbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="jSend_SignatureLabel" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
-                              <Component id="jSend_SignatureTextbox" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jSend_SignatureLabel" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jSend_SignatureTextbox" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -568,10 +566,7 @@
                   <Component id="jScrollPane3" alignment="0" pref="578" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="jCont_PassphraseLabel" min="-2" pref="77" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jCont_PassphraseLabel" min="-2" pref="77" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="jCont_PassphrasePasswordbox" max="32767" attributes="0"/>
                               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
@@ -597,14 +592,9 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jCont_PublicKeyTextbox" alignment="0" max="32767" attributes="0"/>
                           <Component id="jCont_EncrPrivateKeyTextbox" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jCont_EmailLabel" min="-2" pref="45" max="-2" attributes="0"/>
-                                  <Component id="jCont_PublicKeyLabel" min="-2" pref="68" max="-2" attributes="0"/>
-                                  <Component id="jCont_EncrPrivateKeyLabel" min="-2" pref="130" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jCont_EmailLabel" min="-2" pref="45" max="-2" attributes="0"/>
+                          <Component id="jCont_PublicKeyLabel" min="-2" pref="68" max="-2" attributes="0"/>
+                          <Component id="jCont_EncrPrivateKeyLabel" min="-2" pref="130" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">

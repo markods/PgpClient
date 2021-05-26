@@ -12,7 +12,7 @@ package etf.openpgp.iu170057d_sm170081d;
 public class App extends javax.swing.JFrame {
 
     /**
-     * Creates new form AppFrame
+     * Creates new form App
      */
     public App() {
         initComponents();
