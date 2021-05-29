@@ -15,6 +15,8 @@ import org.bouncycastle.util.encoders.Hex;
  */
 public class App extends javax.swing.JFrame {
 
+    private String currentMessage = null;
+    
     /**
      * Creates new form App
      */
@@ -260,6 +262,11 @@ public class App extends javax.swing.JFrame {
         jRecv_EncryptionTextbox.setEditable(false);
 
         jRecv_SaveButton.setText("Save");
+        jRecv_SaveButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRecv_SaveButtonMouseClicked(evt);
+            }
+        });
 
         jRecv_FromTextbox.setEditable(false);
 
@@ -563,7 +570,20 @@ public class App extends javax.swing.JFrame {
         
         // Write output
         jRecv_BodyTextarea.setText(dectryptedMessage);
+        currentMessage = dectryptedMessage;
     }//GEN-LAST:event_jRecv_OpenButtonMouseClicked
+
+    private void jRecv_SaveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRecv_SaveButtonMouseClicked
+        if (currentMessage == null) {
+            System.out.println("Trenutno nema primljene poruke.");
+            return;
+        }
+        
+        // TODO(Marko): Read the actual file path in a new dialog
+        String decryptedFilePath = "C:\\Users\\User\\Desktop\\received.txt";
+        
+        Utils.writeToFile(decryptedFilePath, currentMessage.getBytes());
+    }//GEN-LAST:event_jRecv_SaveButtonMouseClicked
 
     /**
      * @param args the command line arguments
