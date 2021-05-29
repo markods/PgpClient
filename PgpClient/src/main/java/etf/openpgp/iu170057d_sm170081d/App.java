@@ -553,13 +553,14 @@ public class App extends javax.swing.JFrame {
 
     private void jSend_SendButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSend_SendButtonMouseClicked
         // Read message values
-        byte[] message = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
+        String textMessage = jSend_BodyTextarea.getText();
+        byte[] byteMessage = textMessage.getBytes();
         
         // Read key values
         byte[] key = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
         
-        // TODO(Marko): Implement the actual encryption function
-        byte[] encryptedMessage = Encryption.encrypt(message, key);
+        // Encryption
+        byte[] encryptedMessage = Encryption.encrypt(byteMessage, key);
         
         // TODO(Marko): Read the actual file destination in a new dialog
         String encryptedFilePath = "C:\\Users\\User\\Desktop\\test.txt";
