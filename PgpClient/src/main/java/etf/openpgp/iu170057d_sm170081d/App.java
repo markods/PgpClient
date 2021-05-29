@@ -403,6 +403,11 @@ public class App extends javax.swing.JFrame {
         jCont_CancelButton.setText("Cancel");
 
         jCont_OkButton.setText("OK");
+        jCont_OkButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jCont_OkButtonMouseClicked(evt);
+            }
+        });
 
         jCont_AlgorithmDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ElGamal", "DSA" }));
 
@@ -547,7 +552,7 @@ public class App extends javax.swing.JFrame {
         byte[] senderSignaturePrivateKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
         byte[] senderConfidentialityPublicKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
         
-        Encryption.EncrptionAlgorithm encryptionAlgorithm = Encryption.EncrptionAlgorithm.NONE;
+        Encryption.SymmetricEncrptionAlgorithm encryptionAlgorithm = Encryption.SymmetricEncrptionAlgorithm.NONE;
         
         byte[] senderPassphrase = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
         
@@ -585,7 +590,10 @@ public class App extends javax.swing.JFrame {
         byte[] receiverPrivateKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
         
         // Decryption
-        Encryption.DecryptedMessage decryptedMessage = Encryption.decrypt(encryptedMessage, senderPublicKey, receiverPrivateKey);
+        Encryption.DecryptedMessage decryptedMessage = Encryption.decrypt(
+                encryptedMessage,
+                senderPublicKey,
+                receiverPrivateKey);
         String dectryptedMessage = new String(decryptedMessage.decryptedMessage);
         
         // Write output
@@ -604,6 +612,18 @@ public class App extends javax.swing.JFrame {
         
         Utils.writeToFile(decryptedFilePath, currentMessage.getBytes());
     }//GEN-LAST:event_jRecv_SaveButtonMouseClicked
+
+    private void jCont_OkButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCont_OkButtonMouseClicked
+        String name = "";
+        String email = "";
+        Encryption.AsymmetricEncrptionAlgorithm encryptionAlgorithm = Encryption.AsymmetricEncrptionAlgorithm.DSA;
+        byte[] passphrase = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
+        
+        Encryption.PublicPrivateKeyPair pk = Encryption.generateKeyPair(
+                encryptionAlgorithm,
+                passphrase
+        );
+    }//GEN-LAST:event_jCont_OkButtonMouseClicked
 
     /**
      * @param args the command line arguments
