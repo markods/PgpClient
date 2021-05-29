@@ -364,10 +364,12 @@
                           <Component id="jRecv_OpenButton" alignment="3" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jRecv_ToLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="jRecv_SaveButton" alignment="3" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jRecv_ToTextbox" alignment="1" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jRecv_ToLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="jRecv_SaveButton" alignment="3" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="306" max="-2" attributes="0"/>

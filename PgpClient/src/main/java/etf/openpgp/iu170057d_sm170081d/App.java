@@ -321,10 +321,11 @@ public class App extends javax.swing.JFrame {
                     .addComponent(jRecv_FromTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRecv_OpenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(11, 11, 11)
-                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRecv_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRecv_SaveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jRecv_ToTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRecv_ToTextbox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jRecv_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jRecv_SaveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -537,12 +538,30 @@ public class App extends javax.swing.JFrame {
         String textMessage = jSend_BodyTextarea.getText();
         byte[] byteMessage = textMessage.getBytes();
         
-        // Read key values
-        byte[] senderPrivateKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
-        byte[] receiverPublicKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
+        // Read encryption metadata
+        boolean confidentiality = false;
+        boolean signature = false;
+        boolean compression = false;
+        boolean conversionToRadix64 = false;
+        
+        byte[] senderSignaturePrivateKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
+        byte[] senderConfidentialityPublicKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
+        
+        Encryption.EncrptionAlgorithm encryptionAlgorithm = Encryption.EncrptionAlgorithm.NONE;
+        
+        byte[] senderPassphrase = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
         
         // Encryption
-        byte[] encryptedMessage = Encryption.encrypt(byteMessage, senderPrivateKey, receiverPublicKey);
+        byte[] encryptedMessage = Encryption.encrypt(
+                byteMessage,
+                senderSignaturePrivateKey,
+                senderConfidentialityPublicKey,
+                encryptionAlgorithm,
+                senderPassphrase,
+                confidentiality,
+                signature,
+                compression,
+                conversionToRadix64);
         
         // TODO(Marko): Read the actual file path in a new dialog
         String encryptedFilePath = "C:\\Users\\User\\Desktop\\test.txt";
@@ -557,16 +576,17 @@ public class App extends javax.swing.JFrame {
         // TODO(Marko): Read the actual file path in a new dialog
         String encryptedFilePath = "C:\\Users\\User\\Desktop\\test.txt";
         
-        // Read encrypted message
+        // Decryption metadata
         byte[] encryptedMessage = Utils.readFromFile(encryptedFilePath);
+        byte[] receiverPassphrase = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
         
         // Read key values
         byte[] senderPublicKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
         byte[] receiverPrivateKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
         
-        // Decrypt
-        byte[] decryptedByteMessage = Encryption.decrypt(encryptedMessage, senderPublicKey, receiverPrivateKey);
-        String dectryptedMessage = new String(decryptedByteMessage);
+        // Decryption
+        Encryption.DecryptedMessage decryptedMessage = Encryption.decrypt(encryptedMessage, senderPublicKey, receiverPrivateKey);
+        String dectryptedMessage = new String(decryptedMessage.decryptedMessage);
         
         // Write output
         jRecv_BodyTextarea.setText(dectryptedMessage);

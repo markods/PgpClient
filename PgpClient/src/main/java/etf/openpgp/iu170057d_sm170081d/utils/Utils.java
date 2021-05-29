@@ -15,8 +15,7 @@ import java.util.logging.Logger;
  */
 public class Utils {
     
-    public static void writeToFile(String filePath, byte[] content)
-    {
+    public static void writeToFile(String filePath, byte[] content) {
         try (FileOutputStream fos = new FileOutputStream(filePath)) {
             fos.write(content);
         } catch (FileNotFoundException ex) {
@@ -26,8 +25,7 @@ public class Utils {
         }
     }
     
-    public static byte[] readFromFile(String filePath)
-    {
+    public static byte[] readFromFile(String filePath) {
         File file = new File(filePath);
         try (FileInputStream fin = new FileInputStream(file)) { 
             byte fileContent[] = new byte[(int)file.length()];             
