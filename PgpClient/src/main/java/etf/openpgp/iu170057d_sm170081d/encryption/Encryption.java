@@ -13,7 +13,7 @@ public class Encryption {
     
     // TODO(Marko): Implement the actual encryption function instead of this
     // stub version
-    public static byte[] encrypt(byte[] message, byte[] key)
+    public static byte[] encrypt(byte[] message, byte[] senderPrivateKey, byte[] receiverPublicKey)
     {
         return message.clone();
     }

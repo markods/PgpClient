@@ -33,8 +33,6 @@ public class App extends javax.swing.JFrame {
         jSend_Tab = new javax.swing.JPanel();
         jSend_FromLabel = new javax.swing.JLabel();
         jSend_ToLabel = new javax.swing.JLabel();
-        jSend_SubjectLabel = new javax.swing.JLabel();
-        jSend_SubjectTextbox = new javax.swing.JTextField();
         jSend_FromDropdown = new javax.swing.JComboBox<>();
         jSend_ToDropdown = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -52,8 +50,6 @@ public class App extends javax.swing.JFrame {
         jRecv_Tab = new javax.swing.JPanel();
         jRecv_FromLabel = new javax.swing.JLabel();
         jRecv_ToLabel = new javax.swing.JLabel();
-        jRecv_SubjectLabel = new javax.swing.JLabel();
-        jRecv_SubjectTextbox = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jRecv_BodyTextarea = new javax.swing.JTextArea();
         jRecv_OpenButton = new javax.swing.JButton();
@@ -110,8 +106,6 @@ public class App extends javax.swing.JFrame {
 
         jSend_ToLabel.setText("To");
 
-        jSend_SubjectLabel.setText("Subject");
-
         jSend_FromDropdown.setMaximumRowCount(16);
         jSend_FromDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pera@gmail.com       |   AAAA AAAA BBBB BBBB", "pera@gmail.com       |   AB01 5912 7EFF 0DFD", "pera@gmail.com       |   za slanje zikinoj firmi", "pera@gmail.com       |   <no signature>", "pera@hotmail.com    |   ABCD EF012 3456 789A", "pera@hotmail.com    |   <no signature>", " " }));
 
@@ -163,13 +157,11 @@ public class App extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jSend_TabLayout.createSequentialGroup()
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jSend_FromLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSend_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSend_SubjectLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSend_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSend_FromDropdown, 0, 452, Short.MAX_VALUE)
-                    .addComponent(jSend_ToDropdown, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSend_SubjectTextbox))
+                    .addComponent(jSend_ToDropdown, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSend_SendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jSend_TabLayout.createSequentialGroup()
@@ -190,14 +182,14 @@ public class App extends javax.swing.JFrame {
                     .addGroup(jSend_TabLayout.createSequentialGroup()
                         .addComponent(jSend_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSend_PassphrasePasswordbox)
+                        .addComponent(jSend_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSend_TestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jSend_TabLayout.setVerticalGroup(
             jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jSend_TabLayout.createSequentialGroup()
-                .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jSend_TabLayout.createSequentialGroup()
                         .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSend_FromLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -205,14 +197,10 @@ public class App extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jSend_ToDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSend_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jSend_SubjectLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSend_SubjectTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jSend_SendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                            .addComponent(jSend_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jSend_SendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -236,10 +224,6 @@ public class App extends javax.swing.JFrame {
         jRecv_FromLabel.setText("From");
 
         jRecv_ToLabel.setText("To");
-
-        jRecv_SubjectLabel.setText("Subject");
-
-        jRecv_SubjectTextbox.setEditable(false);
 
         jRecv_BodyTextarea.setEditable(false);
         jRecv_BodyTextarea.setColumns(20);
@@ -290,11 +274,9 @@ public class App extends javax.swing.JFrame {
             .addGroup(jRecv_TabLayout.createSequentialGroup()
                 .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jRecv_FromLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRecv_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRecv_SubjectLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jRecv_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRecv_SubjectTextbox)
                     .addComponent(jRecv_FromTextbox)
                     .addComponent(jRecv_ToTextbox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -319,7 +301,7 @@ public class App extends javax.swing.JFrame {
                     .addGroup(jRecv_TabLayout.createSequentialGroup()
                         .addComponent(jRecv_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRecv_PassphrasePasswordbox)
+                        .addComponent(jRecv_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRecv_DecryptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -327,25 +309,17 @@ public class App extends javax.swing.JFrame {
         jRecv_TabLayout.setVerticalGroup(
             jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jRecv_TabLayout.createSequentialGroup()
-                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jRecv_TabLayout.createSequentialGroup()
-                        .addComponent(jRecv_OpenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRecv_SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jRecv_TabLayout.createSequentialGroup()
-                        .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRecv_FromLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jRecv_FromTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRecv_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jRecv_ToTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jRecv_SubjectLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jRecv_SubjectTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRecv_FromLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRecv_FromTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRecv_OpenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(11, 11, 11)
+                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRecv_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRecv_SaveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jRecv_ToTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jRecv_SignatureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -557,10 +531,11 @@ public class App extends javax.swing.JFrame {
         byte[] byteMessage = textMessage.getBytes();
         
         // Read key values
-        byte[] key = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
+        byte[] senderPrivateKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
+        byte[] receiverPublicKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
         
         // Encryption
-        byte[] encryptedMessage = Encryption.encrypt(byteMessage, key);
+        byte[] encryptedMessage = Encryption.encrypt(byteMessage, senderPrivateKey, receiverPublicKey);
         
         // TODO(Marko): Read the actual file destination in a new dialog
         String encryptedFilePath = "C:\\Users\\User\\Desktop\\test.txt";
@@ -656,8 +631,6 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JButton jRecv_SaveButton;
     private javax.swing.JLabel jRecv_SignatureLabel;
     private javax.swing.JTextField jRecv_SignatureTextbox;
-    private javax.swing.JLabel jRecv_SubjectLabel;
-    private javax.swing.JTextField jRecv_SubjectTextbox;
     private javax.swing.JPanel jRecv_Tab;
     private javax.swing.JLabel jRecv_ToLabel;
     private javax.swing.JTextField jRecv_ToTextbox;
@@ -676,8 +649,6 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JButton jSend_SendButton;
     private javax.swing.JLabel jSend_SignatureLabel;
     private javax.swing.JTextField jSend_SignatureTextbox;
-    private javax.swing.JLabel jSend_SubjectLabel;
-    private javax.swing.JTextField jSend_SubjectTextbox;
     private javax.swing.JPanel jSend_Tab;
     private javax.swing.JButton jSend_TestButton;
     private javax.swing.JComboBox<String> jSend_ToDropdown;

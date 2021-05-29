@@ -77,13 +77,11 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jSend_FromLabel" alignment="0" min="-2" pref="54" max="-2" attributes="0"/>
                           <Component id="jSend_ToLabel" min="-2" pref="54" max="-2" attributes="0"/>
-                          <Component id="jSend_SubjectLabel" alignment="0" min="-2" pref="54" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jSend_FromDropdown" alignment="0" pref="452" max="32767" attributes="0"/>
                           <Component id="jSend_ToDropdown" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jSend_SubjectTextbox" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSend_SendButton" min="-2" pref="60" max="-2" attributes="0"/>
@@ -109,7 +107,7 @@
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jSend_PassphraseLabel" min="-2" pref="77" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jSend_PassphrasePasswordbox" max="32767" attributes="0"/>
+                              <Component id="jSend_PassphrasePasswordbox" pref="143" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jSend_TestButton" min="-2" pref="60" max="-2" attributes="0"/>
                           </Group>
@@ -120,7 +118,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jSend_FromLabel" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
@@ -131,16 +129,11 @@
                                   <Component id="jSend_ToDropdown" min="-2" pref="26" max="-2" attributes="0"/>
                                   <Component id="jSend_ToLabel" min="-2" pref="26" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jSend_SubjectLabel" min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Component id="jSend_SubjectTextbox" min="-2" pref="26" max="-2" attributes="0"/>
-                              </Group>
                           </Group>
-                          <Component id="jSend_SendButton" min="-2" pref="90" max="-2" attributes="0"/>
+                          <Component id="jSend_SendButton" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="280" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" pref="311" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -172,13 +165,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="To"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jSend_SubjectLabel">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Subject"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="jSend_SubjectTextbox">
             </Component>
             <Component class="javax.swing.JComboBox" name="jSend_FromDropdown">
               <Properties>
@@ -327,11 +313,9 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jRecv_FromLabel" alignment="0" min="-2" pref="54" max="-2" attributes="0"/>
                           <Component id="jRecv_ToLabel" alignment="0" min="-2" pref="54" max="-2" attributes="0"/>
-                          <Component id="jRecv_SubjectLabel" alignment="0" min="-2" pref="54" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jRecv_SubjectTextbox" alignment="0" max="32767" attributes="0"/>
                           <Component id="jRecv_FromTextbox" alignment="0" max="32767" attributes="0"/>
                           <Component id="jRecv_ToTextbox" alignment="0" max="32767" attributes="0"/>
                       </Group>
@@ -362,7 +346,7 @@
                           <Group type="102" attributes="0">
                               <Component id="jRecv_PassphraseLabel" min="-2" pref="77" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jRecv_PassphrasePasswordbox" max="32767" attributes="0"/>
+                              <Component id="jRecv_PassphrasePasswordbox" pref="143" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jRecv_DecryptButton" min="-2" pref="60" max="-2" attributes="0"/>
                           </Group>
@@ -374,31 +358,19 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jRecv_OpenButton" min="-2" pref="42" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jRecv_SaveButton" min="-2" pref="42" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jRecv_FromLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Component id="jRecv_FromTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jRecv_ToLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Component id="jRecv_ToTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jRecv_SubjectLabel" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Component id="jRecv_SubjectTextbox" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jRecv_FromLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jRecv_FromTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jRecv_OpenButton" alignment="3" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" pref="280" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jRecv_ToLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jRecv_SaveButton" alignment="3" max="32767" attributes="0"/>
+                          <Component id="jRecv_ToTextbox" alignment="1" min="-2" pref="26" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" min="-2" pref="306" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jRecv_SignatureLabel" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
@@ -433,16 +405,6 @@
             <Component class="javax.swing.JLabel" name="jRecv_ToLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="To"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jRecv_SubjectLabel">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Subject"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="jRecv_SubjectTextbox">
-              <Properties>
-                <Property name="editable" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane2">
