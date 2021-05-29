@@ -20,8 +20,9 @@ public class Encryption {
     
     // TODO(Marko): Implement the actual decryption function instead of this
     // stub version
-    public static void decrypt()
+    public static byte[] decrypt(byte[] message, byte[] senderPublicKey, byte[] receiverPrivateKey)
     {
+        return message.clone();
     }
     
 }

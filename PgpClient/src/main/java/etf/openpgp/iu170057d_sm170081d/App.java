@@ -526,7 +526,7 @@ public class App extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jSend_SendButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSend_SendButtonMouseClicked
-        // Read message values
+        // Read original message
         String textMessage = jSend_BodyTextarea.getText();
         byte[] byteMessage = textMessage.getBytes();
         
@@ -537,7 +537,7 @@ public class App extends javax.swing.JFrame {
         // Encryption
         byte[] encryptedMessage = Encryption.encrypt(byteMessage, senderPrivateKey, receiverPublicKey);
         
-        // TODO(Marko): Read the actual file destination in a new dialog
+        // TODO(Marko): Read the actual file path in a new dialog
         String encryptedFilePath = "C:\\Users\\User\\Desktop\\test.txt";
         
         // Store file
@@ -547,13 +547,22 @@ public class App extends javax.swing.JFrame {
     }//GEN-LAST:event_jSend_SendButtonMouseClicked
 
     private void jRecv_OpenButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRecv_OpenButtonMouseClicked
-        // Read file
+        // TODO(Marko): Read the actual file path in a new dialog
+        String encryptedFilePath = "C:\\Users\\User\\Desktop\\test.txt";
+        
+        // Read encrypted message
+        byte[] encryptedMessage = Utils.readFromFile(encryptedFilePath);
         
         // Read key values
+        byte[] senderPublicKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
+        byte[] receiverPrivateKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
         
         // Decrypt
+        byte[] decryptedByteMessage = Encryption.decrypt(encryptedMessage, senderPublicKey, receiverPrivateKey);
+        String dectryptedMessage = new String(decryptedByteMessage);
         
         // Write output
+        jRecv_BodyTextarea.setText(dectryptedMessage);
     }//GEN-LAST:event_jRecv_OpenButtonMouseClicked
 
     /**

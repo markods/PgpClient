@@ -28,6 +28,17 @@ public class Utils {
     
     public static byte[] readFromFile(String filePath)
     {
+        File file = new File(filePath);
+        try (FileInputStream fin = new FileInputStream(file)) { 
+            byte fileContent[] = new byte[(int)file.length()];             
+            fin.read(fileContent);
+            return fileContent;
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found" + e);
+        } catch (IOException ioe) {
+            System.out.println("Exception while reading file " + ioe);
+        }
+        
         return null;
     }
 }
