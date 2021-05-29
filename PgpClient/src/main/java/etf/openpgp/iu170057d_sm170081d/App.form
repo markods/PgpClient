@@ -239,6 +239,9 @@
                   <Dimension value="[58, 32]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jSend_SendButtonMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jSend_SignatureLabel">
               <Properties>
@@ -462,6 +465,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Open"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jRecv_OpenButtonMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jRecv_SignatureLabel">
               <Properties>

@@ -5,6 +5,10 @@
  */
 package etf.openpgp.iu170057d_sm170081d;
 
+import etf.openpgp.iu170057d_sm170081d.utils.Utils;
+import etf.openpgp.iu170057d_sm170081d.encryption.Encryption;
+import org.bouncycastle.util.encoders.Hex;
+
 /**
  *
  * @author Marko
@@ -122,6 +126,11 @@ public class App extends javax.swing.JFrame {
 
         jSend_SendButton.setText("Send");
         jSend_SendButton.setPreferredSize(new java.awt.Dimension(58, 32));
+        jSend_SendButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jSend_SendButtonMouseClicked(evt);
+            }
+        });
 
         jSend_SignatureLabel.setText("Signature");
 
@@ -238,6 +247,11 @@ public class App extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jRecv_BodyTextarea);
 
         jRecv_OpenButton.setText("Open");
+        jRecv_OpenButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRecv_OpenButtonMouseClicked(evt);
+            }
+        });
 
         jRecv_SignatureLabel.setText("Signature");
 
@@ -536,6 +550,35 @@ public class App extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jSend_SendButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSend_SendButtonMouseClicked
+        // Read message values
+        byte[] message = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
+        
+        // Read key values
+        byte[] key = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
+        
+        // TODO(Marko): Implement the actual encryption function
+        byte[] encryptedMessage = Encryption.encrypt(message, key);
+        
+        // TODO(Marko): Read the actual file destination in a new dialog
+        String encryptedFilePath = "C:\\Users\\User\\Desktop\\test.txt";
+        
+        // Store file
+        Utils.writeToFile(encryptedFilePath, encryptedMessage);
+        
+        System.out.println("INFO: Stored encrypted file.");
+    }//GEN-LAST:event_jSend_SendButtonMouseClicked
+
+    private void jRecv_OpenButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRecv_OpenButtonMouseClicked
+        // Read file
+        
+        // Read key values
+        
+        // Decrypt
+        
+        // Write output
+    }//GEN-LAST:event_jRecv_OpenButtonMouseClicked
 
     /**
      * @param args the command line arguments
