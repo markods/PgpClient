@@ -7,6 +7,8 @@ package etf.openpgp.iu170057d_sm170081d;
 
 import etf.openpgp.iu170057d_sm170081d.utils.Utils;
 import etf.openpgp.iu170057d_sm170081d.encryption.Encryption;
+import etf.openpgp.iu170057d_sm170081d.encryption.PGPKeys;
+import org.bouncycastle.openpgp.PGPSecretKeyRingCollection;
 import org.bouncycastle.util.encoders.Hex;
 
 /**
@@ -653,6 +655,12 @@ public class App extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
 
+        try {
+            PGPSecretKeyRingCollection secretKeyRing = PGPKeys.getSecretKeysCollection();
+        } catch(Exception e) {
+        }
+        
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

@@ -47,8 +47,8 @@ import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyEncryptorBuilder;
  */
 public class PGPKeys {
 
-    private static File publicKeyFile = new File("public.asc");
-    private static File privateKeyFile = new File("private.asc");
+    private static final File publicKeyFile = new File("C:\\Users\\User\\src\\PgpClient\\PgpClient\\target\\public.asc");
+    private static final File privateKeyFile = new File("C:\\Users\\User\\src\\PgpClient\\PgpClient\\target\\private.asc");
         
     private static PGPPublicKeyRingCollection publicKeyRingCollection;
     private static PGPSecretKeyRingCollection secretKeyRingCollection; 
@@ -62,8 +62,11 @@ public class PGPKeys {
             publicKeyRingCollection = new PGPPublicKeyRingCollection(new ArmoredInputStream(new FileInputStream(publicKeyFile)), new BcKeyFingerprintCalculator());
             secretKeyRingCollection = new PGPSecretKeyRingCollection(new ArmoredInputStream(new FileInputStream(privateKeyFile)), new BcKeyFingerprintCalculator());
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
         } catch (PGPException e) {
+            e.printStackTrace();
         }
     }
 
