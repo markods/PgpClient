@@ -5,11 +5,23 @@
  */
 package etf.openpgp.iu170057d_sm170081d;
 
+import java.util.Iterator;
+
+import java.nio.charset.StandardCharsets;
+
 import etf.openpgp.iu170057d_sm170081d.utils.Utils;
 import etf.openpgp.iu170057d_sm170081d.encryption.Encryption;
 import etf.openpgp.iu170057d_sm170081d.encryption.PGPKeys;
-import org.bouncycastle.openpgp.PGPSecretKeyRingCollection;
 import org.bouncycastle.util.encoders.Hex;
+import org.bouncycastle.openpgp.PGPKeyRingGenerator;
+import org.bouncycastle.openpgp.PGPPublicKeyRing;
+import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
+import org.bouncycastle.openpgp.PGPSecretKeyRing;
+import org.bouncycastle.openpgp.PGPSecretKeyRingCollection;
+import org.bouncycastle.openpgp.PGPPublicKey;
+import org.bouncycastle.openpgp.PGPPrivateKey;
+import org.bouncycastle.openpgp.PGPSecretKey;
+import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder;
 
 /**
  *
@@ -656,8 +668,72 @@ public class App extends javax.swing.JFrame {
         //</editor-fold>
 
         try {
+            // Get secret and public key ring collections
+            System.out.println("Get secret and public key ring collections");
             PGPSecretKeyRingCollection secretKeyRing = PGPKeys.getSecretKeysCollection();
+            PGPPublicKeyRingCollection publicKeyRing = PGPKeys.getPublicKeysCollection();
+            
+            // Create new public and private key rings
+            System.out.println("Create new public and private key rings");
+            String name1 = "Nikola Vucenovic <nikolavucenovic97@gmail.com>";
+            String password1 = "Sifra123";
+            String name2 = "Milo Tomasevic <milo@gmail.com>";
+            String password2 = "Sifra123";
+            PGPKeyRingGenerator pgpKeyRingGenerator1 = PGPKeys.createPGPKeyRingGenerator(
+                    PGPKeys.generateDsaKeyPair(1024),
+                    PGPKeys.generateElGamalKeyPair(1024),
+                    name1,
+                    password1.toCharArray());
+            PGPKeyRingGenerator pgpKeyRingGenerator2 = PGPKeys.createPGPKeyRingGenerator(
+                    PGPKeys.generateDsaKeyPair(1024),
+                    PGPKeys.generateElGamalKeyPair(1024),
+                    name2,
+                    password2.toCharArray());
+            
+            // Print all private key rings from the private key ring collection
+            System.out.println("Print all private key rings from the private key ring collection");
+            Iterator<PGPSecretKeyRing> keyRingIter = PGPKeys.getSecretKeysCollection().getKeyRings();
+	          
+            while (keyRingIter.hasNext()) {
+                PGPSecretKeyRing keyRing = keyRingIter.next();
+	                    
+                Iterator<PGPSecretKey> keyIter = keyRing.getSecretKeys();
+                PGPSecretKey key = keyIter.next();
+                PGPPrivateKey privateKey = key.extractPrivateKey(new JcePBESecretKeyDecryptorBuilder().setProvider("BC").build("Sifra123".toCharArray()));
+                PGPPublicKey  publicKey = key.getPublicKey();
+                System.out.println(Integer.toHexString((int) key.getKeyID()) + " " + key.getUserIDs().next());
+            }
+            
+            // Print all public key rings from the public key ring collection
+            System.out.println("Print all public key rings from the public key ring collection");
+            Iterator<PGPPublicKeyRing> keyRingIter2 = PGPKeys.getPublicKeysCollection().getKeyRings();
+            while (keyRingIter2.hasNext()) {
+                PGPPublicKeyRing keyRing = keyRingIter2.next();
+
+                Iterator<PGPPublicKey> keyIter = keyRing.getPublicKeys();
+                PGPPublicKey key = keyIter.next();
+
+                // System.out.println(Integer.toHexString((int) key.getKeyID()) + " " + new String(key.getRawUserIDs().next(), StandardCharsets.UTF_8));
+            }
+            
+            // Add private key to private key collection
+            System.out.println("Add private key to private key collection");
+            PGPKeys.addSecretKey(pgpKeyRingGenerator1);
+            
+            // Add public key to public key collection
+            System.out.println("Add public key to public key collection");
+            PGPKeys.addPublicKey(pgpKeyRingGenerator1);
+            
+            // Store private key ring collection
+            System.out.println("Store private key ring collection");
+            PGPKeys.saveSecretKeysToFile();
+            
+            // Store public key ring collection
+            System.out.println("Store public key ring collection");
+            PGPKeys.savePublicKeysToFile();
+            
         } catch(Exception e) {
+            e.printStackTrace();
         }
         
         

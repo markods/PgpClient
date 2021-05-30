@@ -47,8 +47,9 @@ import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyEncryptorBuilder;
  */
 public class PGPKeys {
 
-    private static final File publicKeyFile = new File("C:\\Users\\User\\src\\PgpClient\\PgpClient\\target\\public.asc");
-    private static final File privateKeyFile = new File("C:\\Users\\User\\src\\PgpClient\\PgpClient\\target\\private.asc");
+    // TODO(Uros): This should be system specific
+    private static final File publicKeyFile = new File("C:\\Users\\User\\Desktop\\public.asc");
+    private static final File privateKeyFile = new File("C:\\Users\\User\\Desktop\\secret.asc");
         
     private static PGPPublicKeyRingCollection publicKeyRingCollection;
     private static PGPSecretKeyRingCollection secretKeyRingCollection; 
