@@ -82,31 +82,14 @@ public class RSAKeyPairGenerator
         
         KeyPair                    kp = kpg.generateKeyPair();
         
-        if (args.length < 2)
-        {
-            System.out.println("RSAKeyPairGenerator [-a] identity passPhrase");
-            System.exit(0);
-        }
+        String identity = "testKey";
+        String secretKeyFilePath = "C:\\Users\\User\\Desktop\\secret.asc";
+        String publicKeyFilePath = "C:\\Users\\User\\Desktop\\public.asc";
+        String passPhrase = "testPassphrase";
         
-        if (args[0].equals("-a"))
-        {
-            if (args.length < 3)
-            {
-                System.out.println("RSAKeyPairGenerator [-a] identity passPhrase");
-                System.exit(0);
-            }
-            
-            FileOutputStream    out1 = new FileOutputStream("secret.asc");
-            FileOutputStream    out2 = new FileOutputStream("pub.asc");
-            
-            exportKeyPair(out1, out2, kp, args[1], args[2].toCharArray(), true);
-        }
-        else
-        {
-            FileOutputStream    out1 = new FileOutputStream("secret.bpg");
-            FileOutputStream    out2 = new FileOutputStream("pub.bpg");
-            
-            exportKeyPair(out1, out2, kp, args[0], args[1].toCharArray(), false);
-        }
+        FileOutputStream    out1 = new FileOutputStream(secretKeyFilePath);
+        FileOutputStream    out2 = new FileOutputStream(publicKeyFilePath);
+        
+        exportKeyPair(out1, out2, kp, identity, passPhrase.toCharArray(), false);
     }
 }
