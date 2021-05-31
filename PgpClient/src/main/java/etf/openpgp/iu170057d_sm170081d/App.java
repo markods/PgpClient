@@ -673,23 +673,6 @@ public class App extends javax.swing.JFrame {
             PGPSecretKeyRingCollection secretKeyRing = PGPKeys.getSecretKeysCollection();
             PGPPublicKeyRingCollection publicKeyRing = PGPKeys.getPublicKeysCollection();
             
-            // Create new public and private key rings
-            System.out.println("Create new public and private key rings");
-            String name1 = "Nikola Vucenovic <nikolavucenovic97@gmail.com>";
-            String password1 = "Sifra123";
-            String name2 = "Milo Tomasevic <milo@gmail.com>";
-            String password2 = "Sifra123";
-            PGPKeyRingGenerator pgpKeyRingGenerator1 = PGPKeys.createPGPKeyRingGenerator(
-                    PGPKeys.generateDsaKeyPair(1024),
-                    PGPKeys.generateElGamalKeyPair(1024),
-                    name1,
-                    password1.toCharArray());
-            PGPKeyRingGenerator pgpKeyRingGenerator2 = PGPKeys.createPGPKeyRingGenerator(
-                    PGPKeys.generateDsaKeyPair(1024),
-                    PGPKeys.generateElGamalKeyPair(1024),
-                    name2,
-                    password2.toCharArray());
-            
             // Print all private key rings from the private key ring collection
             System.out.println("Print all private key rings from the private key ring collection");
             Iterator<PGPSecretKeyRing> keyRingIter = PGPKeys.getSecretKeysCollection().getKeyRings();
@@ -713,8 +696,25 @@ public class App extends javax.swing.JFrame {
                 Iterator<PGPPublicKey> keyIter = keyRing.getPublicKeys();
                 PGPPublicKey key = keyIter.next();
 
-                // System.out.println(Integer.toHexString((int) key.getKeyID()) + " " + new String(key.getRawUserIDs().next(), StandardCharsets.UTF_8));
+                System.out.println(Integer.toHexString((int) key.getKeyID()) + " " + key.getRawUserIDs().next());
             }
+            
+            // Create new public and private key rings
+            System.out.println("Create new public and private key rings");
+            String name1 = "Nikola Vucenovic <nikolavucenovic97@gmail.com>";
+            String password1 = "Sifra123";
+            String name2 = "Milo Tomasevic <milo@gmail.com>";
+            String password2 = "Sifra123";
+            PGPKeyRingGenerator pgpKeyRingGenerator1 = PGPKeys.createPGPKeyRingGenerator(
+                    PGPKeys.generateDsaKeyPair(1024),
+                    PGPKeys.generateElGamalKeyPair(1024),
+                    name1,
+                    password1.toCharArray());
+            PGPKeyRingGenerator pgpKeyRingGenerator2 = PGPKeys.createPGPKeyRingGenerator(
+                    PGPKeys.generateDsaKeyPair(1024),
+                    PGPKeys.generateElGamalKeyPair(1024),
+                    name2,
+                    password2.toCharArray());
             
             // Add private key to private key collection
             System.out.println("Add private key to private key collection");
