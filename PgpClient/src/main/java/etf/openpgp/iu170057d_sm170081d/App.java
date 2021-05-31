@@ -114,11 +114,11 @@ public class App extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jImportPublicKey_Button = new javax.swing.JPanel();
+        randomjavaname = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jPublicKeyRings_Table = new javax.swing.JTable();
         jDeletePublicKey_Button = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jImportPublicKey_Button = new javax.swing.JButton();
         jExportPublicKey_Button = new javax.swing.JButton();
         jStatusbar = new javax.swing.JTextField();
 
@@ -611,40 +611,55 @@ public class App extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Import");
+        jImportPublicKey_Button.setText("Import");
+        jImportPublicKey_Button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jImportPublicKey_ButtonMouseClicked(evt);
+            }
+        });
+        jImportPublicKey_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jImportPublicKey_ButtonActionPerformed(evt);
+            }
+        });
 
         jExportPublicKey_Button.setText("Export");
+        jExportPublicKey_Button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jExportPublicKey_ButtonMouseClicked(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jImportPublicKey_ButtonLayout = new javax.swing.GroupLayout(jImportPublicKey_Button);
-        jImportPublicKey_Button.setLayout(jImportPublicKey_ButtonLayout);
-        jImportPublicKey_ButtonLayout.setHorizontalGroup(
-            jImportPublicKey_ButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jImportPublicKey_ButtonLayout.createSequentialGroup()
+        javax.swing.GroupLayout randomjavanameLayout = new javax.swing.GroupLayout(randomjavaname);
+        randomjavaname.setLayout(randomjavanameLayout);
+        randomjavanameLayout.setHorizontalGroup(
+            randomjavanameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(randomjavanameLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jImportPublicKey_ButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(randomjavanameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jImportPublicKey_ButtonLayout.createSequentialGroup()
+                    .addGroup(randomjavanameLayout.createSequentialGroup()
                         .addComponent(jDeletePublicKey_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(86, 86, 86)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jImportPublicKey_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(92, 92, 92)
                         .addComponent(jExportPublicKey_Button)))
                 .addContainerGap(173, Short.MAX_VALUE))
         );
-        jImportPublicKey_ButtonLayout.setVerticalGroup(
-            jImportPublicKey_ButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jImportPublicKey_ButtonLayout.createSequentialGroup()
+        randomjavanameLayout.setVerticalGroup(
+            randomjavanameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(randomjavanameLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
-                .addGroup(jImportPublicKey_ButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(randomjavanameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jDeletePublicKey_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jImportPublicKey_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jExportPublicKey_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(235, Short.MAX_VALUE))
         );
 
-        jTabs.addTab("Public Keys", jImportPublicKey_Button);
+        jTabs.addTab("Public Keys", randomjavaname);
 
         jStatusbar.setEditable(false);
         jStatusbar.setText("Success");
@@ -763,7 +778,7 @@ public class App extends javax.swing.JFrame {
         int rowIdx = jPublicKeyRings_Table.getSelectedRow();
         
         if (rowIdx < 0) {
-            System.out.println("rowIdx < -1");
+            jStatusbar.setText("A key must be selected in order to perform delete operation!.");
             return;
         }
         
@@ -780,6 +795,49 @@ public class App extends javax.swing.JFrame {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jDeletePublicKey_ButtonMouseClicked
+
+    private void jImportPublicKey_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jImportPublicKey_ButtonMouseClicked
+        // TODO (Marko) Get this using dialog component
+        String importPublicKeyFilePath = "C:\\Users\\User\\Desktop\\export-public.asc";
+        
+        try {
+            PGPKeys.importPublicKey(new File(importPublicKeyFilePath));
+            populatePublicKeyRingTable();
+        } catch (IOException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        populatePublicKeyRingTable();
+    }//GEN-LAST:event_jImportPublicKey_ButtonMouseClicked
+
+    private void jExportPublicKey_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jExportPublicKey_ButtonMouseClicked
+        // TODO (Marko) Get this using dialog component
+        String exportPublicKeyFilePath = "C:\\Users\\User\\Desktop\\export-public.asc";
+        
+        int rowIdx = jPublicKeyRings_Table.getSelectedRow();
+        
+        if (rowIdx < 0) {
+            jStatusbar.setText("A key must be selected in order to perform export operation!.");
+            return;
+        }
+        
+        long keyID = (long) jPublicKeyRings_Table.getValueAt(rowIdx, 2);
+        try {
+            PGPPublicKeyRing keyRingToBeExported = PGPKeys.findPublicKeyRing(keyID);
+            PGPKeys.exportPublicKey(keyRingToBeExported, new File(exportPublicKeyFilePath));
+            jStatusbar.setText("Exported public key successfully.");
+        } catch (IOException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jExportPublicKey_ButtonMouseClicked
+
+    private void jImportPublicKey_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jImportPublicKey_ButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jImportPublicKey_ButtonActionPerformed
     
     void populatePublicKeyRingTable() {
         try {
@@ -926,7 +984,6 @@ public class App extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jCont_AlgorithmDropdown;
     private javax.swing.JLabel jCont_AlgorithmLabel;
     private javax.swing.JButton jCont_CancelButton;
@@ -953,7 +1010,7 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JPanel jCont_Tab;
     private javax.swing.JButton jDeletePublicKey_Button;
     private javax.swing.JButton jExportPublicKey_Button;
-    private javax.swing.JPanel jImportPublicKey_Button;
+    private javax.swing.JButton jImportPublicKey_Button;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTable jPublicKeyRings_Table;
     private javax.swing.JTextArea jRecv_BodyTextarea;
@@ -997,5 +1054,6 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JTextField jStatusbar;
     private javax.swing.JTable jTable1;
     private javax.swing.JTabbedPane jTabs;
+    private javax.swing.JPanel randomjavaname;
     // End of variables declaration//GEN-END:variables
 }
