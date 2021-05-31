@@ -117,11 +117,6 @@ public class App extends javax.swing.JFrame {
         jImportPublicKey_Button = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jPublicKeyRings_Table = new javax.swing.JTable();
-        jAddPublicKeyEmail_TextField = new javax.swing.JTextField();
-        jAddPrivateKeyEmail_TextField = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jAddPublicKeyRing_Button = new javax.swing.JButton();
         jDeletePublicKey_Button = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jExportPublicKey_Button = new javax.swing.JButton();
@@ -591,24 +586,12 @@ public class App extends javax.swing.JFrame {
         ));
         jScrollPane5.setViewportView(jPublicKeyRings_Table);
 
-        jAddPublicKeyEmail_TextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jAddPublicKeyEmail_TextFieldActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Email");
-
-        jLabel2.setText("Public Key");
-
-        jAddPublicKeyRing_Button.setText("Add");
-        jAddPublicKeyRing_Button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jAddPublicKeyRing_ButtonActionPerformed(evt);
-            }
-        });
-
         jDeletePublicKey_Button.setText("Delete");
+        jDeletePublicKey_Button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jDeletePublicKey_ButtonMouseClicked(evt);
+            }
+        });
         jDeletePublicKey_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jDeletePublicKey_ButtonActionPerformed(evt);
@@ -626,46 +609,26 @@ public class App extends javax.swing.JFrame {
             .addGroup(jImportPublicKey_ButtonLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jImportPublicKey_ButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jImportPublicKey_ButtonLayout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jExportPublicKey_Button))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jImportPublicKey_ButtonLayout.createSequentialGroup()
-                        .addGroup(jImportPublicKey_ButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jAddPublicKeyEmail_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(50, 50, 50)
-                        .addGroup(jImportPublicKey_ButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jAddPrivateKeyEmail_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jImportPublicKey_ButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jDeletePublicKey_Button, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
-                        .addComponent(jAddPublicKeyRing_Button, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(136, Short.MAX_VALUE))
+                        .addComponent(jDeletePublicKey_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(86, 86, 86)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(92, 92, 92)
+                        .addComponent(jExportPublicKey_Button)))
+                .addContainerGap(173, Short.MAX_VALUE))
         );
         jImportPublicKey_ButtonLayout.setVerticalGroup(
             jImportPublicKey_ButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jImportPublicKey_ButtonLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
+                .addGap(50, 50, 50)
                 .addGroup(jImportPublicKey_ButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jImportPublicKey_ButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jAddPublicKeyEmail_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jAddPrivateKeyEmail_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jAddPublicKeyRing_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jDeletePublicKey_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
-                .addGroup(jImportPublicKey_ButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jDeletePublicKey_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jExportPublicKey_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addContainerGap(235, Short.MAX_VALUE))
         );
 
         jTabs.addTab("Public Keys", jImportPublicKey_Button);
@@ -779,17 +742,23 @@ public class App extends javax.swing.JFrame {
         );
     }//GEN-LAST:event_jCont_OkButtonMouseClicked
 
-    private void jAddPublicKeyEmail_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddPublicKeyEmail_TextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jAddPublicKeyEmail_TextFieldActionPerformed
-
-    private void jAddPublicKeyRing_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddPublicKeyRing_ButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jAddPublicKeyRing_ButtonActionPerformed
-
     private void jDeletePublicKey_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeletePublicKey_ButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jDeletePublicKey_ButtonActionPerformed
+
+    private void jDeletePublicKey_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDeletePublicKey_ButtonMouseClicked
+        int rowIdx = jPublicKeyRings_Table.getSelectedRow();
+        
+        if (rowIdx < 0) {
+            System.out.println("rowIdx < -1");
+            return;
+        }
+        
+        String email = (String) jPublicKeyRings_Table.getValueAt(rowIdx, 0);
+        String keyID = (String) jPublicKeyRings_Table.getValueAt(rowIdx, 1);
+        System.out.println(email);
+        System.out.println(keyID);
+    }//GEN-LAST:event_jDeletePublicKey_ButtonMouseClicked
     
     void populatePublicKeyRingTable() {
         try {
@@ -933,9 +902,6 @@ public class App extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField jAddPrivateKeyEmail_TextField;
-    private javax.swing.JTextField jAddPublicKeyEmail_TextField;
-    private javax.swing.JButton jAddPublicKeyRing_Button;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jCont_AlgorithmDropdown;
     private javax.swing.JLabel jCont_AlgorithmLabel;
@@ -964,8 +930,6 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JButton jDeletePublicKey_Button;
     private javax.swing.JButton jExportPublicKey_Button;
     private javax.swing.JPanel jImportPublicKey_Button;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTable jPublicKeyRings_Table;
     private javax.swing.JTextArea jRecv_BodyTextarea;
