@@ -581,10 +581,23 @@ public class App extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Email", "Public Key ID"
+                "Email", "Public Key ID", "PublicKeyValue"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane5.setViewportView(jPublicKeyRings_Table);
+        if (jPublicKeyRings_Table.getColumnModel().getColumnCount() > 0) {
+            jPublicKeyRings_Table.getColumnModel().getColumn(2).setMinWidth(0);
+            jPublicKeyRings_Table.getColumnModel().getColumn(2).setPreferredWidth(0);
+            jPublicKeyRings_Table.getColumnModel().getColumn(2).setMaxWidth(0);
+        }
 
         jDeletePublicKey_Button.setText("Delete");
         jDeletePublicKey_Button.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -754,7 +767,7 @@ public class App extends javax.swing.JFrame {
             return;
         }
         
-        long keyID = (long) jPublicKeyRings_Table.getValueAt(rowIdx, 1);
+        long keyID = (long) jPublicKeyRings_Table.getValueAt(rowIdx, 2);
         try {
             PGPPublicKeyRing keyRingToBeDeleted = PGPKeys.findPublicKeyRing(keyID);
             PGPKeys.removePublicKey(keyRingToBeDeleted);
@@ -785,9 +798,7 @@ public class App extends javax.swing.JFrame {
                 Iterator<PGPPublicKey> keyIter = keyRing.getPublicKeys();
                 PGPPublicKey key = keyIter.next();
                 
-                model.addRow(new Object[]{new String((byte[]) key.getRawUserIDs().next(),StandardCharsets.UTF_8), key.getKeyID()});
-                
-                System.out.println(Integer.toHexString((int) key.getKeyID()) + " " + key.getRawUserIDs().next());
+                model.addRow(new Object[]{new String((byte[]) key.getRawUserIDs().next(),StandardCharsets.UTF_8), Integer.toHexString((int) key.getKeyID()), key.getKeyID()});                
             }
         } catch (IOException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
