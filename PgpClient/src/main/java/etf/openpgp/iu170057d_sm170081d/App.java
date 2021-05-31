@@ -754,17 +754,30 @@ public class App extends javax.swing.JFrame {
             return;
         }
         
-        String email = (String) jPublicKeyRings_Table.getValueAt(rowIdx, 0);
-        String keyID = (String) jPublicKeyRings_Table.getValueAt(rowIdx, 1);
-        System.out.println(email);
-        System.out.println(keyID);
+        long keyID = (long) jPublicKeyRings_Table.getValueAt(rowIdx, 1);
+        try {
+            PGPPublicKeyRing keyRingToBeDeleted = PGPKeys.findPublicKeyRing(keyID);
+            PGPKeys.removePublicKey(keyRingToBeDeleted);
+            PGPKeys.savePublicKeysToFile();
+            populatePublicKeyRingTable();
+            jStatusbar.setText("Deleted public key successfully.");
+        } catch (IOException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jDeletePublicKey_ButtonMouseClicked
     
     void populatePublicKeyRingTable() {
         try {
             PGPPublicKeyRingCollection publicKeyRing = PGPKeys.getPublicKeysCollection();
             DefaultTableModel model = (DefaultTableModel) jPublicKeyRings_Table.getModel();
-
+            int rowCount = model.getRowCount();
+            //Remove rows one by one from the end of the table
+            for (int i = rowCount - 1; i >= 0; i--) {
+                model.removeRow(i);
+            }
+                
             Iterator<PGPPublicKeyRing> keyRingIter2 = PGPKeys.getPublicKeysCollection().getKeyRings();
             while (keyRingIter2.hasNext()) {
                 PGPPublicKeyRing keyRing = keyRingIter2.next();
@@ -772,7 +785,7 @@ public class App extends javax.swing.JFrame {
                 Iterator<PGPPublicKey> keyIter = keyRing.getPublicKeys();
                 PGPPublicKey key = keyIter.next();
                 
-                model.addRow(new Object[]{new String((byte[]) key.getRawUserIDs().next(),StandardCharsets.UTF_8), Integer.toHexString((int) key.getKeyID())});
+                model.addRow(new Object[]{new String((byte[]) key.getRawUserIDs().next(),StandardCharsets.UTF_8), key.getKeyID()});
                 
                 System.out.println(Integer.toHexString((int) key.getKeyID()) + " " + key.getRawUserIDs().next());
             }

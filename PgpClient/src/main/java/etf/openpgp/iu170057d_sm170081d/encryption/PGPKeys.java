@@ -217,5 +217,33 @@ public class PGPKeys {
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
         return keyPair;
     }
+    
+    public static final PGPPublicKeyRing findPublicKeyRing(long id) throws IOException, PGPException {
+        PGPPublicKeyRingCollection pgpPub = PGPKeys.getPublicKeysCollection();
+        PGPPublicKey pubKey = null;
+
+        Iterator<PGPPublicKeyRing> keyRingIter = pgpPub.getKeyRings();
+        PGPPublicKeyRing keyRing = null;
+        while (keyRingIter.hasNext() && pubKey == null) {
+            keyRing = keyRingIter.next();
+
+               Iterator<PGPPublicKey> keyIter = keyRing.getPublicKeys();
+               while (keyIter.hasNext()) {
+                       PGPPublicKey key = keyIter.next();
+                       if ((key.getKeyID() == id)) {
+                               pubKey = key;
+                               break;
+                       }
+               }
+       }
+
+        if (pubKey != null) {
+            return keyRing;
+        }
+        else {
+            System.out.println("Invalid key index");
+            throw new IllegalArgumentException("Invalid key index");
+        }
+    }
 }
 
