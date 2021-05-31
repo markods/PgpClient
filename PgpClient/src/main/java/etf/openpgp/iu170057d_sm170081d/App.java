@@ -11,6 +11,12 @@ import java.util.Iterator;
 import etf.openpgp.iu170057d_sm170081d.utils.Utils;
 import etf.openpgp.iu170057d_sm170081d.encryption.Encryption;
 import etf.openpgp.iu170057d_sm170081d.encryption.PGPKeys;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.util.encoders.Hex;
 import org.bouncycastle.openpgp.PGPKeyRingGenerator;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
@@ -577,13 +583,10 @@ public class App extends javax.swing.JFrame {
 
         jPublicKeyRings_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
-                "Email", "Public Key"
+                "Email", "Public Key ID"
             }
         ));
         jScrollPane5.setViewportView(jPublicKeyRings_Table);
@@ -787,7 +790,30 @@ public class App extends javax.swing.JFrame {
     private void jDeletePublicKey_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeletePublicKey_ButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jDeletePublicKey_ButtonActionPerformed
+    
+    void populatePublicKeyRingTable() {
+        try {
+            PGPPublicKeyRingCollection publicKeyRing = PGPKeys.getPublicKeysCollection();
+            DefaultTableModel model = (DefaultTableModel) jPublicKeyRings_Table.getModel();
 
+            Iterator<PGPPublicKeyRing> keyRingIter2 = PGPKeys.getPublicKeysCollection().getKeyRings();
+            while (keyRingIter2.hasNext()) {
+                PGPPublicKeyRing keyRing = keyRingIter2.next();
+
+                Iterator<PGPPublicKey> keyIter = keyRing.getPublicKeys();
+                PGPPublicKey key = keyIter.next();
+                
+                model.addRow(new Object[]{new String((byte[]) key.getRawUserIDs().next(),StandardCharsets.UTF_8), Integer.toHexString((int) key.getKeyID())});
+                
+                System.out.println(Integer.toHexString((int) key.getKeyID()) + " " + key.getRawUserIDs().next());
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -816,7 +842,7 @@ public class App extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
 
-        try {
+        /*try {
             // Get secret and public key ring collections
             System.out.println("Get secret and public key ring collections");
             PGPSecretKeyRingCollection secretKeyRing = PGPKeys.getSecretKeysCollection();
@@ -889,6 +915,14 @@ public class App extends javax.swing.JFrame {
             e.printStackTrace();
         }
         
+        try {
+            PGPPublicKeyRingCollection publicKeyRing = PGPKeys.getPublicKeysCollection();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }*/
+        
+        // DefaultTableModel model = (DefaultTableModel) jPublicKeyRings_Table.getModel();
+        // model.addRow(new Object[]{"Column 1", "Column 2"}); 
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
