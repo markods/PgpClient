@@ -803,18 +803,57 @@ public class App extends javax.swing.JFrame {
     
     void populateSendMessageFromComboBox()
     {
-        jSendFrom_ComboBox.addItem("test-from-1");
-        jSendFrom_ComboBox.addItem("test-from-2");
-        jSendFrom_ComboBox.addItem("test-from-3");
-        jSendFrom_ComboBox.addItem("test-from-4");
+        jSendFrom_ComboBox.removeAllItems();
+        
+        try {
+            PGPSecretKeyRingCollection secretKeyRing = PGPKeys.getSecretKeysCollection();
+            
+            Iterator<PGPSecretKeyRing> iter = PGPKeys.getSecretKeysCollection().getKeyRings();
+            while (iter.hasNext()) {
+                PGPSecretKeyRing keyRing = iter.next();
+
+                Iterator<PGPSecretKey> keyIter = keyRing.getSecretKeys();
+                PGPSecretKey key = keyIter.next();
+                
+                String nameAndEmail = (String) key.getUserIDs().next();
+                String[] parsed = nameAndEmail.split(" ");
+                String email = parsed[parsed.length - 1];
+                String name = "";
+                for (int i = 0; i < parsed.length - 1; i++) {
+                    name += parsed[i];
+                    if (i < parsed.length - 2) {
+                        name += " ";
+                    }
+                }
+                
+                jSendFrom_ComboBox.addItem(name + " " + email + Integer.toHexString((int) key.getKeyID()));                
+            }
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     void populateSendMessageToComboBox()
     {
-        jSendTo_ComboBox.addItem("test-to-1");
-        jSendTo_ComboBox.addItem("test-to-2");
-        jSendTo_ComboBox.addItem("test-to-3");
-        jSendTo_ComboBox.addItem("test-to-4");
+        jSendTo_ComboBox.removeAllItems();
+        
+        try {
+            PGPPublicKeyRingCollection publicKeyRing = PGPKeys.getPublicKeysCollection();
+            
+            Iterator<PGPPublicKeyRing> iter = PGPKeys.getPublicKeysCollection().getKeyRings();
+            while (iter.hasNext()) {
+                PGPPublicKeyRing keyRing = iter.next();
+
+                Iterator<PGPPublicKey> keyIter = keyRing.getPublicKeys();
+                PGPPublicKey key = keyIter.next();
+                
+                jSendTo_ComboBox.addItem(
+                        new String((byte[]) key.getRawUserIDs().next(), StandardCharsets.UTF_8) + 
+                        " | " + Integer.toHexString((int) key.getKeyID()));
+            }
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     void populatePublicKeyRingTable() {
@@ -827,9 +866,9 @@ public class App extends javax.swing.JFrame {
                 model.removeRow(i);
             }
                 
-            Iterator<PGPPublicKeyRing> keyRingIter2 = PGPKeys.getPublicKeysCollection().getKeyRings();
-            while (keyRingIter2.hasNext()) {
-                PGPPublicKeyRing keyRing = keyRingIter2.next();
+            Iterator<PGPPublicKeyRing> iter = PGPKeys.getPublicKeysCollection().getKeyRings();
+            while (iter.hasNext()) {
+                PGPPublicKeyRing keyRing = iter.next();
 
                 Iterator<PGPPublicKey> keyIter = keyRing.getPublicKeys();
                 PGPPublicKey key = keyIter.next();
@@ -852,9 +891,9 @@ public class App extends javax.swing.JFrame {
                 model.removeRow(i);
             }
                 
-            Iterator<PGPSecretKeyRing> keyRingIter2 = PGPKeys.getSecretKeysCollection().getKeyRings();
-            while (keyRingIter2.hasNext()) {
-                PGPSecretKeyRing keyRing = keyRingIter2.next();
+            Iterator<PGPSecretKeyRing> iter = PGPKeys.getSecretKeysCollection().getKeyRings();
+            while (iter.hasNext()) {
+                PGPSecretKeyRing keyRing = iter.next();
 
                 Iterator<PGPSecretKey> keyIter = keyRing.getSecretKeys();
                 PGPSecretKey key = keyIter.next();
