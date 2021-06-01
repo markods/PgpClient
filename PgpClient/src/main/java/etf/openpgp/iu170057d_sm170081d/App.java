@@ -5,12 +5,33 @@
  */
 package etf.openpgp.iu170057d_sm170081d;
 
+import java.io.File;
+import java.util.Iterator;
+
+import etf.openpgp.iu170057d_sm170081d.utils.Utils;
+import etf.openpgp.iu170057d_sm170081d.encryption.Encryption;
+import etf.openpgp.iu170057d_sm170081d.encryption.PGPKeys;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import org.bouncycastle.openpgp.PGPException;
+import org.bouncycastle.openpgp.PGPKeyRingGenerator;
+import org.bouncycastle.openpgp.PGPPublicKeyRing;
+import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
+import org.bouncycastle.openpgp.PGPSecretKeyRing;
+import org.bouncycastle.openpgp.PGPSecretKeyRingCollection;
+import org.bouncycastle.openpgp.PGPPublicKey;
+import org.bouncycastle.openpgp.PGPSecretKey;
+
 /**
  *
  * @author Marko
  */
 public class App extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form App
      */
@@ -25,71 +46,56 @@ public class App extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jTabs = new javax.swing.JTabbedPane();
         jSend_Tab = new javax.swing.JPanel();
         jSend_FromLabel = new javax.swing.JLabel();
         jSend_ToLabel = new javax.swing.JLabel();
-        jSend_SubjectLabel = new javax.swing.JLabel();
-        jSend_SubjectTextbox = new javax.swing.JTextField();
-        jSend_FromDropdown = new javax.swing.JComboBox<>();
-        jSend_ToDropdown = new javax.swing.JComboBox<>();
+        jSendFrom_ComboBox = new javax.swing.JComboBox<>();
+        jSendTo_ComboBox = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jSend_BodyTextarea = new javax.swing.JTextArea();
         jSend_SendButton = new javax.swing.JButton();
-        jSend_SignatureLabel = new javax.swing.JLabel();
-        jSend_SignatureTextbox = new javax.swing.JTextField();
         jSend_EncryptionLabel = new javax.swing.JLabel();
-        jSend_EncryptionDropdown = new javax.swing.JComboBox<>();
+        jSendEncryptionAlgo_ComboBox = new javax.swing.JComboBox<>();
         jSend_PassphraseLabel = new javax.swing.JLabel();
-        jSend_CompressedCheckbox = new javax.swing.JCheckBox();
-        jSend_EncodedCheckbox = new javax.swing.JCheckBox();
+        jCompression_Checkbox = new javax.swing.JCheckBox();
+        jRadix64_Checkbox = new javax.swing.JCheckBox();
         jSend_TestButton = new javax.swing.JButton();
         jSend_PassphrasePasswordbox = new javax.swing.JPasswordField();
+        jSignature_Checkbox = new javax.swing.JCheckBox();
         jRecv_Tab = new javax.swing.JPanel();
         jRecv_FromLabel = new javax.swing.JLabel();
-        jRecv_ToLabel = new javax.swing.JLabel();
-        jRecv_SubjectLabel = new javax.swing.JLabel();
-        jRecv_SubjectTextbox = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jRecv_BodyTextarea = new javax.swing.JTextArea();
         jRecv_OpenButton = new javax.swing.JButton();
-        jRecv_SignatureLabel = new javax.swing.JLabel();
-        jRecv_SignatureTextbox = new javax.swing.JTextField();
-        jRecv_EncryptionLabel = new javax.swing.JLabel();
         jRecv_PassphraseLabel = new javax.swing.JLabel();
-        jRecv_CompressedCheckbox = new javax.swing.JCheckBox();
-        jRecv_EncodedCheckbox = new javax.swing.JCheckBox();
-        jRecv_DecryptButton = new javax.swing.JButton();
-        jRecv_EncryptionTextbox = new javax.swing.JTextField();
         jRecv_SaveButton = new javax.swing.JButton();
         jRecv_FromTextbox = new javax.swing.JTextField();
-        jRecv_ToTextbox = new javax.swing.JTextField();
-        jRecv_PassphrasePasswordbox = new javax.swing.JPasswordField();
-        jCont_Tab = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jCont_ContactsTable = new javax.swing.JTable();
-        jCont_EmailLabel = new javax.swing.JLabel();
-        jCont_EmailTextbox = new javax.swing.JTextField();
-        jCont_KeyIdLabel = new javax.swing.JLabel();
-        jCont_PublicKeyTextbox = new javax.swing.JTextField();
-        jCont_PublicKeyImportButton = new javax.swing.JButton();
-        jCont_CreatedLabel = new javax.swing.JLabel();
-        jCont_KeyNameTextbox = new javax.swing.JTextField();
-        jCont_KeyIdTextbox = new javax.swing.JTextField();
-        jCont_EncrPrivateKeyLabel = new javax.swing.JLabel();
-        jCont_PublicKeyLabel = new javax.swing.JLabel();
-        jCont_CreatedTextbox = new javax.swing.JTextField();
-        jCont_KeyNameLabel = new javax.swing.JLabel();
-        jCont_EncrPrivateKeyTextbox = new javax.swing.JTextField();
-        jCont_PublicKeyExportButton = new javax.swing.JButton();
-        jCont_EncrPrivateKeyExportButton = new javax.swing.JButton();
-        jCont_EncrPrivateKeyImportButton = new javax.swing.JButton();
-        jCont_AlgorithmLabel = new javax.swing.JLabel();
-        jCont_CancelButton = new javax.swing.JButton();
-        jCont_OkButton = new javax.swing.JButton();
-        jCont_AlgorithmDropdown = new javax.swing.JComboBox<>();
-        jCont_PassphraseLabel = new javax.swing.JLabel();
-        jCont_PassphrasePasswordbox = new javax.swing.JPasswordField();
+        jRecvPassphrase_PasswordField = new javax.swing.JPasswordField();
+        randomjavaname = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jPublicKeyRings_Table = new javax.swing.JTable();
+        jDeletePublicKey_Button = new javax.swing.JButton();
+        jImportPublicKey_Button = new javax.swing.JButton();
+        jExportPublicKey_Button = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jPrivateKeyRings_Table = new javax.swing.JTable();
+        jPrivateKeyGenerate_Button = new javax.swing.JButton();
+        jPrivateKeyImport_Button = new javax.swing.JButton();
+        jPrivateKeyExport_Button = new javax.swing.JButton();
+        jPrivateKeyName_TextField = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jPrivateKeyPassphrase_TextField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jPrivateKeyEmail_TextField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jPrivateKeyDelete_Button = new javax.swing.JButton();
+        jPrivateKeyDSABits_ComboBox = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jPrivateKeyElGamalBits_ComboBox = new javax.swing.JComboBox<>();
         jStatusbar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -106,13 +112,9 @@ public class App extends javax.swing.JFrame {
 
         jSend_ToLabel.setText("To");
 
-        jSend_SubjectLabel.setText("Subject");
+        jSendFrom_ComboBox.setMaximumRowCount(16);
 
-        jSend_FromDropdown.setMaximumRowCount(16);
-        jSend_FromDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pera@gmail.com       |   AAAA AAAA BBBB BBBB", "pera@gmail.com       |   AB01 5912 7EFF 0DFD", "pera@gmail.com       |   za slanje zikinoj firmi", "pera@gmail.com       |   <no signature>", "pera@hotmail.com    |   ABCD EF012 3456 789A", "pera@hotmail.com    |   <no signature>", " " }));
-
-        jSend_ToDropdown.setMaximumRowCount(16);
-        jSend_ToDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "zika@gmail.com       |   FF01 FFFF FFFF BBBB", "zika@gmail.com       |   zikin glavni javni kljuc", "zika@hotmail.com    |   ABCD EF012 3456 789A", " " }));
+        jSendTo_ComboBox.setMaximumRowCount(16);
 
         jSend_BodyTextarea.setColumns(20);
         jSend_BodyTextarea.setLineWrap(true);
@@ -122,29 +124,33 @@ public class App extends javax.swing.JFrame {
 
         jSend_SendButton.setText("Send");
         jSend_SendButton.setPreferredSize(new java.awt.Dimension(58, 32));
-
-        jSend_SignatureLabel.setText("Signature");
-
-        jSend_SignatureTextbox.setEditable(false);
-        jSend_SignatureTextbox.setText("DSA 4096");
+        jSend_SendButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jSend_SendButtonMouseClicked(evt);
+            }
+        });
 
         jSend_EncryptionLabel.setText("Encryption");
 
-        jSend_EncryptionDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ElGamal + IDEA", "ElGamal + 3DES", "none" }));
+        jSendEncryptionAlgo_ComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ElGamal + IDEA", "ElGamal + 3DES", "none" }));
 
         jSend_PassphraseLabel.setText("Passphrase");
 
-        jSend_CompressedCheckbox.setSelected(true);
-        jSend_CompressedCheckbox.setText("Compressed ");
-        jSend_CompressedCheckbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jCompression_Checkbox.setSelected(true);
+        jCompression_Checkbox.setText("Compressed ");
+        jCompression_Checkbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
-        jSend_EncodedCheckbox.setSelected(true);
-        jSend_EncodedCheckbox.setText("Encoded ");
-        jSend_EncodedCheckbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jRadix64_Checkbox.setSelected(true);
+        jRadix64_Checkbox.setText("Radix64 Encoding");
+        jRadix64_Checkbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
         jSend_TestButton.setText("Test");
 
         jSend_PassphrasePasswordbox.setText("passphrase");
+
+        jSignature_Checkbox.setSelected(true);
+        jSignature_Checkbox.setText("Signature");
+        jSignature_Checkbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
         javax.swing.GroupLayout jSend_TabLayout = new javax.swing.GroupLayout(jSend_Tab);
         jSend_Tab.setLayout(jSend_TabLayout);
@@ -154,71 +160,62 @@ public class App extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jSend_TabLayout.createSequentialGroup()
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jSend_FromLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSend_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSend_SubjectLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSend_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSend_FromDropdown, 0, 452, Short.MAX_VALUE)
-                    .addComponent(jSend_ToDropdown, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSend_SubjectTextbox))
+                    .addComponent(jSendFrom_ComboBox, 0, 650, Short.MAX_VALUE)
+                    .addComponent(jSendTo_ComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSend_SendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jSend_SendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(jSend_TabLayout.createSequentialGroup()
-                .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jSend_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSend_SignatureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addComponent(jSend_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jSend_EncryptionDropdown, 0, 194, Short.MAX_VALUE)
-                    .addComponent(jSend_SignatureTextbox, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addComponent(jSendEncryptionAlgo_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jSend_TabLayout.createSequentialGroup()
-                        .addComponent(jSend_CompressedCheckbox)
+                        .addComponent(jCompression_Checkbox)
                         .addGap(18, 18, 18)
-                        .addComponent(jSend_EncodedCheckbox)
+                        .addComponent(jRadix64_Checkbox)
+                        .addGap(18, 18, 18)
+                        .addComponent(jSignature_Checkbox)
                         .addContainerGap())
                     .addGroup(jSend_TabLayout.createSequentialGroup()
                         .addComponent(jSend_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSend_PassphrasePasswordbox)
+                        .addComponent(jSend_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSend_TestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jSend_TabLayout.setVerticalGroup(
             jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jSend_TabLayout.createSequentialGroup()
-                .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jSend_TabLayout.createSequentialGroup()
                         .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSend_FromLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSend_FromDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSendFrom_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jSend_ToDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSend_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jSend_SubjectLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSend_SubjectTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jSend_SendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSendTo_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSend_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jSend_SendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jSend_TestButton)
-                        .addComponent(jSend_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jSend_PassphrasePasswordbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jSend_SignatureLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jSend_SignatureTextbox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jSend_TestButton)
+                    .addComponent(jSend_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSend_PassphrasePasswordbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSendEncryptionAlgo_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSend_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSend_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSend_EncryptionDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSend_CompressedCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSend_EncodedCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jCompression_Checkbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRadix64_Checkbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSignature_Checkbox)))
         );
 
         jTabs.addTab("Send email", jSend_Tab);
@@ -227,299 +224,279 @@ public class App extends javax.swing.JFrame {
 
         jRecv_FromLabel.setText("From");
 
-        jRecv_ToLabel.setText("To");
-
-        jRecv_SubjectLabel.setText("Subject");
-
-        jRecv_SubjectTextbox.setEditable(false);
-
         jRecv_BodyTextarea.setEditable(false);
         jRecv_BodyTextarea.setColumns(20);
         jRecv_BodyTextarea.setTabSize(4);
         jScrollPane2.setViewportView(jRecv_BodyTextarea);
 
         jRecv_OpenButton.setText("Open");
-
-        jRecv_SignatureLabel.setText("Signature");
-
-        jRecv_SignatureTextbox.setEditable(false);
-
-        jRecv_EncryptionLabel.setText("Encryption");
+        jRecv_OpenButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRecv_OpenButtonMouseClicked(evt);
+            }
+        });
 
         jRecv_PassphraseLabel.setText("Passphrase");
 
-        jRecv_CompressedCheckbox.setSelected(true);
-        jRecv_CompressedCheckbox.setText("Compressed ");
-        jRecv_CompressedCheckbox.setEnabled(false);
-        jRecv_CompressedCheckbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-
-        jRecv_EncodedCheckbox.setSelected(true);
-        jRecv_EncodedCheckbox.setText("Encoded ");
-        jRecv_EncodedCheckbox.setEnabled(false);
-        jRecv_EncodedCheckbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-
-        jRecv_DecryptButton.setText("Decr.");
-
-        jRecv_EncryptionTextbox.setEditable(false);
-
         jRecv_SaveButton.setText("Save");
+        jRecv_SaveButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRecv_SaveButtonMouseClicked(evt);
+            }
+        });
 
         jRecv_FromTextbox.setEditable(false);
-
-        jRecv_ToTextbox.setEditable(false);
-
-        jRecv_PassphrasePasswordbox.setText("passphrase");
 
         javax.swing.GroupLayout jRecv_TabLayout = new javax.swing.GroupLayout(jRecv_Tab);
         jRecv_Tab.setLayout(jRecv_TabLayout);
         jRecv_TabLayout.setHorizontalGroup(
             jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jRecv_TabLayout.createSequentialGroup()
-                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jRecv_FromLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRecv_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRecv_SubjectLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRecv_SubjectTextbox)
+                    .addComponent(jRecv_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRecv_FromLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jRecv_FromTextbox)
-                    .addComponent(jRecv_ToTextbox))
+                    .addComponent(jRecvPassphrase_PasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jRecv_SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRecv_OpenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGroup(jRecv_TabLayout.createSequentialGroup()
-                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jRecv_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRecv_SignatureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jRecv_SignatureTextbox, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                    .addComponent(jRecv_EncryptionTextbox, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jRecv_TabLayout.createSequentialGroup()
-                        .addComponent(jRecv_CompressedCheckbox)
-                        .addGap(18, 18, 18)
-                        .addComponent(jRecv_EncodedCheckbox)
-                        .addGap(31, 31, 31))
-                    .addGroup(jRecv_TabLayout.createSequentialGroup()
-                        .addComponent(jRecv_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRecv_PassphrasePasswordbox)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRecv_DecryptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jRecv_SaveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jRecv_OpenButton, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
+                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 801, Short.MAX_VALUE)
         );
         jRecv_TabLayout.setVerticalGroup(
             jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jRecv_TabLayout.createSequentialGroup()
-                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jRecv_TabLayout.createSequentialGroup()
-                        .addComponent(jRecv_OpenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRecv_SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jRecv_TabLayout.createSequentialGroup()
-                        .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRecv_FromLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jRecv_FromTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRecv_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jRecv_ToTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jRecv_SubjectLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jRecv_SubjectTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 4, Short.MAX_VALUE)
+                        .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRecv_FromLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jRecv_FromTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jRecv_OpenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jRecv_SignatureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jRecv_SignatureTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jRecv_CompressedCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jRecv_EncodedCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jRecv_DecryptButton)
                         .addComponent(jRecv_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jRecv_PassphrasePasswordbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jRecv_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jRecv_EncryptionTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jRecvPassphrase_PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jRecv_SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33))
         );
 
         jTabs.addTab("Receive email", jRecv_Tab);
 
-        jCont_Tab.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 30, 25, 30));
-
-        jCont_ContactsTable.setModel(new javax.swing.table.DefaultTableModel(
+        jPublicKeyRings_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"_", "_", "_", "_", "_"}
+
             },
             new String [] {
-                "Email", "Key id", "Key name", "Algorithm", "Created"
+                "Email", "Key Id", "PublicKeyValue"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            boolean[] canEdit = new boolean [] {
+                true, true, false
             };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jCont_ContactsTable);
+        jScrollPane5.setViewportView(jPublicKeyRings_Table);
+        if (jPublicKeyRings_Table.getColumnModel().getColumnCount() > 0) {
+            jPublicKeyRings_Table.getColumnModel().getColumn(2).setMinWidth(0);
+            jPublicKeyRings_Table.getColumnModel().getColumn(2).setPreferredWidth(0);
+            jPublicKeyRings_Table.getColumnModel().getColumn(2).setMaxWidth(0);
+        }
 
-        jCont_EmailLabel.setText("Email");
+        jDeletePublicKey_Button.setText("Delete");
+        jDeletePublicKey_Button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jDeletePublicKey_ButtonMouseClicked(evt);
+            }
+        });
 
-        jCont_EmailTextbox.setEditable(false);
+        jImportPublicKey_Button.setText("Import");
+        jImportPublicKey_Button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jImportPublicKey_ButtonMouseClicked(evt);
+            }
+        });
 
-        jCont_KeyIdLabel.setText("Key id");
+        jExportPublicKey_Button.setText("Export");
+        jExportPublicKey_Button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jExportPublicKey_ButtonMouseClicked(evt);
+            }
+        });
 
-        jCont_PublicKeyTextbox.setEditable(false);
-
-        jCont_PublicKeyImportButton.setText("Import");
-
-        jCont_CreatedLabel.setText("Created");
-
-        jCont_KeyIdTextbox.setEditable(false);
-
-        jCont_EncrPrivateKeyLabel.setText("Encrypted private key");
-
-        jCont_PublicKeyLabel.setText("Public key");
-
-        jCont_CreatedTextbox.setEditable(false);
-
-        jCont_KeyNameLabel.setText("Key name");
-
-        jCont_EncrPrivateKeyTextbox.setEditable(false);
-
-        jCont_PublicKeyExportButton.setText("Export");
-
-        jCont_EncrPrivateKeyExportButton.setText("Export");
-
-        jCont_EncrPrivateKeyImportButton.setText("Import");
-
-        jCont_AlgorithmLabel.setText("Algorithm");
-
-        jCont_CancelButton.setText("Cancel");
-
-        jCont_OkButton.setText("OK");
-
-        jCont_AlgorithmDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ElGamal", "DSA" }));
-
-        jCont_PassphraseLabel.setText("Passphrase");
-
-        jCont_PassphrasePasswordbox.setText("passphrase");
-
-        javax.swing.GroupLayout jCont_TabLayout = new javax.swing.GroupLayout(jCont_Tab);
-        jCont_Tab.setLayout(jCont_TabLayout);
-        jCont_TabLayout.setHorizontalGroup(
-            jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jCont_TabLayout.createSequentialGroup()
-                .addComponent(jCont_EmailTextbox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCont_KeyIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCont_KeyIdTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCont_KeyNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCont_KeyNameTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
-            .addGroup(jCont_TabLayout.createSequentialGroup()
-                .addGroup(jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jCont_TabLayout.createSequentialGroup()
-                        .addComponent(jCont_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0))
-                    .addGroup(jCont_TabLayout.createSequentialGroup()
-                        .addComponent(jCont_PassphrasePasswordbox)
-                        .addGap(6, 6, 6)))
-                .addGroup(jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCont_AlgorithmLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCont_AlgorithmDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCont_CreatedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCont_CreatedTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jCont_TabLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jCont_OkButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCont_CancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jCont_TabLayout.createSequentialGroup()
-                .addGroup(jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCont_PublicKeyTextbox)
-                    .addComponent(jCont_EncrPrivateKeyTextbox)
-                    .addGroup(jCont_TabLayout.createSequentialGroup()
-                        .addGroup(jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCont_EmailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCont_PublicKeyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCont_EncrPrivateKeyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, 0)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jCont_EncrPrivateKeyExportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCont_PublicKeyExportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addGroup(jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCont_PublicKeyImportButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCont_EncrPrivateKeyImportButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        javax.swing.GroupLayout randomjavanameLayout = new javax.swing.GroupLayout(randomjavaname);
+        randomjavaname.setLayout(randomjavanameLayout);
+        randomjavanameLayout.setHorizontalGroup(
+            randomjavanameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(randomjavanameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(randomjavanameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(randomjavanameLayout.createSequentialGroup()
+                        .addComponent(jDeletePublicKey_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(86, 86, 86)
+                        .addComponent(jImportPublicKey_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(92, 92, 92)
+                        .addComponent(jExportPublicKey_Button)))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
-        jCont_TabLayout.setVerticalGroup(
-            jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jCont_TabLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+        randomjavanameLayout.setVerticalGroup(
+            randomjavanameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(randomjavanameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addGroup(randomjavanameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jDeletePublicKey_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jImportPublicKey_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jExportPublicKey_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(240, Short.MAX_VALUE))
+        );
+
+        jTabs.addTab("Public Keys", randomjavaname);
+
+        jPrivateKeyRings_Table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Name", "Email", "Key Id", "PrivateKeyId"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, true, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(jPrivateKeyRings_Table);
+        if (jPrivateKeyRings_Table.getColumnModel().getColumnCount() > 0) {
+            jPrivateKeyRings_Table.getColumnModel().getColumn(3).setMinWidth(0);
+            jPrivateKeyRings_Table.getColumnModel().getColumn(3).setPreferredWidth(0);
+            jPrivateKeyRings_Table.getColumnModel().getColumn(3).setMaxWidth(0);
+        }
+
+        jPrivateKeyGenerate_Button.setText("Generate");
+        jPrivateKeyGenerate_Button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPrivateKeyGenerate_ButtonMouseClicked(evt);
+            }
+        });
+
+        jPrivateKeyImport_Button.setText("Import");
+        jPrivateKeyImport_Button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPrivateKeyImport_ButtonMouseClicked(evt);
+            }
+        });
+
+        jPrivateKeyExport_Button.setText("Export");
+        jPrivateKeyExport_Button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPrivateKeyExport_ButtonMouseClicked(evt);
+            }
+        });
+
+        jLabel1.setText("Name");
+
+        jLabel2.setText("Passphrase");
+
+        jLabel3.setText("Email");
+
+        jPrivateKeyDelete_Button.setText("Delete");
+        jPrivateKeyDelete_Button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPrivateKeyDelete_ButtonMouseClicked(evt);
+            }
+        });
+
+        jPrivateKeyDSABits_ComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1024", "2048" }));
+
+        jLabel4.setText("DSA bits");
+
+        jLabel5.setText("ElGamal bits");
+
+        jPrivateKeyElGamalBits_ComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1024", "2048", "4096" }));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPrivateKeyImport_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPrivateKeyExport_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPrivateKeyName_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPrivateKeyEmail_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jPrivateKeyPassphrase_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jPrivateKeyDSABits_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jPrivateKeyElGamalBits_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPrivateKeyDelete_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPrivateKeyGenerate_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(99, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jPrivateKeyPassphrase_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPrivateKeyName_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPrivateKeyEmail_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPrivateKeyDSABits_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPrivateKeyElGamalBits_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCont_EmailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCont_KeyIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCont_KeyNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addGroup(jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCont_EmailTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCont_KeyIdTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCont_KeyNameTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jCont_TabLayout.createSequentialGroup()
-                            .addComponent(jCont_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(3, 3, 3)
-                            .addComponent(jCont_PassphrasePasswordbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jCont_TabLayout.createSequentialGroup()
-                            .addComponent(jCont_CreatedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, 0)
-                            .addComponent(jCont_CreatedTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jCont_TabLayout.createSequentialGroup()
-                        .addComponent(jCont_AlgorithmLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jCont_AlgorithmDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCont_PublicKeyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addGroup(jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCont_PublicKeyImportButton)
-                    .addComponent(jCont_PublicKeyExportButton)
-                    .addComponent(jCont_PublicKeyTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCont_EncrPrivateKeyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addGroup(jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCont_EncrPrivateKeyImportButton)
-                    .addComponent(jCont_EncrPrivateKeyExportButton)
-                    .addComponent(jCont_EncrPrivateKeyTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46)
-                .addGroup(jCont_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCont_OkButton)
-                    .addComponent(jCont_CancelButton))
-                .addGap(0, 0, 0))
+                .addComponent(jPrivateKeyGenerate_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addComponent(jPrivateKeyDelete_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jPrivateKeyImport_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPrivateKeyExport_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(42, 42, 42))
         );
 
-        jTabs.addTab("Contacts", jCont_Tab);
+        jTabs.addTab("Private Keys", jPanel1);
 
         jStatusbar.setEditable(false);
         jStatusbar.setText("Success");
@@ -530,12 +507,12 @@ public class App extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jStatusbar)
-            .addComponent(jTabs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jTabs, javax.swing.GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabs, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
+                .addComponent(jTabs, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(jStatusbar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -543,6 +520,371 @@ public class App extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jSend_SendButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSend_SendButtonMouseClicked
+        // Read original message
+        String textMessage = jSend_BodyTextarea.getText();
+        byte[] byteMessage = textMessage.getBytes();
+        
+        // Read encryption metadata
+        boolean addSignature = jSignature_Checkbox.isSelected();
+        boolean addCompression = jCompression_Checkbox.isSelected();
+        boolean addConversionToRadix64 = jRadix64_Checkbox.isSelected();
+        
+        // Read sender secret key
+        PGPSecretKey senderSecretKey = null;
+        int senderKeyComboBoxIndex = jSendFrom_ComboBox.getSelectedIndex();
+        String senderNameAndKeyID = jSendFrom_ComboBox.getItemAt(senderKeyComboBoxIndex);
+        String[] splittedSenderNameAndKey = senderNameAndKeyID.split(" | ");
+        long senderKeyID = new BigInteger(splittedSenderNameAndKey[splittedSenderNameAndKey.length - 1], 16).longValue();
+        try {
+            PGPSecretKeyRing senderKeyRing = PGPKeys.findSecretKeyRing(senderKeyID);
+            Iterator<PGPSecretKey> keyIter = senderKeyRing.getSecretKeys();
+            senderSecretKey = keyIter.next();
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        // Read receiver public key
+        PGPPublicKey receiverPublicKey = null;
+        int receiverKeyComboBoxIndex = jSendTo_ComboBox.getSelectedIndex();
+        String receiverNameAndKeyID = jSendTo_ComboBox.getItemAt(receiverKeyComboBoxIndex);
+        String[] splittedReceriverNameAndKey = senderNameAndKeyID.split(" | ");
+        long receiverKeyID = new BigInteger(splittedReceriverNameAndKey[splittedReceriverNameAndKey.length - 1], 16).longValue();
+        try {
+            PGPPublicKeyRing receiverKeyRing = PGPKeys.findPublicKeyRing(receiverKeyID);
+            Iterator<PGPPublicKey> keyIter = receiverKeyRing.getPublicKeys();
+            receiverPublicKey = keyIter.next();
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        // Read encryption algorithm
+        Encryption.SymmetricEncryptionAlgorithm encryptionAlgorithm = null;
+        int encryptionAlgorithmIndex = jSendEncryptionAlgo_ComboBox.getSelectedIndex();
+        switch (encryptionAlgorithmIndex) {
+            case 0:
+                {
+                    encryptionAlgorithm = Encryption.SymmetricEncryptionAlgorithm.ELGAMAL_IDEA;
+                    break;
+                }
+            case 1:
+                {
+                    encryptionAlgorithm = Encryption.SymmetricEncryptionAlgorithm.ELGAMAL_3DES;
+                    break;
+                }
+            case 2:
+                {
+                    encryptionAlgorithm = Encryption.SymmetricEncryptionAlgorithm.NONE;
+                    break;
+                }
+            default:
+                break;
+        }
+        
+        // Read passphrase
+        char[] senderPassphrase = jSend_PassphrasePasswordbox.getPassword();
+        
+        // Encryption
+        byte[] encryptedMessage = Encryption.encrypt(
+                byteMessage,
+                senderSecretKey,
+                receiverPublicKey,
+                encryptionAlgorithm,
+                senderPassphrase,
+                addSignature,
+                addCompression,
+                addConversionToRadix64);
+        
+        // TODO(Marko): Read the actual file path in a new dialog
+        String encryptedFilePath = "C:\\Users\\User\\Desktop\\test.txt";
+        Utils.writeToFile(encryptedFilePath, encryptedMessage);
+        jStatusbar.setText("Sent message.");
+    }//GEN-LAST:event_jSend_SendButtonMouseClicked
+
+    private void jRecv_OpenButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRecv_OpenButtonMouseClicked
+        // TODO(Marko): Read the actual file path in a new dialog
+        String encryptedFilePath = "C:\\Users\\User\\Desktop\\test.txt";
+        
+        // Read encrypted message
+        byte[] encryptedMessage = Utils.readFromFile(encryptedFilePath);
+        
+        // Read passphrase to be used if necessery
+        char[] receiverPassphrase = jRecvPassphrase_PasswordField.getPassword();
+                
+        // Decryption
+        Encryption.DecryptedMessage decryptedMessage = Encryption.decrypt(
+                encryptedMessage,
+                receiverPassphrase);
+        String dectryptedMessage = new String(decryptedMessage.decryptedMessage);
+        
+        // Write output
+        jRecv_BodyTextarea.setText(dectryptedMessage);
+    }//GEN-LAST:event_jRecv_OpenButtonMouseClicked
+
+    private void jRecv_SaveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRecv_SaveButtonMouseClicked
+        // TODO(Marko): Read the actual file path in a new dialog
+        String decryptedFilePath = "C:\\Users\\User\\Desktop\\received.txt";
+        
+        // TODO(Uros): Implement
+    }//GEN-LAST:event_jRecv_SaveButtonMouseClicked
+
+    private void jDeletePublicKey_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDeletePublicKey_ButtonMouseClicked
+        int rowIdx = jPublicKeyRings_Table.getSelectedRow();
+        
+        if (rowIdx < 0) {
+            jStatusbar.setText("A key must be selected in order to perform delete operation!.");
+            return;
+        }
+        
+        long keyID = (long) jPublicKeyRings_Table.getValueAt(rowIdx, 2);
+        try {
+            PGPPublicKeyRing keyRingToBeDeleted = PGPKeys.findPublicKeyRing(keyID);
+            PGPKeys.removePublicKey(keyRingToBeDeleted);
+            PGPKeys.savePublicKeysToFile();
+            populatePublicKeyRingTable();
+            jStatusbar.setText("Deleted public key successfully.");
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jDeletePublicKey_ButtonMouseClicked
+
+    private void jImportPublicKey_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jImportPublicKey_ButtonMouseClicked
+        // TODO (Marko) Get this using dialog component
+        String importPublicKeyFilePath = "C:\\Users\\User\\Desktop\\export-public.asc";
+        
+        try {
+            PGPKeys.importPublicKey(new File(importPublicKeyFilePath));
+            populatePublicKeyRingTable();
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jImportPublicKey_ButtonMouseClicked
+
+    private void jExportPublicKey_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jExportPublicKey_ButtonMouseClicked
+        // TODO (Marko) Get this using dialog component
+        String exportPublicKeyFilePath = "C:\\Users\\User\\Desktop\\export-public.asc";
+        
+        int rowIdx = jPublicKeyRings_Table.getSelectedRow();
+        
+        if (rowIdx < 0) {
+            jStatusbar.setText("A key must be selected in order to perform export operation!.");
+            return;
+        }
+        
+        long keyID = (long) jPublicKeyRings_Table.getValueAt(rowIdx, 2);
+        try {
+            PGPPublicKeyRing keyRingToBeExported = PGPKeys.findPublicKeyRing(keyID);
+            PGPKeys.exportPublicKey(keyRingToBeExported, new File(exportPublicKeyFilePath));
+            jStatusbar.setText("Exported public key successfully.");
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jExportPublicKey_ButtonMouseClicked
+
+    private void jPrivateKeyDelete_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPrivateKeyDelete_ButtonMouseClicked
+        int rowIdx = jPrivateKeyRings_Table.getSelectedRow();
+        
+        if (rowIdx < 0) {
+            jStatusbar.setText("A key must be selected in order to perform delete operation!.");
+            return;
+        }
+        
+        long keyID = (long) jPrivateKeyRings_Table.getValueAt(rowIdx, 3);
+        try {
+            PGPSecretKeyRing keyRingToBeDeleted = PGPKeys.findSecretKeyRing(keyID);
+            PGPKeys.removeSecretKey(keyRingToBeDeleted);
+            PGPKeys.saveSecretKeysToFile();
+            populatePrivateKeyRingTable();
+            jStatusbar.setText("Deleted key successfully.");
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jPrivateKeyDelete_ButtonMouseClicked
+
+    private void jPrivateKeyImport_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPrivateKeyImport_ButtonMouseClicked
+        // TODO (Marko) Get this using dialog component
+        String importSecretKeyFilePath = "C:\\Users\\User\\Desktop\\export-private.asc";
+        
+        try {
+            PGPKeys.importSecretKey(new File(importSecretKeyFilePath));
+            populatePrivateKeyRingTable();
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jPrivateKeyImport_ButtonMouseClicked
+
+    private void jPrivateKeyExport_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPrivateKeyExport_ButtonMouseClicked
+        // TODO (Marko) Get this using dialog component
+        String exportSecretKeyFilePath = "C:\\Users\\User\\Desktop\\export-private.asc";
+        
+        int rowIdx = jPrivateKeyRings_Table.getSelectedRow();
+        
+        if (rowIdx < 0) {
+            jStatusbar.setText("A key must be selected in order to perform export operation!.");
+            return;
+        }
+        
+        long keyID = (long) jPrivateKeyRings_Table.getValueAt(rowIdx, 3);
+        try {
+            PGPSecretKeyRing keyRingToBeExported = PGPKeys.findSecretKeyRing(keyID);
+            PGPKeys.exportSecretKey(keyRingToBeExported, new File(exportSecretKeyFilePath));
+            jStatusbar.setText("Exported secret key successfully.");
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jPrivateKeyExport_ButtonMouseClicked
+
+    private void jPrivateKeyGenerate_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPrivateKeyGenerate_ButtonMouseClicked
+        int selectedDSABitsIndex = jPrivateKeyDSABits_ComboBox.getSelectedIndex();
+        int selectedDSABits = Integer.parseInt(jPrivateKeyDSABits_ComboBox.getItemAt(selectedDSABitsIndex));
+        
+        int selectedElGamalBitsIndex = jPrivateKeyElGamalBits_ComboBox.getSelectedIndex();
+        int selectedElGamalBits = Integer.parseInt(jPrivateKeyElGamalBits_ComboBox.getItemAt(selectedElGamalBitsIndex));
+        
+        String name = jPrivateKeyName_TextField.getText();
+        String email = jPrivateKeyEmail_TextField.getText();
+        String passphrase = jPrivateKeyPassphrase_TextField.getText();
+        
+        if ("".equals(name) || "".equals(email) || "".equals(passphrase)) {
+            jStatusbar.setText("Invalid key generation data.");
+            return;
+        }
+        
+        String userID = name + " <" + email + ">";
+        
+        try {
+            PGPKeyRingGenerator pgpKeyRingGenerator = PGPKeys.createPGPKeyRingGenerator(
+                    PGPKeys.generateDsaKeyPair(selectedDSABits),
+                    PGPKeys.generateElGamalKeyPair(selectedElGamalBits),
+                    userID,
+                    passphrase.toCharArray());
+            
+            PGPKeys.addPublicKey(pgpKeyRingGenerator);
+            PGPKeys.addSecretKey(pgpKeyRingGenerator);
+            PGPKeys.savePublicKeysToFile();
+            PGPKeys.saveSecretKeysToFile();
+            populatePrivateKeyRingTable();
+            populatePublicKeyRingTable();
+        } catch (Exception ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jPrivateKeyGenerate_ButtonMouseClicked
+    
+    void populateSendMessageFromComboBox()
+    {
+        jSendFrom_ComboBox.removeAllItems();
+        
+        try {
+            PGPSecretKeyRingCollection secretKeyRing = PGPKeys.getSecretKeysCollection();
+            
+            Iterator<PGPSecretKeyRing> iter = PGPKeys.getSecretKeysCollection().getKeyRings();
+            while (iter.hasNext()) {
+                PGPSecretKeyRing keyRing = iter.next();
+
+                Iterator<PGPSecretKey> keyIter = keyRing.getSecretKeys();
+                PGPSecretKey key = keyIter.next();
+                
+                String nameAndEmail = (String) key.getUserIDs().next();
+                String[] parsed = nameAndEmail.split(" ");
+                String email = parsed[parsed.length - 1];
+                String name = "";
+                for (int i = 0; i < parsed.length - 1; i++) {
+                    name += parsed[i];
+                    if (i < parsed.length - 2) {
+                        name += " ";
+                    }
+                }
+                
+                jSendFrom_ComboBox.addItem(name + " " + email + " | " + Integer.toHexString((int) key.getKeyID()));                
+            }
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    void populateSendMessageToComboBox()
+    {
+        jSendTo_ComboBox.removeAllItems();
+        
+        try {
+            PGPPublicKeyRingCollection publicKeyRing = PGPKeys.getPublicKeysCollection();
+            
+            Iterator<PGPPublicKeyRing> iter = PGPKeys.getPublicKeysCollection().getKeyRings();
+            while (iter.hasNext()) {
+                PGPPublicKeyRing keyRing = iter.next();
+
+                Iterator<PGPPublicKey> keyIter = keyRing.getPublicKeys();
+                PGPPublicKey key = keyIter.next();
+                
+                jSendTo_ComboBox.addItem(
+                        new String((byte[]) key.getRawUserIDs().next(), StandardCharsets.UTF_8) + 
+                        " | " + Integer.toHexString((int) key.getKeyID()));
+            }
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    void populatePublicKeyRingTable() {
+        try {
+            PGPPublicKeyRingCollection publicKeyRing = PGPKeys.getPublicKeysCollection();
+            DefaultTableModel model = (DefaultTableModel) jPublicKeyRings_Table.getModel();
+            int rowCount = model.getRowCount();
+            //Remove rows one by one from the end of the table
+            for (int i = rowCount - 1; i >= 0; i--) {
+                model.removeRow(i);
+            }
+                
+            Iterator<PGPPublicKeyRing> iter = PGPKeys.getPublicKeysCollection().getKeyRings();
+            while (iter.hasNext()) {
+                PGPPublicKeyRing keyRing = iter.next();
+
+                Iterator<PGPPublicKey> keyIter = keyRing.getPublicKeys();
+                PGPPublicKey key = keyIter.next();
+                
+                model.addRow(new Object[]{new String((byte[]) key.getRawUserIDs().next(),StandardCharsets.UTF_8), Integer.toHexString((int) key.getKeyID()), key.getKeyID()});                
+            }
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    void populatePrivateKeyRingTable() {
+        try {
+            PGPSecretKeyRingCollection secretKeyRing = PGPKeys.getSecretKeysCollection();
+            
+            DefaultTableModel model = (DefaultTableModel) jPrivateKeyRings_Table.getModel();
+            int rowCount = model.getRowCount();
+            //Remove rows one by one from the end of the table
+            for (int i = rowCount - 1; i >= 0; i--) {
+                model.removeRow(i);
+            }
+                
+            Iterator<PGPSecretKeyRing> iter = PGPKeys.getSecretKeysCollection().getKeyRings();
+            while (iter.hasNext()) {
+                PGPSecretKeyRing keyRing = iter.next();
+
+                Iterator<PGPSecretKey> keyIter = keyRing.getSecretKeys();
+                PGPSecretKey key = keyIter.next();
+                
+                String nameAndEmail = (String) key.getUserIDs().next();
+                String[] parsed = nameAndEmail.split(" ");
+                String email = parsed[parsed.length - 1];
+                String name = "";
+                for (int i = 0; i < parsed.length - 1; i++) {
+                    name += parsed[i];
+                    if (i < parsed.length - 2) {
+                        name += " ";
+                    }
+                }
+                
+                model.addRow(new Object[]{name, email, Integer.toHexString((int) key.getKeyID()), key.getKeyID()});
+            }
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -572,79 +914,62 @@ public class App extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new App().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new App().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jCont_AlgorithmDropdown;
-    private javax.swing.JLabel jCont_AlgorithmLabel;
-    private javax.swing.JButton jCont_CancelButton;
-    private javax.swing.JTable jCont_ContactsTable;
-    private javax.swing.JLabel jCont_CreatedLabel;
-    private javax.swing.JTextField jCont_CreatedTextbox;
-    private javax.swing.JLabel jCont_EmailLabel;
-    private javax.swing.JTextField jCont_EmailTextbox;
-    private javax.swing.JButton jCont_EncrPrivateKeyExportButton;
-    private javax.swing.JButton jCont_EncrPrivateKeyImportButton;
-    private javax.swing.JLabel jCont_EncrPrivateKeyLabel;
-    private javax.swing.JTextField jCont_EncrPrivateKeyTextbox;
-    private javax.swing.JLabel jCont_KeyIdLabel;
-    private javax.swing.JTextField jCont_KeyIdTextbox;
-    private javax.swing.JLabel jCont_KeyNameLabel;
-    private javax.swing.JTextField jCont_KeyNameTextbox;
-    private javax.swing.JButton jCont_OkButton;
-    private javax.swing.JLabel jCont_PassphraseLabel;
-    private javax.swing.JPasswordField jCont_PassphrasePasswordbox;
-    private javax.swing.JButton jCont_PublicKeyExportButton;
-    private javax.swing.JButton jCont_PublicKeyImportButton;
-    private javax.swing.JLabel jCont_PublicKeyLabel;
-    private javax.swing.JTextField jCont_PublicKeyTextbox;
-    private javax.swing.JPanel jCont_Tab;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JCheckBox jCompression_Checkbox;
+    private javax.swing.JButton jDeletePublicKey_Button;
+    private javax.swing.JButton jExportPublicKey_Button;
+    private javax.swing.JButton jImportPublicKey_Button;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JComboBox<String> jPrivateKeyDSABits_ComboBox;
+    private javax.swing.JButton jPrivateKeyDelete_Button;
+    private javax.swing.JComboBox<String> jPrivateKeyElGamalBits_ComboBox;
+    private javax.swing.JTextField jPrivateKeyEmail_TextField;
+    private javax.swing.JButton jPrivateKeyExport_Button;
+    private javax.swing.JButton jPrivateKeyGenerate_Button;
+    private javax.swing.JButton jPrivateKeyImport_Button;
+    private javax.swing.JTextField jPrivateKeyName_TextField;
+    private javax.swing.JTextField jPrivateKeyPassphrase_TextField;
+    private javax.swing.JTable jPrivateKeyRings_Table;
+    private javax.swing.JTable jPublicKeyRings_Table;
+    private javax.swing.JCheckBox jRadix64_Checkbox;
+    private javax.swing.JPasswordField jRecvPassphrase_PasswordField;
     private javax.swing.JTextArea jRecv_BodyTextarea;
-    private javax.swing.JCheckBox jRecv_CompressedCheckbox;
-    private javax.swing.JButton jRecv_DecryptButton;
-    private javax.swing.JCheckBox jRecv_EncodedCheckbox;
-    private javax.swing.JLabel jRecv_EncryptionLabel;
-    private javax.swing.JTextField jRecv_EncryptionTextbox;
     private javax.swing.JLabel jRecv_FromLabel;
     private javax.swing.JTextField jRecv_FromTextbox;
     private javax.swing.JButton jRecv_OpenButton;
     private javax.swing.JLabel jRecv_PassphraseLabel;
-    private javax.swing.JPasswordField jRecv_PassphrasePasswordbox;
     private javax.swing.JButton jRecv_SaveButton;
-    private javax.swing.JLabel jRecv_SignatureLabel;
-    private javax.swing.JTextField jRecv_SignatureTextbox;
-    private javax.swing.JLabel jRecv_SubjectLabel;
-    private javax.swing.JTextField jRecv_SubjectTextbox;
     private javax.swing.JPanel jRecv_Tab;
-    private javax.swing.JLabel jRecv_ToLabel;
-    private javax.swing.JTextField jRecv_ToTextbox;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JComboBox<String> jSendEncryptionAlgo_ComboBox;
+    private javax.swing.JComboBox<String> jSendFrom_ComboBox;
+    private javax.swing.JComboBox<String> jSendTo_ComboBox;
     private javax.swing.JTextArea jSend_BodyTextarea;
-    private javax.swing.JCheckBox jSend_CompressedCheckbox;
-    private javax.swing.JCheckBox jSend_EncodedCheckbox;
-    private javax.swing.JComboBox<String> jSend_EncryptionDropdown;
     private javax.swing.JLabel jSend_EncryptionLabel;
-    private javax.swing.JComboBox<String> jSend_FromDropdown;
     private javax.swing.JLabel jSend_FromLabel;
     private javax.swing.JLabel jSend_PassphraseLabel;
     private javax.swing.JPasswordField jSend_PassphrasePasswordbox;
     private javax.swing.JButton jSend_SendButton;
-    private javax.swing.JLabel jSend_SignatureLabel;
-    private javax.swing.JTextField jSend_SignatureTextbox;
-    private javax.swing.JLabel jSend_SubjectLabel;
-    private javax.swing.JTextField jSend_SubjectTextbox;
     private javax.swing.JPanel jSend_Tab;
     private javax.swing.JButton jSend_TestButton;
-    private javax.swing.JComboBox<String> jSend_ToDropdown;
     private javax.swing.JLabel jSend_ToLabel;
+    private javax.swing.JCheckBox jSignature_Checkbox;
     private javax.swing.JTextField jStatusbar;
     private javax.swing.JTabbedPane jTabs;
+    private javax.swing.JPanel randomjavaname;
     // End of variables declaration//GEN-END:variables
 }
