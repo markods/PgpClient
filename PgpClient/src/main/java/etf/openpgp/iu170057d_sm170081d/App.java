@@ -686,9 +686,7 @@ public class App extends javax.swing.JFrame {
             PGPKeys.savePublicKeysToFile();
             populatePublicKeyRingTable();
             jStatusbar.setText("Deleted public key successfully.");
-        } catch (IOException ex) {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PGPException ex) {
+        } catch (IOException | PGPException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jDeletePublicKey_ButtonMouseClicked
@@ -700,13 +698,9 @@ public class App extends javax.swing.JFrame {
         try {
             PGPKeys.importPublicKey(new File(importPublicKeyFilePath));
             populatePublicKeyRingTable();
-        } catch (IOException ex) {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PGPException ex) {
+        } catch (IOException | PGPException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        populatePublicKeyRingTable();
     }//GEN-LAST:event_jImportPublicKey_ButtonMouseClicked
 
     private void jExportPublicKey_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jExportPublicKey_ButtonMouseClicked
@@ -725,19 +719,41 @@ public class App extends javax.swing.JFrame {
             PGPPublicKeyRing keyRingToBeExported = PGPKeys.findPublicKeyRing(keyID);
             PGPKeys.exportPublicKey(keyRingToBeExported, new File(exportPublicKeyFilePath));
             jStatusbar.setText("Exported public key successfully.");
-        } catch (IOException ex) {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PGPException ex) {
+        } catch (IOException | PGPException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jExportPublicKey_ButtonMouseClicked
 
     private void jPrivateKeyDelete_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPrivateKeyDelete_ButtonMouseClicked
-        // TODO add your handling code here:
+        int rowIdx = jPrivateKeyRings_Table.getSelectedRow();
+        
+        if (rowIdx < 0) {
+            jStatusbar.setText("A key must be selected in order to perform delete operation!.");
+            return;
+        }
+        
+        long keyID = (long) jPrivateKeyRings_Table.getValueAt(rowIdx, 3);
+        try {
+            PGPSecretKeyRing keyRingToBeDeleted = PGPKeys.findSecretKeyRing(keyID);
+            PGPKeys.removeSecretKey(keyRingToBeDeleted);
+            PGPKeys.saveSecretKeysToFile();
+            populatePrivateKeyRingTable();
+            jStatusbar.setText("Deleted key successfully.");
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jPrivateKeyDelete_ButtonMouseClicked
 
     private void jPrivateKeyImport_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPrivateKeyImport_ButtonMouseClicked
-        // TODO add your handling code here:
+        // TODO (Marko) Get this using dialog component
+        String importSecretKeyFilePath = "C:\\Users\\User\\Desktop\\export-private.asc";
+        
+        try {
+            PGPKeys.importSecretKey(new File(importSecretKeyFilePath));
+            populatePrivateKeyRingTable();
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jPrivateKeyImport_ButtonMouseClicked
 
     private void jPrivateKeyExport_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPrivateKeyExport_ButtonMouseClicked
@@ -756,9 +772,7 @@ public class App extends javax.swing.JFrame {
             PGPSecretKeyRing keyRingToBeExported = PGPKeys.findSecretKeyRing(keyID);
             PGPKeys.exportSecretKey(keyRingToBeExported, new File(exportSecretKeyFilePath));
             jStatusbar.setText("Exported secret key successfully.");
-        } catch (IOException ex) {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PGPException ex) {
+        } catch (IOException | PGPException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jPrivateKeyExport_ButtonMouseClicked
