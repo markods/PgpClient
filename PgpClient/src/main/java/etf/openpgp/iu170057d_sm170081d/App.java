@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.util.encoders.Hex;
@@ -55,8 +56,8 @@ public class App extends javax.swing.JFrame {
         jSend_Tab = new javax.swing.JPanel();
         jSend_FromLabel = new javax.swing.JLabel();
         jSend_ToLabel = new javax.swing.JLabel();
-        jSend_FromDropdown = new javax.swing.JComboBox<>();
-        jSend_ToDropdown = new javax.swing.JComboBox<>();
+        jSendFrom_ComboBox = new javax.swing.JComboBox<>();
+        jSendTo_ComboBox = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jSend_BodyTextarea = new javax.swing.JTextArea();
         jSend_SendButton = new javax.swing.JButton();
@@ -124,11 +125,9 @@ public class App extends javax.swing.JFrame {
 
         jSend_ToLabel.setText("To");
 
-        jSend_FromDropdown.setMaximumRowCount(16);
-        jSend_FromDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pera@gmail.com       |   AAAA AAAA BBBB BBBB", "pera@gmail.com       |   AB01 5912 7EFF 0DFD", "pera@gmail.com       |   za slanje zikinoj firmi", "pera@gmail.com       |   <no signature>", "pera@hotmail.com    |   ABCD EF012 3456 789A", "pera@hotmail.com    |   <no signature>", " " }));
+        jSendFrom_ComboBox.setMaximumRowCount(16);
 
-        jSend_ToDropdown.setMaximumRowCount(16);
-        jSend_ToDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "zika@gmail.com       |   FF01 FFFF FFFF BBBB", "zika@gmail.com       |   zikin glavni javni kljuc", "zika@hotmail.com    |   ABCD EF012 3456 789A", "" }));
+        jSendTo_ComboBox.setMaximumRowCount(16);
 
         jSend_BodyTextarea.setColumns(20);
         jSend_BodyTextarea.setLineWrap(true);
@@ -177,8 +176,8 @@ public class App extends javax.swing.JFrame {
                     .addComponent(jSend_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSend_FromDropdown, 0, 650, Short.MAX_VALUE)
-                    .addComponent(jSend_ToDropdown, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jSendFrom_ComboBox, 0, 650, Short.MAX_VALUE)
+                    .addComponent(jSendTo_ComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSend_SendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -210,10 +209,10 @@ public class App extends javax.swing.JFrame {
                     .addGroup(jSend_TabLayout.createSequentialGroup()
                         .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSend_FromLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSend_FromDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSendFrom_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jSend_ToDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSendTo_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSend_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jSend_SendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
@@ -269,11 +268,6 @@ public class App extends javax.swing.JFrame {
         jRecv_EncodedCheckbox.setText("Encoded ");
         jRecv_EncodedCheckbox.setEnabled(false);
         jRecv_EncodedCheckbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        jRecv_EncodedCheckbox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRecv_EncodedCheckboxActionPerformed(evt);
-            }
-        });
 
         jRecv_EncryptionTextbox.setEditable(false);
 
@@ -806,10 +800,22 @@ public class App extends javax.swing.JFrame {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jPrivateKeyGenerate_ButtonMouseClicked
-
-    private void jRecv_EncodedCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRecv_EncodedCheckboxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRecv_EncodedCheckboxActionPerformed
+    
+    void populateSendMessageFromComboBox()
+    {
+        jSendFrom_ComboBox.addItem("test-from-1");
+        jSendFrom_ComboBox.addItem("test-from-2");
+        jSendFrom_ComboBox.addItem("test-from-3");
+        jSendFrom_ComboBox.addItem("test-from-4");
+    }
+    
+    void populateSendMessageToComboBox()
+    {
+        jSendTo_ComboBox.addItem("test-to-1");
+        jSendTo_ComboBox.addItem("test-to-2");
+        jSendTo_ComboBox.addItem("test-to-3");
+        jSendTo_ComboBox.addItem("test-to-4");
+    }
     
     void populatePublicKeyRingTable() {
         try {
@@ -830,9 +836,7 @@ public class App extends javax.swing.JFrame {
                 
                 model.addRow(new Object[]{new String((byte[]) key.getRawUserIDs().next(),StandardCharsets.UTF_8), Integer.toHexString((int) key.getKeyID()), key.getKeyID()});                
             }
-        } catch (IOException ex) {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PGPException ex) {
+        } catch (IOException | PGPException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -861,13 +865,14 @@ public class App extends javax.swing.JFrame {
                 String name = "";
                 for (int i = 0; i < parsed.length - 1; i++) {
                     name += parsed[i];
+                    if (i < parsed.length - 2) {
+                        name += " ";
+                    }
                 }
                 
                 model.addRow(new Object[]{name, email, Integer.toHexString((int) key.getKeyID()), key.getKeyID()});
             }
-        } catch (IOException ex) {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PGPException ex) {
+        } catch (IOException | PGPException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -901,10 +906,8 @@ public class App extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new App().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new App().setVisible(true);
         });
     }
 
@@ -952,17 +955,17 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JComboBox<String> jSendFrom_ComboBox;
+    private javax.swing.JComboBox<String> jSendTo_ComboBox;
     private javax.swing.JTextArea jSend_BodyTextarea;
     private javax.swing.JComboBox<String> jSend_EncryptionDropdown;
     private javax.swing.JLabel jSend_EncryptionLabel;
-    private javax.swing.JComboBox<String> jSend_FromDropdown;
     private javax.swing.JLabel jSend_FromLabel;
     private javax.swing.JLabel jSend_PassphraseLabel;
     private javax.swing.JPasswordField jSend_PassphrasePasswordbox;
     private javax.swing.JButton jSend_SendButton;
     private javax.swing.JPanel jSend_Tab;
     private javax.swing.JButton jSend_TestButton;
-    private javax.swing.JComboBox<String> jSend_ToDropdown;
     private javax.swing.JLabel jSend_ToLabel;
     private javax.swing.JCheckBox jSignature_Checkbox;
     private javax.swing.JTextField jStatusbar;

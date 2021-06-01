@@ -19,6 +19,8 @@ public class Main {
         
         app.populatePublicKeyRingTable();
         app.populatePrivateKeyRingTable();
+        app.populateSendMessageFromComboBox();
+        app.populateSendMessageToComboBox();
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

@@ -84,8 +84,8 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jSend_FromDropdown" alignment="0" pref="650" max="32767" attributes="0"/>
-                          <Component id="jSend_ToDropdown" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jSendFrom_ComboBox" alignment="0" pref="650" max="32767" attributes="0"/>
+                          <Component id="jSendTo_ComboBox" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSend_SendButton" min="-2" pref="77" max="-2" attributes="0"/>
@@ -124,11 +124,11 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jSend_FromLabel" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Component id="jSend_FromDropdown" min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Component id="jSendFrom_ComboBox" min="-2" pref="26" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jSend_ToDropdown" min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Component id="jSendTo_ComboBox" min="-2" pref="26" max="-2" attributes="0"/>
                                   <Component id="jSend_ToLabel" min="-2" pref="26" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -165,35 +165,22 @@
                 <Property name="text" type="java.lang.String" value="To"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jSend_FromDropdown">
+            <Component class="javax.swing.JComboBox" name="jSendFrom_ComboBox">
               <Properties>
                 <Property name="maximumRowCount" type="int" value="16"/>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="7">
-                    <StringItem index="0" value="pera@gmail.com       |   AAAA AAAA BBBB BBBB"/>
-                    <StringItem index="1" value="pera@gmail.com       |   AB01 5912 7EFF 0DFD"/>
-                    <StringItem index="2" value="pera@gmail.com       |   za slanje zikinoj firmi"/>
-                    <StringItem index="3" value="pera@gmail.com       |   &lt;no signature&gt;"/>
-                    <StringItem index="4" value="pera@hotmail.com    |   ABCD EF012 3456 789A"/>
-                    <StringItem index="5" value="pera@hotmail.com    |   &lt;no signature&gt;"/>
-                    <StringItem index="6" value=" "/>
-                  </StringArray>
+                  <StringArray count="0"/>
                 </Property>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jSend_ToDropdown">
+            <Component class="javax.swing.JComboBox" name="jSendTo_ComboBox">
               <Properties>
                 <Property name="maximumRowCount" type="int" value="16"/>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="zika@gmail.com       |   FF01 FFFF FFFF BBBB"/>
-                    <StringItem index="1" value="zika@gmail.com       |   zikin glavni javni kljuc"/>
-                    <StringItem index="2" value="zika@hotmail.com    |   ABCD EF012 3456 789A"/>
-                    <StringItem index="3" value=""/>
-                  </StringArray>
+                  <StringArray count="0"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -461,9 +448,6 @@
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="10"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRecv_EncodedCheckboxActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jRecv_EncryptionTextbox">
               <Properties>
