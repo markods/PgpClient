@@ -664,7 +664,7 @@
                               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jPrivateKeyElGamalBits_ComboBox" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="jScrollPane4" min="-2" pref="752" max="-2" attributes="0"/>
@@ -694,7 +694,7 @@
                           <Component id="jPrivateKeyName_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jPrivateKeyEmail_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jPrivateKeyDSABits_ComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPrivateKeyElGamalBits_ComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jPrivateKeyGenerate_Button" min="-2" pref="32" max="-2" attributes="0"/>
@@ -835,7 +835,7 @@
                 <Property name="text" type="java.lang.String" value="ElGamal bits"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox1">
+            <Component class="javax.swing.JComboBox" name="jPrivateKeyElGamalBits_ComboBox">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">

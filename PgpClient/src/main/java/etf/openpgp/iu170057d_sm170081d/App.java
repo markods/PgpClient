@@ -109,7 +109,7 @@ public class App extends javax.swing.JFrame {
         jPrivateKeyDSABits_ComboBox = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jPrivateKeyElGamalBits_ComboBox = new javax.swing.JComboBox<>();
         jStatusbar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -504,7 +504,7 @@ public class App extends javax.swing.JFrame {
 
         jLabel5.setText("ElGamal bits");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1024", "2048", "4096" }));
+        jPrivateKeyElGamalBits_ComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1024", "2048", "4096" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -536,7 +536,7 @@ public class App extends javax.swing.JFrame {
                         .addGap(36, 36, 36)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jPrivateKeyElGamalBits_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPrivateKeyDelete_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPrivateKeyGenerate_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -560,7 +560,7 @@ public class App extends javax.swing.JFrame {
                     .addComponent(jPrivateKeyName_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPrivateKeyEmail_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPrivateKeyDSABits_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPrivateKeyElGamalBits_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPrivateKeyGenerate_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
@@ -778,7 +778,36 @@ public class App extends javax.swing.JFrame {
     }//GEN-LAST:event_jPrivateKeyExport_ButtonMouseClicked
 
     private void jPrivateKeyGenerate_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPrivateKeyGenerate_ButtonMouseClicked
-        // TODO add your handling code here:
+        int selectedDSABitsIndex = jPrivateKeyDSABits_ComboBox.getSelectedIndex();
+        int selectedDSABits = Integer.parseInt(jPrivateKeyDSABits_ComboBox.getItemAt(selectedDSABitsIndex));
+        
+        int selectedElGamalBitsIndex = jPrivateKeyElGamalBits_ComboBox.getSelectedIndex();
+        int selectedElGamalBits = Integer.parseInt(jPrivateKeyElGamalBits_ComboBox.getItemAt(selectedElGamalBitsIndex));
+        
+        String name = jPrivateKeyName_TextField.getText();
+        String email = jPrivateKeyEmail_TextField.getText();
+        String passphrase = jPrivateKeyPassphrase_TextField.getText();
+        
+        if ("".equals(name) || "".equals(email) || "".equals(passphrase)) {
+            jStatusbar.setText("Invalid key generation data.");
+            return;
+        }
+        
+        String userID = name + " <" + email + ">";
+        
+        try {
+            PGPKeyRingGenerator pgpKeyRingGenerator = PGPKeys.createPGPKeyRingGenerator(
+                    PGPKeys.generateDsaKeyPair(selectedDSABits),
+                    PGPKeys.generateElGamalKeyPair(selectedElGamalBits),
+                    userID,
+                    passphrase.toCharArray());
+            
+            PGPKeys.addPublicKey(pgpKeyRingGenerator);
+            PGPKeys.addSecretKey(pgpKeyRingGenerator);
+            populatePrivateKeyRingTable();
+        } catch (Exception ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jPrivateKeyGenerate_ButtonMouseClicked
     
     void populatePublicKeyRingTable() {
@@ -870,88 +899,6 @@ public class App extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
 
-        /*try {
-            // Get secret and public key ring collections
-            System.out.println("Get secret and public key ring collections");
-            PGPSecretKeyRingCollection secretKeyRing = PGPKeys.getSecretKeysCollection();
-            PGPPublicKeyRingCollection publicKeyRing = PGPKeys.getPublicKeysCollection();
-            
-            // Print all private key rings from the private key ring collection
-            System.out.println("Print all private key rings from the private key ring collection");
-            Iterator<PGPSecretKeyRing> keyRingIter = PGPKeys.getSecretKeysCollection().getKeyRings();
-	          
-            while (keyRingIter.hasNext()) {
-                PGPSecretKeyRing keyRing = keyRingIter.next();
-	                    
-                Iterator<PGPSecretKey> keyIter = keyRing.getSecretKeys();
-                PGPSecretKey key = keyIter.next();
-                PGPPrivateKey privateKey = key.extractPrivateKey(new JcePBESecretKeyDecryptorBuilder().setProvider("BC").build("Sifra123".toCharArray()));
-                PGPPublicKey  publicKey = key.getPublicKey();
-                System.out.println(Integer.toHexString((int) key.getKeyID()) + " " + key.getUserIDs().next());
-            }
-            
-            // Print all public key rings from the public key ring collection
-            System.out.println("Print all public key rings from the public key ring collection");
-            Iterator<PGPPublicKeyRing> keyRingIter2 = PGPKeys.getPublicKeysCollection().getKeyRings();
-            while (keyRingIter2.hasNext()) {
-                PGPPublicKeyRing keyRing = keyRingIter2.next();
-
-                Iterator<PGPPublicKey> keyIter = keyRing.getPublicKeys();
-                PGPPublicKey key = keyIter.next();
-
-                System.out.println(Integer.toHexString((int) key.getKeyID()) + " " + key.getRawUserIDs().next());
-                
-                File publicKeyFile = new File("C:\\Users\\User\\Desktop\\test-key-public.asc");
-                PGPKeys.exportPublicKey(keyRing, publicKeyFile);
-                break;
-            }
-            
-            // Create new public and private key rings
-            System.out.println("Create new public and private key rings");
-            String name1 = "Nikola Vucenovic <nikolavucenovic97@gmail.com>";
-            String password1 = "Sifra123";
-            String name2 = "Milo Tomasevic <milo@gmail.com>";
-            String password2 = "Sifra123";
-            PGPKeyRingGenerator pgpKeyRingGenerator1 = PGPKeys.createPGPKeyRingGenerator(
-                    PGPKeys.generateDsaKeyPair(1024),
-                    PGPKeys.generateElGamalKeyPair(1024),
-                    name1,
-                    password1.toCharArray());
-            PGPKeyRingGenerator pgpKeyRingGenerator2 = PGPKeys.createPGPKeyRingGenerator(
-                    PGPKeys.generateDsaKeyPair(1024),
-                    PGPKeys.generateElGamalKeyPair(1024),
-                    name2,
-                    password2.toCharArray());
-            
-            // Add private key to private key collection
-            System.out.println("Add private key to private key collection");
-            PGPKeys.addSecretKey(pgpKeyRingGenerator1);
-            
-            // Add public key to public key collection
-            System.out.println("Add public key to public key collection");
-            PGPKeys.addPublicKey(pgpKeyRingGenerator1);
-            
-            // Store private key ring collection
-            System.out.println("Store private key ring collection");
-            PGPKeys.saveSecretKeysToFile();
-            
-            // Store public key ring collection
-            System.out.println("Store public key ring collection");
-            PGPKeys.savePublicKeysToFile();
-            
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-        
-        try {
-            PGPPublicKeyRingCollection publicKeyRing = PGPKeys.getPublicKeysCollection();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }*/
-        
-        // DefaultTableModel model = (DefaultTableModel) jPublicKeyRings_Table.getModel();
-        // model.addRow(new Object[]{"Column 1", "Column 2"}); 
-        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -962,7 +909,6 @@ public class App extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JButton jDeletePublicKey_Button;
     private javax.swing.JButton jExportPublicKey_Button;
     private javax.swing.JButton jImportPublicKey_Button;
@@ -974,6 +920,7 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JComboBox<String> jPrivateKeyDSABits_ComboBox;
     private javax.swing.JButton jPrivateKeyDelete_Button;
+    private javax.swing.JComboBox<String> jPrivateKeyElGamalBits_ComboBox;
     private javax.swing.JTextField jPrivateKeyEmail_TextField;
     private javax.swing.JButton jPrivateKeyExport_Button;
     private javax.swing.JButton jPrivateKeyGenerate_Button;
