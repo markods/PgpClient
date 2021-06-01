@@ -31,6 +31,7 @@ import org.bouncycastle.openpgp.PGPKeyRingGenerator;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
+import org.bouncycastle.openpgp.PGPSecretKey;
 import org.bouncycastle.openpgp.PGPSecretKeyRing;
 import org.bouncycastle.openpgp.PGPSecretKeyRingCollection;
 import org.bouncycastle.openpgp.PGPSignature;
@@ -245,5 +246,33 @@ public class PGPKeys {
             throw new IllegalArgumentException("Invalid key index");
         }
     }
+    
+    public static PGPSecretKeyRing findSecretKeyRing(long id) throws IOException, PGPException {
+        PGPSecretKeyRingCollection pgpSec = PGPKeys.getSecretKeysCollection();
+        PGPSecretKey secKey = null;
+
+        Iterator<PGPSecretKeyRing> iter = pgpSec.getKeyRings();
+        PGPSecretKeyRing keyRing = null;
+        while (iter.hasNext() && secKey == null) {
+            keyRing = iter.next();
+
+            Iterator<PGPSecretKey> keyIter = keyRing.getSecretKeys();
+            while (keyIter.hasNext()) {
+                PGPSecretKey key = keyIter.next();
+                if ((key.getKeyID() == id)) {
+                        secKey = key;
+                        break;
+                }
+            }
+        }
+
+        if (secKey != null) {
+            return keyRing;
+        }
+        else {
+            System.out.println("null");
+            throw new IllegalArgumentException("Can't find signing key in key ring.");
+        }
+   }
 }
 
