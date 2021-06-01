@@ -95,7 +95,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSend_EncryptionLabel" min="-2" pref="69" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jSend_EncryptionDropdown" min="-2" pref="194" max="-2" attributes="0"/>
+                      <Component id="jSendEncryptionAlgo_ComboBox" min="-2" pref="194" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
@@ -141,7 +141,7 @@
                           <Component id="jSend_TestButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jSend_PassphraseLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="jSend_PassphrasePasswordbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="jSend_EncryptionDropdown" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jSendEncryptionAlgo_ComboBox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="jSend_EncryptionLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -220,7 +220,7 @@
                 <Property name="text" type="java.lang.String" value="Encryption"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jSend_EncryptionDropdown">
+            <Component class="javax.swing.JComboBox" name="jSendEncryptionAlgo_ComboBox">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">

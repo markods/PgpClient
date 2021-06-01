@@ -15,13 +15,13 @@ import org.bouncycastle.util.encoders.Hex;
  */
 public class Encryption {
     
-    public static enum SymmetricEncrptionAlgorithm {
+    public static enum SymmetricEncryptionAlgorithm {
         ELGAMAL_IDEA,
         ELGAMAL_3DES,
         NONE
     }
     
-    public static enum AsymmetricEncrptionAlgorithm {
+    public static enum AsymmetricEncryptionAlgorithm {
         ELGAMAL,
         DSA
     }
@@ -60,7 +60,7 @@ public class Encryption {
             byte[] message,
             PGPSecretKey senderSecretKey,
             PGPPublicKey receiverPublicKey,
-            SymmetricEncrptionAlgorithm encryptionAlgorithm,
+            SymmetricEncryptionAlgorithm encryptionAlgorithm,
             char[] senderPassphrase,
             boolean addSignature,
             boolean addCompression,
@@ -80,7 +80,7 @@ public class Encryption {
     }
     
     public static PublicPrivateKeyPair generateKeyPair(
-            AsymmetricEncrptionAlgorithm encryptionAlgorithm,
+            AsymmetricEncryptionAlgorithm encryptionAlgorithm,
             byte[] passphrase) {
         PublicPrivateKeyPair kp = new PublicPrivateKeyPair(
                 Hex.decode("e04fd020ea3a6910a2d808002b30309d"),

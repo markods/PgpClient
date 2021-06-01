@@ -12,6 +12,7 @@ import etf.openpgp.iu170057d_sm170081d.utils.Utils;
 import etf.openpgp.iu170057d_sm170081d.encryption.Encryption;
 import etf.openpgp.iu170057d_sm170081d.encryption.PGPKeys;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,7 +63,7 @@ public class App extends javax.swing.JFrame {
         jSend_BodyTextarea = new javax.swing.JTextArea();
         jSend_SendButton = new javax.swing.JButton();
         jSend_EncryptionLabel = new javax.swing.JLabel();
-        jSend_EncryptionDropdown = new javax.swing.JComboBox<>();
+        jSendEncryptionAlgo_ComboBox = new javax.swing.JComboBox<>();
         jSend_PassphraseLabel = new javax.swing.JLabel();
         jCompression_Checkbox = new javax.swing.JCheckBox();
         jRadix64_Checkbox = new javax.swing.JCheckBox();
@@ -145,7 +146,7 @@ public class App extends javax.swing.JFrame {
 
         jSend_EncryptionLabel.setText("Encryption");
 
-        jSend_EncryptionDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ElGamal + IDEA", "ElGamal + 3DES", "none" }));
+        jSendEncryptionAlgo_ComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ElGamal + IDEA", "ElGamal + 3DES", "none" }));
 
         jSend_PassphraseLabel.setText("Passphrase");
 
@@ -185,7 +186,7 @@ public class App extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jSend_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSend_EncryptionDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSendEncryptionAlgo_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37)
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jSend_TabLayout.createSequentialGroup()
@@ -222,7 +223,7 @@ public class App extends javax.swing.JFrame {
                     .addComponent(jSend_TestButton)
                     .addComponent(jSend_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSend_PassphrasePasswordbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSend_EncryptionDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSendEncryptionAlgo_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSend_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -596,11 +597,58 @@ public class App extends javax.swing.JFrame {
         boolean addCompression = jCompression_Checkbox.isSelected();
         boolean addConversionToRadix64 = jRadix64_Checkbox.isSelected();
         
+        // Read sender secret key
         PGPSecretKey senderSecretKey = null;
+        int senderKeyComboBoxIndex = jSendFrom_ComboBox.getSelectedIndex();
+        String senderNameAndKeyID = jSendFrom_ComboBox.getItemAt(senderKeyComboBoxIndex);
+        String[] splittedSenderNameAndKey = senderNameAndKeyID.split(" | ");
+        long senderKeyID = new BigInteger(splittedSenderNameAndKey[splittedSenderNameAndKey.length - 1], 16).longValue();
+        try {
+            PGPSecretKeyRing senderKeyRing = PGPKeys.findSecretKeyRing(senderKeyID);
+            Iterator<PGPSecretKey> keyIter = senderKeyRing.getSecretKeys();
+            senderSecretKey = keyIter.next();
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        // Read receiver public key
         PGPPublicKey receiverPublicKey = null;
+        int receiverKeyComboBoxIndex = jSendTo_ComboBox.getSelectedIndex();
+        String receiverNameAndKeyID = jSendTo_ComboBox.getItemAt(receiverKeyComboBoxIndex);
+        String[] splittedReceriverNameAndKey = senderNameAndKeyID.split(" | ");
+        long receiverKeyID = new BigInteger(splittedReceriverNameAndKey[splittedReceriverNameAndKey.length - 1], 16).longValue();
+        try {
+            PGPPublicKeyRing receiverKeyRing = PGPKeys.findPublicKeyRing(receiverKeyID);
+            Iterator<PGPPublicKey> keyIter = receiverKeyRing.getPublicKeys();
+            receiverPublicKey = keyIter.next();
+        } catch (IOException | PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        Encryption.SymmetricEncrptionAlgorithm encryptionAlgorithm = Encryption.SymmetricEncrptionAlgorithm.NONE;
+        // Read encryption algorithm
+        Encryption.SymmetricEncryptionAlgorithm encryptionAlgorithm = null;
+        int encryptionAlgorithmIndex = jSendEncryptionAlgo_ComboBox.getSelectedIndex();
+        switch (encryptionAlgorithmIndex) {
+            case 0:
+                {
+                    encryptionAlgorithm = Encryption.SymmetricEncryptionAlgorithm.ELGAMAL_IDEA;
+                    break;
+                }
+            case 1:
+                {
+                    encryptionAlgorithm = Encryption.SymmetricEncryptionAlgorithm.ELGAMAL_3DES;
+                    break;
+                }
+            case 2:
+                {
+                    encryptionAlgorithm = Encryption.SymmetricEncryptionAlgorithm.NONE;
+                    break;
+                }
+            default:
+                break;
+        }
         
+        // Read passphrase
         char[] senderPassphrase = jSend_PassphrasePasswordbox.getPassword();
         
         // Encryption
@@ -616,10 +664,7 @@ public class App extends javax.swing.JFrame {
         
         // TODO(Marko): Read the actual file path in a new dialog
         String encryptedFilePath = "C:\\Users\\User\\Desktop\\test.txt";
-        
-        // Store file
         Utils.writeToFile(encryptedFilePath, encryptedMessage);
-        
         jStatusbar.setText("Sent message.");
     }//GEN-LAST:event_jSend_SendButtonMouseClicked
 
@@ -826,7 +871,7 @@ public class App extends javax.swing.JFrame {
                     }
                 }
                 
-                jSendFrom_ComboBox.addItem(name + " " + email + Integer.toHexString((int) key.getKeyID()));                
+                jSendFrom_ComboBox.addItem(name + " " + email + " | " + Integer.toHexString((int) key.getKeyID()));                
             }
         } catch (IOException | PGPException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
@@ -994,10 +1039,10 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JComboBox<String> jSendEncryptionAlgo_ComboBox;
     private javax.swing.JComboBox<String> jSendFrom_ComboBox;
     private javax.swing.JComboBox<String> jSendTo_ComboBox;
     private javax.swing.JTextArea jSend_BodyTextarea;
-    private javax.swing.JComboBox<String> jSend_EncryptionDropdown;
     private javax.swing.JLabel jSend_EncryptionLabel;
     private javax.swing.JLabel jSend_FromLabel;
     private javax.swing.JLabel jSend_PassphraseLabel;
