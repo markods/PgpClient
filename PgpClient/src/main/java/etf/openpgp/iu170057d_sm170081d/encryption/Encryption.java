@@ -5,6 +5,8 @@
  */
 package etf.openpgp.iu170057d_sm170081d.encryption;
 
+import org.bouncycastle.openpgp.PGPPublicKey;
+import org.bouncycastle.openpgp.PGPSecretKey;
 import org.bouncycastle.util.encoders.Hex;
 
 /**
@@ -56,14 +58,13 @@ public class Encryption {
     // stub version
     public static byte[] encrypt(
             byte[] message,
-            byte[] senderSignaturePrivateKey,
-            byte[] senderConfidentialityPublicKey,
+            PGPSecretKey senderSecretKey,
+            PGPPublicKey receiverPublicKey,
             SymmetricEncrptionAlgorithm encryptionAlgorithm,
-            byte[] senderPassphrase,
-            boolean confidentiality,
-            boolean signature,
-            boolean compression,
-            boolean conversionToRadix64) {
+            char[] senderPassphrase,
+            boolean addSignature,
+            boolean addCompression,
+            boolean addConversionToRadix64) {
         return message.clone();
     }
 

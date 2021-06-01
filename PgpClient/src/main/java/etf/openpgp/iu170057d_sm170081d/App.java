@@ -67,7 +67,7 @@ public class App extends javax.swing.JFrame {
         jRadix64_Checkbox = new javax.swing.JCheckBox();
         jSend_TestButton = new javax.swing.JButton();
         jSend_PassphrasePasswordbox = new javax.swing.JPasswordField();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        jSignature_Checkbox = new javax.swing.JCheckBox();
         jRecv_Tab = new javax.swing.JPanel();
         jRecv_FromLabel = new javax.swing.JLabel();
         jRecv_ToLabel = new javax.swing.JLabel();
@@ -162,9 +162,9 @@ public class App extends javax.swing.JFrame {
 
         jSend_PassphrasePasswordbox.setText("passphrase");
 
-        jCheckBox1.setSelected(true);
-        jCheckBox1.setText("Signature");
-        jCheckBox1.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jSignature_Checkbox.setSelected(true);
+        jSignature_Checkbox.setText("Signature");
+        jSignature_Checkbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
         javax.swing.GroupLayout jSend_TabLayout = new javax.swing.GroupLayout(jSend_Tab);
         jSend_Tab.setLayout(jSend_TabLayout);
@@ -194,7 +194,7 @@ public class App extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jRadix64_Checkbox)
                         .addGap(18, 18, 18)
-                        .addComponent(jCheckBox1)
+                        .addComponent(jSignature_Checkbox)
                         .addContainerGap())
                     .addGroup(jSend_TabLayout.createSequentialGroup()
                         .addComponent(jSend_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -229,7 +229,7 @@ public class App extends javax.swing.JFrame {
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCompression_Checkbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRadix64_Checkbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox1)))
+                    .addComponent(jSignature_Checkbox)))
         );
 
         jTabs.addTab("Send email", jSend_Tab);
@@ -598,29 +598,27 @@ public class App extends javax.swing.JFrame {
         byte[] byteMessage = textMessage.getBytes();
         
         // Read encryption metadata
-        boolean confidentiality = false;
-        boolean signature = false;
-        boolean compression = false;
-        boolean conversionToRadix64 = false;
+        boolean addSignature = jSignature_Checkbox.isSelected();
+        boolean addCompression = jCompression_Checkbox.isSelected();
+        boolean addConversionToRadix64 = jRadix64_Checkbox.isSelected();
         
-        byte[] senderSignaturePrivateKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
-        byte[] senderConfidentialityPublicKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
+        PGPSecretKey senderSecretKey = null;
+        PGPPublicKey receiverPublicKey = null;
         
         Encryption.SymmetricEncrptionAlgorithm encryptionAlgorithm = Encryption.SymmetricEncrptionAlgorithm.NONE;
         
-        byte[] senderPassphrase = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
+        char[] senderPassphrase = jSend_PassphrasePasswordbox.getPassword();
         
         // Encryption
         byte[] encryptedMessage = Encryption.encrypt(
                 byteMessage,
-                senderSignaturePrivateKey,
-                senderConfidentialityPublicKey,
+                senderSecretKey,
+                receiverPublicKey,
                 encryptionAlgorithm,
                 senderPassphrase,
-                confidentiality,
-                signature,
-                compression,
-                conversionToRadix64);
+                addSignature,
+                addCompression,
+                addConversionToRadix64);
         
         // TODO(Marko): Read the actual file path in a new dialog
         String encryptedFilePath = "C:\\Users\\User\\Desktop\\test.txt";
@@ -628,7 +626,7 @@ public class App extends javax.swing.JFrame {
         // Store file
         Utils.writeToFile(encryptedFilePath, encryptedMessage);
         
-        System.out.println("INFO: Stored encrypted file.");
+        jStatusbar.setText("Sent message.");
     }//GEN-LAST:event_jSend_SendButtonMouseClicked
 
     private void jRecv_OpenButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRecv_OpenButtonMouseClicked
@@ -912,7 +910,6 @@ public class App extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCompression_Checkbox;
     private javax.swing.JButton jDeletePublicKey_Button;
     private javax.swing.JButton jExportPublicKey_Button;
@@ -967,6 +964,7 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JButton jSend_TestButton;
     private javax.swing.JComboBox<String> jSend_ToDropdown;
     private javax.swing.JLabel jSend_ToLabel;
+    private javax.swing.JCheckBox jSignature_Checkbox;
     private javax.swing.JTextField jStatusbar;
     private javax.swing.JTabbedPane jTabs;
     private javax.swing.JPanel randomjavaname;

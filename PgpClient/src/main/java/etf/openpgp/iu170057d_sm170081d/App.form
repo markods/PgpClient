@@ -103,7 +103,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jRadix64_Checkbox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                              <Component id="jSignature_Checkbox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
@@ -148,7 +148,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jCompression_Checkbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="jRadix64_Checkbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="jCheckBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jSignature_Checkbox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -276,7 +276,7 @@
                 <Property name="text" type="java.lang.String" value="passphrase"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+            <Component class="javax.swing.JCheckBox" name="jSignature_Checkbox">
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Signature"/>
