@@ -95,11 +95,11 @@ public class App extends javax.swing.JFrame {
         jExportPublicKey_Button = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jPrivateKeyRings_Table = new javax.swing.JTable();
         jPrivateKeyGenerate_Button = new javax.swing.JButton();
         jPrivateKeyImport_Button = new javax.swing.JButton();
         jPrivateKeyExport_Button = new javax.swing.JButton();
-        jPrivateKeyKeyName_TextField = new javax.swing.JTextField();
+        jPrivateKeyName_TextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jPrivateKeyPassphrase_TextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -180,7 +180,7 @@ public class App extends javax.swing.JFrame {
                     .addComponent(jSend_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSend_FromDropdown, 0, 638, Short.MAX_VALUE)
+                    .addComponent(jSend_FromDropdown, 0, 677, Short.MAX_VALUE)
                     .addComponent(jSend_ToDropdown, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSend_SendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -202,7 +202,7 @@ public class App extends javax.swing.JFrame {
                     .addGroup(jSend_TabLayout.createSequentialGroup()
                         .addComponent(jSend_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSend_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                        .addComponent(jSend_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSend_TestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
@@ -326,7 +326,7 @@ public class App extends javax.swing.JFrame {
                     .addGroup(jRecv_TabLayout.createSequentialGroup()
                         .addComponent(jRecv_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRecv_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                        .addComponent(jRecv_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRecv_DecryptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -371,7 +371,7 @@ public class App extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Email", "Public Key ID", "PublicKeyValue"
+                "Email", "Key Id", "PublicKeyValue"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -427,14 +427,14 @@ public class App extends javax.swing.JFrame {
             .addGroup(randomjavanameLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(randomjavanameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(randomjavanameLayout.createSequentialGroup()
                         .addComponent(jDeletePublicKey_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(86, 86, 86)
                         .addComponent(jImportPublicKey_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(92, 92, 92)
                         .addComponent(jExportPublicKey_Button)))
-                .addContainerGap(360, Short.MAX_VALUE))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
         randomjavanameLayout.setVerticalGroup(
             randomjavanameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -451,15 +451,28 @@ public class App extends javax.swing.JFrame {
 
         jTabs.addTab("Public Keys", randomjavaname);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jPrivateKeyRings_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Email", "Key Name", "Key Id"
+                "Name", "Email", "Key Id", "PrivateKeyId"
             }
-        ));
-        jScrollPane4.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, true, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(jPrivateKeyRings_Table);
+        if (jPrivateKeyRings_Table.getColumnModel().getColumnCount() > 0) {
+            jPrivateKeyRings_Table.getColumnModel().getColumn(3).setMinWidth(0);
+            jPrivateKeyRings_Table.getColumnModel().getColumn(3).setPreferredWidth(0);
+            jPrivateKeyRings_Table.getColumnModel().getColumn(3).setMaxWidth(0);
+        }
 
         jPrivateKeyGenerate_Button.setText("Generate");
 
@@ -467,7 +480,7 @@ public class App extends javax.swing.JFrame {
 
         jPrivateKeyExport_Button.setText("Export");
 
-        jLabel1.setText("Key Name");
+        jLabel1.setText("Name");
 
         jLabel2.setText("Passphrase");
 
@@ -495,20 +508,19 @@ public class App extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPrivateKeyImport_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPrivateKeyExport_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPrivateKeyName_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(134, 134, 134)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPrivateKeyEmail_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
-                        .addGap(43, 43, 43)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jPrivateKeyKeyName_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(274, 274, 274)
+                        .addGap(242, 242, 242)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPrivateKeyPassphrase_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)))
@@ -523,25 +535,29 @@ public class App extends javax.swing.JFrame {
                         .addGap(74, 74, 74)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))))
-                .addGap(80, 80, 80))
+                            .addComponent(jLabel5)))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(60, 60, 60))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel1))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jPrivateKeyPassphrase_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jPrivateKeyEmail_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPrivateKeyKeyName_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPrivateKeyName_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPrivateKeyEmail_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
@@ -557,7 +573,7 @@ public class App extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jPrivateKeyDSABits_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jPrivateKeyImport_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPrivateKeyExport_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -575,7 +591,7 @@ public class App extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jStatusbar)
-            .addComponent(jTabs, javax.swing.GroupLayout.DEFAULT_SIZE, 827, Short.MAX_VALUE)
+            .addComponent(jTabs, javax.swing.GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -762,6 +778,41 @@ public class App extends javax.swing.JFrame {
         }
     }
     
+    void populatePrivateKeyRingTable() {
+        try {
+            PGPSecretKeyRingCollection secretKeyRing = PGPKeys.getSecretKeysCollection();
+            
+            DefaultTableModel model = (DefaultTableModel) jPrivateKeyRings_Table.getModel();
+            int rowCount = model.getRowCount();
+            //Remove rows one by one from the end of the table
+            for (int i = rowCount - 1; i >= 0; i--) {
+                model.removeRow(i);
+            }
+                
+            Iterator<PGPSecretKeyRing> keyRingIter2 = PGPKeys.getSecretKeysCollection().getKeyRings();
+            while (keyRingIter2.hasNext()) {
+                PGPSecretKeyRing keyRing = keyRingIter2.next();
+
+                Iterator<PGPSecretKey> keyIter = keyRing.getSecretKeys();
+                PGPSecretKey key = keyIter.next();
+                
+                String nameAndEmail = (String) key.getUserIDs().next();
+                String[] parsed = nameAndEmail.split(" ");
+                String email = parsed[parsed.length - 1];
+                String name = "";
+                for (int i = 0; i < parsed.length - 1; i++) {
+                    name += parsed[i];
+                }
+                
+                model.addRow(new Object[]{name, email, Integer.toHexString((int) key.getKeyID()), key.getKeyID()});
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PGPException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -898,8 +949,9 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JButton jPrivateKeyExport_Button;
     private javax.swing.JButton jPrivateKeyGenerate_Button;
     private javax.swing.JButton jPrivateKeyImport_Button;
-    private javax.swing.JTextField jPrivateKeyKeyName_TextField;
+    private javax.swing.JTextField jPrivateKeyName_TextField;
     private javax.swing.JTextField jPrivateKeyPassphrase_TextField;
+    private javax.swing.JTable jPrivateKeyRings_Table;
     private javax.swing.JTable jPublicKeyRings_Table;
     private javax.swing.JTextArea jRecv_BodyTextarea;
     private javax.swing.JCheckBox jRecv_CompressedCheckbox;
@@ -939,7 +991,6 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jSend_ToDropdown;
     private javax.swing.JLabel jSend_ToLabel;
     private javax.swing.JTextField jStatusbar;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTabbedPane jTabs;
     private javax.swing.JPanel randomjavaname;
     // End of variables declaration//GEN-END:variables

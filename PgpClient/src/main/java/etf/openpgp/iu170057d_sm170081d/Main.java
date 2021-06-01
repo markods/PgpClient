@@ -18,6 +18,7 @@ public class Main {
         App app = new App();
         
         app.populatePublicKeyRingTable();
+        app.populatePrivateKeyRingTable();
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

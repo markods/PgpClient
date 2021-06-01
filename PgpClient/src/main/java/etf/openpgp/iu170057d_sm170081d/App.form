@@ -32,7 +32,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jStatusbar" max="32767" attributes="0"/>
-          <Component id="jTabs" alignment="0" pref="827" max="32767" attributes="0"/>
+          <Component id="jTabs" alignment="0" pref="866" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -84,7 +84,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jSend_FromDropdown" alignment="0" pref="638" max="32767" attributes="0"/>
+                          <Component id="jSend_FromDropdown" alignment="0" pref="677" max="32767" attributes="0"/>
                           <Component id="jSend_ToDropdown" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -111,7 +111,7 @@
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jSend_PassphraseLabel" min="-2" pref="77" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jSend_PassphrasePasswordbox" pref="330" max="32767" attributes="0"/>
+                              <Component id="jSend_PassphrasePasswordbox" pref="369" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jSend_TestButton" min="-2" pref="60" max="-2" attributes="0"/>
                           </Group>
@@ -350,7 +350,7 @@
                           <Group type="102" attributes="0">
                               <Component id="jRecv_PassphraseLabel" min="-2" pref="77" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jRecv_PassphrasePasswordbox" pref="330" max="32767" attributes="0"/>
+                              <Component id="jRecv_PassphrasePasswordbox" pref="369" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jRecv_DecryptButton" min="-2" pref="60" max="-2" attributes="0"/>
                           </Group>
@@ -523,8 +523,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane5" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Component id="jScrollPane5" min="-2" pref="752" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
                               <Component id="jDeletePublicKey_Button" min="-2" pref="89" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
                               <Component id="jImportPublicKey_Button" min="-2" pref="89" max="-2" attributes="0"/>
@@ -532,7 +532,7 @@
                               <Component id="jExportPublicKey_Button" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="360" max="32767" attributes="0"/>
+                      <EmptySpace pref="99" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -565,7 +565,7 @@
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="3" rowCount="0">
                         <Column editable="true" title="Email" type="java.lang.Object"/>
-                        <Column editable="true" title="Public Key ID" type="java.lang.Object"/>
+                        <Column editable="true" title="Key Id" type="java.lang.Object"/>
                         <Column editable="false" title="PublicKeyValue" type="java.lang.Object"/>
                       </Table>
                     </Property>
@@ -638,7 +638,6 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane4" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jPrivateKeyImport_Button" min="-2" pref="94" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -646,15 +645,15 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jPrivateKeyEmail_TextField" min="-2" pref="151" max="-2" attributes="0"/>
-                                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jPrivateKeyName_TextField" min="-2" pref="132" max="-2" attributes="0"/>
+                                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="134" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jPrivateKeyKeyName_TextField" min="-2" pref="132" max="-2" attributes="0"/>
+                                  <Component id="jPrivateKeyEmail_TextField" min="-2" pref="151" max="-2" attributes="0"/>
+                                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="274" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="242" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jPrivateKeyPassphrase_TextField" min="-2" pref="132" max="-2" attributes="0"/>
                                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
@@ -675,8 +674,9 @@
                                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
+                          <Component id="jScrollPane4" min="-2" pref="752" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -685,19 +685,24 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                       <Component id="jScrollPane4" min="-2" pref="147" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPrivateKeyPassphrase_TextField" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="jPrivateKeyEmail_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jPrivateKeyKeyName_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jPrivateKeyPassphrase_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPrivateKeyName_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPrivateKeyEmail_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
@@ -720,7 +725,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="51" max="32767" attributes="0"/>
+                      <EmptySpace pref="56" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jPrivateKeyImport_Button" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                           <Component id="jPrivateKeyExport_Button" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
@@ -738,13 +743,14 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable1">
+                <Component class="javax.swing.JTable" name="jPrivateKeyRings_Table">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="3" rowCount="0">
+                      <Table columnCount="4" rowCount="0">
+                        <Column editable="true" title="Name" type="java.lang.Object"/>
                         <Column editable="true" title="Email" type="java.lang.Object"/>
-                        <Column editable="true" title="Key Name" type="java.lang.Object"/>
                         <Column editable="true" title="Key Id" type="java.lang.Object"/>
+                        <Column editable="false" title="PrivateKeyId" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -760,6 +766,11 @@
                           <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="0" minWidth="0" prefWidth="0" resizable="true">
                           <Title/>
                           <Editor/>
                           <Renderer/>
@@ -788,11 +799,11 @@
                 <Property name="text" type="java.lang.String" value="Export"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jPrivateKeyKeyName_TextField">
+            <Component class="javax.swing.JTextField" name="jPrivateKeyName_TextField">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Key Name"/>
+                <Property name="text" type="java.lang.String" value="Name"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jPrivateKeyPassphrase_TextField">
