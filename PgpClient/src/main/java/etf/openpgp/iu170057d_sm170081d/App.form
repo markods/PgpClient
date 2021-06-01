@@ -84,34 +84,32 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jSend_FromDropdown" alignment="0" pref="677" max="32767" attributes="0"/>
+                          <Component id="jSend_FromDropdown" alignment="0" pref="650" max="32767" attributes="0"/>
                           <Component id="jSend_ToDropdown" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jSend_SendButton" min="-2" pref="60" max="-2" attributes="0"/>
+                      <Component id="jSend_SendButton" min="-2" pref="77" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jSend_EncryptionLabel" min="-2" pref="69" max="-2" attributes="0"/>
-                          <Component id="jSend_SignatureLabel" min="-2" pref="69" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jSend_EncryptionDropdown" pref="194" max="32767" attributes="0"/>
-                          <Component id="jSend_SignatureTextbox" pref="194" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jSend_EncryptionLabel" min="-2" pref="69" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jSend_EncryptionDropdown" min="-2" pref="194" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="jSend_CompressedCheckbox" min="-2" max="-2" attributes="0"/>
+                              <Component id="jCompression_Checkbox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jSend_EncodedCheckbox" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRadix64_Checkbox" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jSend_PassphraseLabel" min="-2" pref="77" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jSend_PassphrasePasswordbox" pref="369" max="32767" attributes="0"/>
+                              <Component id="jSend_PassphrasePasswordbox" pref="340" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jSend_TestButton" min="-2" pref="60" max="-2" attributes="0"/>
                           </Group>
@@ -137,23 +135,20 @@
                           <Component id="jSend_SendButton" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="311" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="315" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jSend_TestButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jSend_PassphraseLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                              <Component id="jSend_PassphrasePasswordbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="jSend_SignatureLabel" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="jSend_SignatureTextbox" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jSend_TestButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jSend_PassphraseLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jSend_PassphrasePasswordbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jSend_EncryptionDropdown" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jSend_EncryptionLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jSend_EncryptionLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="jSend_EncryptionDropdown" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="jSend_CompressedCheckbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="jSend_EncodedCheckbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jCompression_Checkbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jRadix64_Checkbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jCheckBox1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -233,17 +228,6 @@
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jSend_SendButtonMouseClicked"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="jSend_SignatureLabel">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Signature"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="jSend_SignatureTextbox">
-              <Properties>
-                <Property name="editable" type="boolean" value="false"/>
-                <Property name="text" type="java.lang.String" value="DSA 4096"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JLabel" name="jSend_EncryptionLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Encryption"/>
@@ -268,17 +252,17 @@
                 <Property name="text" type="java.lang.String" value="Passphrase"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jSend_CompressedCheckbox">
+            <Component class="javax.swing.JCheckBox" name="jCompression_Checkbox">
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Compressed "/>
                 <Property name="horizontalTextPosition" type="int" value="10"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jSend_EncodedCheckbox">
+            <Component class="javax.swing.JCheckBox" name="jRadix64_Checkbox">
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
-                <Property name="text" type="java.lang.String" value="Encoded "/>
+                <Property name="text" type="java.lang.String" value="Radix64 Encoding"/>
                 <Property name="horizontalTextPosition" type="int" value="10"/>
               </Properties>
             </Component>
@@ -290,6 +274,13 @@
             <Component class="javax.swing.JPasswordField" name="jSend_PassphrasePasswordbox">
               <Properties>
                 <Property name="text" type="java.lang.String" value="passphrase"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+              <Properties>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="Signature"/>
+                <Property name="horizontalTextPosition" type="int" value="10"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -351,8 +342,7 @@
                               <Component id="jRecv_PassphraseLabel" min="-2" pref="77" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jRecv_PassphrasePasswordbox" pref="369" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jRecv_DecryptButton" min="-2" pref="60" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -389,7 +379,6 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="jRecv_DecryptButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jRecv_PassphraseLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                               <Component id="jRecv_PassphrasePasswordbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           </Group>
@@ -472,11 +461,9 @@
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="10"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jRecv_DecryptButton">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Decr."/>
-              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRecv_EncodedCheckboxActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jRecv_EncryptionTextbox">
               <Properties>

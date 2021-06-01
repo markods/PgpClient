@@ -10,7 +10,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -65,9 +64,7 @@ public class PGPKeys {
             secretKeyRingCollection = new PGPSecretKeyRingCollection(new ArmoredInputStream(new FileInputStream(privateKeyFile)), new BcKeyFingerprintCalculator());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (PGPException e) {
+        } catch (IOException | PGPException e) {
             e.printStackTrace();
         }
     }
@@ -101,27 +98,27 @@ public class PGPKeys {
     }
         
     public static void saveSecretKeysToFile() throws IOException {
-        ArmoredOutputStream aos = new ArmoredOutputStream(new FileOutputStream(privateKeyFile));
-        secretKeyRingCollection.encode(aos);
-        aos.close();
+        try (ArmoredOutputStream aos = new ArmoredOutputStream(new FileOutputStream(privateKeyFile))) {
+            secretKeyRingCollection.encode(aos);
+        }
     }
         
     public static void savePublicKeysToFile() throws IOException {
-        ArmoredOutputStream aos = new ArmoredOutputStream(new FileOutputStream(publicKeyFile));
-        publicKeyRingCollection.encode(aos);
-        aos.close();
+        try (ArmoredOutputStream aos = new ArmoredOutputStream(new FileOutputStream(publicKeyFile))) {
+            publicKeyRingCollection.encode(aos);
+        }
     }
         
     public static void exportPublicKey(PGPPublicKeyRing publicKeyRing, File file) throws IOException {
-        ArmoredOutputStream aos = new ArmoredOutputStream(new FileOutputStream(file));
-        publicKeyRing.encode(aos);
-        aos.close();
+        try (ArmoredOutputStream aos = new ArmoredOutputStream(new FileOutputStream(file))) {
+            publicKeyRing.encode(aos);
+        }
     }
         
     public static void exportSecretKey(PGPSecretKeyRing publicKeyRing, File file) throws IOException {
-        ArmoredOutputStream aos = new ArmoredOutputStream(new FileOutputStream(file));
-        publicKeyRing.encode(aos);
-        aos.close();
+        try (ArmoredOutputStream aos = new ArmoredOutputStream(new FileOutputStream(file))) {
+            publicKeyRing.encode(aos);
+        }
     }
         
     public static void importPublicKey(File file) throws IOException, PGPException {

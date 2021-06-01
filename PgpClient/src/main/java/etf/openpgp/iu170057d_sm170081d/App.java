@@ -60,15 +60,14 @@ public class App extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jSend_BodyTextarea = new javax.swing.JTextArea();
         jSend_SendButton = new javax.swing.JButton();
-        jSend_SignatureLabel = new javax.swing.JLabel();
-        jSend_SignatureTextbox = new javax.swing.JTextField();
         jSend_EncryptionLabel = new javax.swing.JLabel();
         jSend_EncryptionDropdown = new javax.swing.JComboBox<>();
         jSend_PassphraseLabel = new javax.swing.JLabel();
-        jSend_CompressedCheckbox = new javax.swing.JCheckBox();
-        jSend_EncodedCheckbox = new javax.swing.JCheckBox();
+        jCompression_Checkbox = new javax.swing.JCheckBox();
+        jRadix64_Checkbox = new javax.swing.JCheckBox();
         jSend_TestButton = new javax.swing.JButton();
         jSend_PassphrasePasswordbox = new javax.swing.JPasswordField();
+        jCheckBox1 = new javax.swing.JCheckBox();
         jRecv_Tab = new javax.swing.JPanel();
         jRecv_FromLabel = new javax.swing.JLabel();
         jRecv_ToLabel = new javax.swing.JLabel();
@@ -81,7 +80,6 @@ public class App extends javax.swing.JFrame {
         jRecv_PassphraseLabel = new javax.swing.JLabel();
         jRecv_CompressedCheckbox = new javax.swing.JCheckBox();
         jRecv_EncodedCheckbox = new javax.swing.JCheckBox();
-        jRecv_DecryptButton = new javax.swing.JButton();
         jRecv_EncryptionTextbox = new javax.swing.JTextField();
         jRecv_SaveButton = new javax.swing.JButton();
         jRecv_FromTextbox = new javax.swing.JTextField();
@@ -146,28 +144,27 @@ public class App extends javax.swing.JFrame {
             }
         });
 
-        jSend_SignatureLabel.setText("Signature");
-
-        jSend_SignatureTextbox.setEditable(false);
-        jSend_SignatureTextbox.setText("DSA 4096");
-
         jSend_EncryptionLabel.setText("Encryption");
 
         jSend_EncryptionDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ElGamal + IDEA", "ElGamal + 3DES", "none" }));
 
         jSend_PassphraseLabel.setText("Passphrase");
 
-        jSend_CompressedCheckbox.setSelected(true);
-        jSend_CompressedCheckbox.setText("Compressed ");
-        jSend_CompressedCheckbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jCompression_Checkbox.setSelected(true);
+        jCompression_Checkbox.setText("Compressed ");
+        jCompression_Checkbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
-        jSend_EncodedCheckbox.setSelected(true);
-        jSend_EncodedCheckbox.setText("Encoded ");
-        jSend_EncodedCheckbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jRadix64_Checkbox.setSelected(true);
+        jRadix64_Checkbox.setText("Radix64 Encoding");
+        jRadix64_Checkbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
         jSend_TestButton.setText("Test");
 
         jSend_PassphrasePasswordbox.setText("passphrase");
+
+        jCheckBox1.setSelected(true);
+        jCheckBox1.setText("Signature");
+        jCheckBox1.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
         javax.swing.GroupLayout jSend_TabLayout = new javax.swing.GroupLayout(jSend_Tab);
         jSend_Tab.setLayout(jSend_TabLayout);
@@ -180,29 +177,29 @@ public class App extends javax.swing.JFrame {
                     .addComponent(jSend_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSend_FromDropdown, 0, 677, Short.MAX_VALUE)
+                    .addComponent(jSend_FromDropdown, 0, 650, Short.MAX_VALUE)
                     .addComponent(jSend_ToDropdown, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSend_SendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jSend_SendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(jSend_TabLayout.createSequentialGroup()
-                .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jSend_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSend_SignatureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addComponent(jSend_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jSend_EncryptionDropdown, 0, 194, Short.MAX_VALUE)
-                    .addComponent(jSend_SignatureTextbox, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addComponent(jSend_EncryptionDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jSend_TabLayout.createSequentialGroup()
-                        .addComponent(jSend_CompressedCheckbox)
+                        .addComponent(jCompression_Checkbox)
                         .addGap(18, 18, 18)
-                        .addComponent(jSend_EncodedCheckbox)
+                        .addComponent(jRadix64_Checkbox)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBox1)
                         .addContainerGap())
                     .addGroup(jSend_TabLayout.createSequentialGroup()
                         .addComponent(jSend_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSend_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
+                        .addComponent(jSend_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSend_TestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
@@ -220,21 +217,19 @@ public class App extends javax.swing.JFrame {
                             .addComponent(jSend_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jSend_SendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jSend_TestButton)
-                        .addComponent(jSend_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jSend_PassphrasePasswordbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSend_SignatureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSend_SignatureTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jSend_TestButton)
+                    .addComponent(jSend_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSend_PassphrasePasswordbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSend_EncryptionDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSend_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSend_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSend_EncryptionDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSend_CompressedCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSend_EncodedCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jCompression_Checkbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRadix64_Checkbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox1)))
         );
 
         jTabs.addTab("Send email", jSend_Tab);
@@ -274,8 +269,11 @@ public class App extends javax.swing.JFrame {
         jRecv_EncodedCheckbox.setText("Encoded ");
         jRecv_EncodedCheckbox.setEnabled(false);
         jRecv_EncodedCheckbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-
-        jRecv_DecryptButton.setText("Decr.");
+        jRecv_EncodedCheckbox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRecv_EncodedCheckboxActionPerformed(evt);
+            }
+        });
 
         jRecv_EncryptionTextbox.setEditable(false);
 
@@ -327,8 +325,7 @@ public class App extends javax.swing.JFrame {
                         .addComponent(jRecv_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRecv_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRecv_DecryptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(66, 66, 66))))
             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jRecv_TabLayout.setVerticalGroup(
@@ -356,7 +353,6 @@ public class App extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jRecv_DecryptButton)
                         .addComponent(jRecv_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jRecv_PassphrasePasswordbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -804,11 +800,18 @@ public class App extends javax.swing.JFrame {
             
             PGPKeys.addPublicKey(pgpKeyRingGenerator);
             PGPKeys.addSecretKey(pgpKeyRingGenerator);
+            PGPKeys.savePublicKeysToFile();
+            PGPKeys.saveSecretKeysToFile();
             populatePrivateKeyRingTable();
+            populatePublicKeyRingTable();
         } catch (Exception ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jPrivateKeyGenerate_ButtonMouseClicked
+
+    private void jRecv_EncodedCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRecv_EncodedCheckboxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRecv_EncodedCheckboxActionPerformed
     
     void populatePublicKeyRingTable() {
         try {
@@ -909,6 +912,8 @@ public class App extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCompression_Checkbox;
     private javax.swing.JButton jDeletePublicKey_Button;
     private javax.swing.JButton jExportPublicKey_Button;
     private javax.swing.JButton jImportPublicKey_Button;
@@ -929,9 +934,9 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JTextField jPrivateKeyPassphrase_TextField;
     private javax.swing.JTable jPrivateKeyRings_Table;
     private javax.swing.JTable jPublicKeyRings_Table;
+    private javax.swing.JCheckBox jRadix64_Checkbox;
     private javax.swing.JTextArea jRecv_BodyTextarea;
     private javax.swing.JCheckBox jRecv_CompressedCheckbox;
-    private javax.swing.JButton jRecv_DecryptButton;
     private javax.swing.JCheckBox jRecv_EncodedCheckbox;
     private javax.swing.JLabel jRecv_EncryptionLabel;
     private javax.swing.JTextField jRecv_EncryptionTextbox;
@@ -951,8 +956,6 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextArea jSend_BodyTextarea;
-    private javax.swing.JCheckBox jSend_CompressedCheckbox;
-    private javax.swing.JCheckBox jSend_EncodedCheckbox;
     private javax.swing.JComboBox<String> jSend_EncryptionDropdown;
     private javax.swing.JLabel jSend_EncryptionLabel;
     private javax.swing.JComboBox<String> jSend_FromDropdown;
@@ -960,8 +963,6 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JLabel jSend_PassphraseLabel;
     private javax.swing.JPasswordField jSend_PassphrasePasswordbox;
     private javax.swing.JButton jSend_SendButton;
-    private javax.swing.JLabel jSend_SignatureLabel;
-    private javax.swing.JTextField jSend_SignatureTextbox;
     private javax.swing.JPanel jSend_Tab;
     private javax.swing.JButton jSend_TestButton;
     private javax.swing.JComboBox<String> jSend_ToDropdown;
