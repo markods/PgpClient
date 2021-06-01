@@ -72,8 +72,7 @@ public class Encryption {
     // stub version
     public static DecryptedMessage decrypt(
             byte[] message,
-            byte[] senderPublicKey,
-            byte[] receiverPrivateKey) {
+            char[] receiverPassphrase) {
         String stubMessageAuthor = "stub-author";
         DecryptedMessage dm = new DecryptedMessage(message, false, false, stubMessageAuthor);
         return dm;

@@ -78,7 +78,7 @@ public class App extends javax.swing.JFrame {
         jRecv_PassphraseLabel = new javax.swing.JLabel();
         jRecv_SaveButton = new javax.swing.JButton();
         jRecv_FromTextbox = new javax.swing.JTextField();
-        jRecv_PassphrasePasswordbox = new javax.swing.JPasswordField();
+        jRecvPassphrase_PasswordField = new javax.swing.JPasswordField();
         randomjavaname = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jPublicKeyRings_Table = new javax.swing.JTable();
@@ -264,7 +264,7 @@ public class App extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jRecv_FromTextbox)
-                    .addComponent(jRecv_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE))
+                    .addComponent(jRecvPassphrase_PasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jRecv_SaveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -287,7 +287,7 @@ public class App extends javax.swing.JFrame {
                 .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jRecv_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jRecv_PassphrasePasswordbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jRecvPassphrase_PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jRecv_SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -611,19 +611,16 @@ public class App extends javax.swing.JFrame {
         // TODO(Marko): Read the actual file path in a new dialog
         String encryptedFilePath = "C:\\Users\\User\\Desktop\\test.txt";
         
-        // Decryption metadata
+        // Read encrypted message
         byte[] encryptedMessage = Utils.readFromFile(encryptedFilePath);
-        byte[] receiverPassphrase = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
         
-        // Read key values
-        byte[] senderPublicKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
-        byte[] receiverPrivateKey = Hex.decode("e04fd020ea3a6910a2d808002b30309d");
-        
+        // Read passphrase to be used if necessery
+        char[] receiverPassphrase = jRecvPassphrase_PasswordField.getPassword();
+                
         // Decryption
         Encryption.DecryptedMessage decryptedMessage = Encryption.decrypt(
                 encryptedMessage,
-                senderPublicKey,
-                receiverPrivateKey);
+                receiverPassphrase);
         String dectryptedMessage = new String(decryptedMessage.decryptedMessage);
         
         // Write output
@@ -958,12 +955,12 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JTable jPrivateKeyRings_Table;
     private javax.swing.JTable jPublicKeyRings_Table;
     private javax.swing.JCheckBox jRadix64_Checkbox;
+    private javax.swing.JPasswordField jRecvPassphrase_PasswordField;
     private javax.swing.JTextArea jRecv_BodyTextarea;
     private javax.swing.JLabel jRecv_FromLabel;
     private javax.swing.JTextField jRecv_FromTextbox;
     private javax.swing.JButton jRecv_OpenButton;
     private javax.swing.JLabel jRecv_PassphraseLabel;
-    private javax.swing.JPasswordField jRecv_PassphrasePasswordbox;
     private javax.swing.JButton jRecv_SaveButton;
     private javax.swing.JPanel jRecv_Tab;
     private javax.swing.JScrollPane jScrollPane1;
