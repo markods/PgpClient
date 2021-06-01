@@ -19,13 +19,12 @@ public class Main {
         
         app.populatePublicKeyRingTable();
         app.populatePrivateKeyRingTable();
+        // TODO(Uros): Call these event whenever send or receive pages are opened
         app.populateSendMessageFromComboBox();
         app.populateSendMessageToComboBox();
         
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                app.setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            app.setVisible(true);
         });
     }
     

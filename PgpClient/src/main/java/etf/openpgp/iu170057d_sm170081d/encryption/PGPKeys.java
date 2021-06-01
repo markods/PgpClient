@@ -60,8 +60,14 @@ public class PGPKeys {
         }
         
         try {
-            publicKeyRingCollection = new PGPPublicKeyRingCollection(new ArmoredInputStream(new FileInputStream(publicKeyFile)), new BcKeyFingerprintCalculator());
-            secretKeyRingCollection = new PGPSecretKeyRingCollection(new ArmoredInputStream(new FileInputStream(privateKeyFile)), new BcKeyFingerprintCalculator());
+            publicKeyRingCollection = new PGPPublicKeyRingCollection(
+                    new ArmoredInputStream(
+                            new FileInputStream(publicKeyFile)),
+                            new BcKeyFingerprintCalculator());
+            secretKeyRingCollection = new PGPSecretKeyRingCollection(
+                    new ArmoredInputStream(
+                            new FileInputStream(privateKeyFile)),
+                            new BcKeyFingerprintCalculator());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException | PGPException e) {
@@ -71,11 +77,13 @@ public class PGPKeys {
 
     private PGPKeys() {}
     
-    public static PGPSecretKeyRingCollection getSecretKeysCollection() throws IOException, PGPException{
+    public static PGPSecretKeyRingCollection getSecretKeysCollection() 
+            throws IOException, PGPException {
         return secretKeyRingCollection;
     }
        
-    public static PGPPublicKeyRingCollection getPublicKeysCollection() throws IOException, PGPException{
+    public static PGPPublicKeyRingCollection getPublicKeysCollection() 
+            throws IOException, PGPException {
         return publicKeyRingCollection;
     }
    
@@ -142,20 +150,12 @@ public class PGPKeys {
             secretKeyRingCollection = PGPSecretKeyRingCollection.addSecretKeyRing(secretKeyRingCollection, keyRing);
         }
     }
-        /**
-         * 
-         * @param dsaKeyPair - the generated DSA key pair
-         * @param elGamalKeyPair - the generated El Gamal key pair
-         * @param identity - the given identity of the key pair ring
-         * @param passphrase - the secret pass phrase to protect the key pair
-         * @return a PGP Key Ring Generate with the El Gamal key pair added as sub key
-         * @throws Exception
-         */
+
     public static final PGPKeyRingGenerator createPGPKeyRingGenerator(
             KeyPair dsaKeyPair,
             KeyPair elGamalKeyPair,
             String identity, 
-           char[] passphrase) throws Exception {
+            char[] passphrase) throws Exception {
         PGPKeyPair dsaPgpKeyPair = new JcaPGPKeyPair(PGPPublicKey.DSA, dsaKeyPair, new Date());
         PGPKeyPair elGamalPgpKeyPair = new JcaPGPKeyPair(PGPPublicKey.ELGAMAL_ENCRYPT, elGamalKeyPair, new Date());
         PGPDigestCalculator sha1Calc = new JcaPGPDigestCalculatorProviderBuilder().build().get(HashAlgorithmTags.SHA1);
@@ -174,14 +174,7 @@ public class PGPKeys {
 
         return keyRingGen;
     }
-
-    /**
-     * 
-     * @param keySize 512 - 1024 (multiple of 64)
-     * @return the DSA generated key pair
-     * @throws NoSuchProviderException 
-     * @throws NoSuchAlgorithmException 
-     */
+    
     public static final KeyPair generateDsaKeyPair(int keySize) 
             throws NoSuchAlgorithmException, NoSuchProviderException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("DSA", "BC");
@@ -190,12 +183,6 @@ public class PGPKeys {
         return keyPair;
     }
 
-    /**
-     * 
-     * @param keySize - 1024, 2048, 4096
-     * @return the El Gamal generated key pair
-     * @throws Exception 
-     */
     public static final KeyPair generateElGamalKeyPair(int keySize) throws Exception {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("ELGAMAL", "BC");
         keyPairGenerator.initialize(keySize);
@@ -203,12 +190,6 @@ public class PGPKeys {
         return keyPair;
     }
 
-    /**
-     * 
-     * @param paramSpecs - the pre-defined parameter specs
-     * @return the El Gamal generated key pair
-     * @throws Exception
-     */
     public static final KeyPair generateElGamalKeyPair(ElGamalParameterSpec paramSpecs) throws Exception {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("ELGAMAL", "BC");
         keyPairGenerator.initialize(paramSpecs);
@@ -225,14 +206,14 @@ public class PGPKeys {
         while (keyRingIter.hasNext() && pubKey == null) {
             keyRing = keyRingIter.next();
 
-               Iterator<PGPPublicKey> keyIter = keyRing.getPublicKeys();
-               while (keyIter.hasNext()) {
-                       PGPPublicKey key = keyIter.next();
-                       if ((key.getKeyID() == id)) {
-                               pubKey = key;
-                               break;
-                       }
-               }
+            Iterator<PGPPublicKey> keyIter = keyRing.getPublicKeys();
+            while (keyIter.hasNext()) {
+                PGPPublicKey key = keyIter.next();
+                if ((key.getKeyID() == id)) {
+                    pubKey = key;
+                    break;
+                }
+            }
        }
 
         if (pubKey != null) {
@@ -270,6 +251,6 @@ public class PGPKeys {
             System.out.println("null");
             throw new IllegalArgumentException("Can't find signing key in key ring.");
         }
-   }
+    }
 }
 

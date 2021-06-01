@@ -7,12 +7,8 @@ package etf.openpgp.iu170057d_sm170081d.encryption;
 
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPSecretKey;
-import org.bouncycastle.util.encoders.Hex;
 
-/**
- *
- * @author User
- */
+
 public class Encryption {
     
     public static enum SymmetricEncryptionAlgorithm {
