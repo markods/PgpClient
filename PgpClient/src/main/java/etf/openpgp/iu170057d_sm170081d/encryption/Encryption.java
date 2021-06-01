@@ -20,12 +20,7 @@ public class Encryption {
         ELGAMAL_3DES,
         NONE
     }
-    
-    public static enum AsymmetricEncryptionAlgorithm {
-        ELGAMAL,
-        DSA
-    }
-    
+
     public static class DecryptedMessage {
         public final byte[] decryptedMessage;
         public final boolean messageIntegrity;
@@ -41,16 +36,6 @@ public class Encryption {
             this.messageIntegrity = messageIntegrity;
             this.messageSigned = messageSigned;
             this.messageAuthor = messageAuthor;
-        }
-    }
-    
-    public static class PublicPrivateKeyPair {
-        public final byte[] privateKey;
-        public final byte[] publicKey;
-        
-        public PublicPrivateKeyPair(byte[] privateKey, byte[] publicKey) {
-            this.privateKey = privateKey;
-            this.publicKey = publicKey;
         }
     }
     
@@ -76,14 +61,5 @@ public class Encryption {
         String stubMessageAuthor = "stub-author";
         DecryptedMessage dm = new DecryptedMessage(message, false, false, stubMessageAuthor);
         return dm;
-    }
-    
-    public static PublicPrivateKeyPair generateKeyPair(
-            AsymmetricEncryptionAlgorithm encryptionAlgorithm,
-            byte[] passphrase) {
-        PublicPrivateKeyPair kp = new PublicPrivateKeyPair(
-                Hex.decode("e04fd020ea3a6910a2d808002b30309d"),
-                Hex.decode("e04fd020ea3a6910a2d808002b30309d"));
-        return kp;
     }   
 }
