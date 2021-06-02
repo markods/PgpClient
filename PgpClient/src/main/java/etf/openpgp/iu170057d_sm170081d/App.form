@@ -32,14 +32,14 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jStatusbar" max="32767" attributes="0"/>
-          <Component id="jTabs" alignment="0" pref="866" max="32767" attributes="0"/>
+          <Component id="jTabs" pref="740" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="jTabs" pref="539" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
+              <Component id="jTabs" pref="494" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               <Component id="jStatusbar" min="-2" pref="26" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -54,6 +54,9 @@
           <Dimension value="[640, 480]"/>
         </Property>
       </Properties>
+      <AccessibilityProperties>
+        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
+      </AccessibilityProperties>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
@@ -76,79 +79,73 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="jSend_CompressionCheckbox" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jRadix64_Checkbox" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jSignature_Checkbox" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jSend_FromLabel" alignment="0" min="-2" pref="54" max="-2" attributes="0"/>
                           <Component id="jSend_ToLabel" min="-2" pref="54" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jSendFrom_ComboBox" alignment="0" pref="650" max="32767" attributes="0"/>
-                          <Component id="jSendTo_ComboBox" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jSend_FromComboBox" max="32767" attributes="0"/>
+                          <Component id="jSend_ToComboBox" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSend_SendButton" min="-2" pref="77" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSend_EncryptionLabel" min="-2" pref="69" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jSendEncryptionAlgo_ComboBox" min="-2" pref="194" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="jCompression_Checkbox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jRadix64_Checkbox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jSignature_Checkbox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="jSend_PassphraseLabel" min="-2" pref="77" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jSend_PassphrasePasswordbox" pref="340" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jSend_TestButton" min="-2" pref="60" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <Component id="jSend_EncryptionCombobox" min="-2" pref="146" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="jSend_PassphraseLabel" min="-2" pref="77" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jSend_PassphrasePasswordbox" pref="272" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jSend_TestButton" min="-2" pref="60" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jSend_FromLabel" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Component id="jSendFrom_ComboBox" min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Component id="jSend_FromComboBox" min="-2" pref="26" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jSendTo_ComboBox" min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Component id="jSend_ToComboBox" min="-2" pref="26" max="-2" attributes="0"/>
                                   <Component id="jSend_ToLabel" min="-2" pref="26" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Component id="jSend_SendButton" max="32767" attributes="0"/>
+                          <Component id="jSend_SendButton" min="-2" pref="58" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="320" max="32767" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" pref="260" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jSend_TestButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jSend_PassphraseLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="jSend_PassphrasePasswordbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="jSendEncryptionAlgo_ComboBox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jSend_EncryptionCombobox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="jSend_EncryptionLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jCompression_Checkbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jSend_CompressionCheckbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="jRadix64_Checkbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="jSignature_Checkbox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jSignature_Checkbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -165,7 +162,7 @@
                 <Property name="text" type="java.lang.String" value="To"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jSendFrom_ComboBox">
+            <Component class="javax.swing.JComboBox" name="jSend_FromComboBox">
               <Properties>
                 <Property name="maximumRowCount" type="int" value="16"/>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -176,7 +173,7 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jSendTo_ComboBox">
+            <Component class="javax.swing.JComboBox" name="jSend_ToComboBox">
               <Properties>
                 <Property name="maximumRowCount" type="int" value="16"/>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -220,7 +217,7 @@
                 <Property name="text" type="java.lang.String" value="Encryption"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jSendEncryptionAlgo_ComboBox">
+            <Component class="javax.swing.JComboBox" name="jSend_EncryptionCombobox">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">
@@ -239,7 +236,7 @@
                 <Property name="text" type="java.lang.String" value="Passphrase"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jCompression_Checkbox">
+            <Component class="javax.swing.JCheckBox" name="jSend_CompressionCheckbox">
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Compressed "/>
@@ -259,9 +256,6 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JPasswordField" name="jSend_PassphrasePasswordbox">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="passphrase"/>
-              </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="jSignature_Checkbox">
               <Properties>
@@ -296,46 +290,39 @@
                           <Component id="jRecv_PassphraseLabel" min="-2" pref="77" max="-2" attributes="0"/>
                           <Component id="jRecv_FromLabel" min="-2" pref="54" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jRecv_FromTextbox" max="32767" attributes="0"/>
-                          <Component id="jRecvPassphrase_PasswordField" pref="622" max="32767" attributes="0"/>
+                          <Component id="jRecv_PassphrasePasswordbox" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jRecv_SaveButton" max="32767" attributes="0"/>
-                          <Component id="jRecv_OpenButton" pref="76" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jRecv_OpenButton" min="-2" pref="76" max="-2" attributes="0"/>
+                          <Component id="jRecv_SaveButton" min="-2" pref="76" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane2" pref="801" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" pref="678" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="0" pref="4" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jRecv_FromLabel" alignment="1" min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Component id="jRecv_FromTextbox" min="-2" pref="26" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Component id="jRecv_OpenButton" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jRecv_FromLabel" alignment="1" min="-2" pref="26" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jRecv_PassphraseLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                              <Component id="jRecvPassphrase_PasswordField" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="jRecv_FromTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="jRecv_OpenButton" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jRecv_SaveButton" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="35" max="32767" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="306" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jRecv_PassphraseLabel" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jRecv_PassphrasePasswordbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="jRecv_SaveButton" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" pref="327" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -388,11 +375,18 @@
                 <Property name="editable" type="boolean" value="false"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JPasswordField" name="jRecvPassphrase_PasswordField">
+            <Component class="javax.swing.JPasswordField" name="jRecv_PassphrasePasswordbox">
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="randomjavaname">
+        <Container class="javax.swing.JPanel" name="jPubl_Tab">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                <EmptyBorder bottom="25" left="30" right="30" top="25"/>
+              </Border>
+            </Property>
+          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Public Keys">
@@ -404,34 +398,27 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane5" min="-2" pref="752" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="jDeletePublicKey_Button" min="-2" pref="89" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
-                              <Component id="jImportPublicKey_Button" min="-2" pref="89" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
-                              <Component id="jExportPublicKey_Button" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace pref="99" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jPubl_DeleteButton" min="-2" pref="94" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="jPubl_ImportButton" min="-2" pref="94" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Component id="jPubl_ExportButton" min="-2" pref="94" max="-2" attributes="0"/>
+                      <EmptySpace min="345" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="jScrollPane5" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane5" min="-2" pref="176" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                      <Component id="jScrollPane5" pref="348" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jDeletePublicKey_Button" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                          <Component id="jImportPublicKey_Button" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                          <Component id="jExportPublicKey_Button" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="jPubl_DeleteButton" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                          <Component id="jPubl_ImportButton" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                          <Component id="jPubl_ExportButton" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="240" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -444,7 +431,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jPublicKeyRings_Table">
+                <Component class="javax.swing.JTable" name="jPubl_PublicKeyringsTable">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="3" rowCount="0">
@@ -479,33 +466,40 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="jDeletePublicKey_Button">
+            <Component class="javax.swing.JButton" name="jPubl_DeleteButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Delete"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jDeletePublicKey_ButtonMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPubl_DeleteButtonMouseClicked"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jImportPublicKey_Button">
+            <Component class="javax.swing.JButton" name="jPubl_ImportButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Import"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jImportPublicKey_ButtonMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPubl_ImportButtonMouseClicked"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jExportPublicKey_Button">
+            <Component class="javax.swing.JButton" name="jPubl_ExportButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Export"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jExportPublicKey_ButtonMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPubl_ExportButtonMouseClicked"/>
               </Events>
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel1">
+        <Container class="javax.swing.JPanel" name="jPriv_Tab">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                <EmptyBorder bottom="25" left="30" right="30" top="25"/>
+              </Border>
+            </Property>
+          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Private Keys">
@@ -518,78 +512,83 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
+                      <Component id="jPriv_DeleteButton" min="-2" pref="94" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="jPriv_ImportButton" min="-2" pref="94" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jPriv_ExportButton" min="-2" pref="94" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="jPriv_GenerateButton" min="-2" pref="94" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jPriv_NameLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPriv_NameTextbox" pref="171" max="32767" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="jPrivateKeyImport_Button" min="-2" pref="94" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jPrivateKeyExport_Button" min="-2" pref="94" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jPrivateKeyName_TextField" min="-2" pref="132" max="-2" attributes="0"/>
-                                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jPrivateKeyEmail_TextField" alignment="0" min="-2" pref="151" max="-2" attributes="0"/>
-                                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jPrivateKeyPassphrase_TextField" alignment="0" min="-2" pref="132" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jPrivateKeyDSABits_ComboBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jPrivateKeyElGamalBits_ComboBox" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Component id="jScrollPane4" min="-2" pref="752" max="-2" attributes="0"/>
-                          <Component id="jPrivateKeyDelete_Button" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
-                          <Component id="jPrivateKeyGenerate_Button" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
+                          <Component id="jPriv_EmailTextbox" alignment="0" pref="171" max="32767" attributes="0"/>
+                          <Component id="jPriv_EmailLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="99" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jPriv_PassphraseLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPriv_PassphraseTextbox" pref="172" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jPriv_DSABitsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPriv_DSABitsCombobox" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jPriv_ElGamalBitsLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPriv_ElGamalBitsCombobox" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
+                  <Component id="jScrollPane4" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                      <Component id="jScrollPane4" min="-2" pref="147" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jPrivateKeyPassphrase_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jPrivateKeyName_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jPrivateKeyEmail_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jPrivateKeyDSABits_ComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jPrivateKeyElGamalBits_ComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jScrollPane4" pref="282" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jPrivateKeyGenerate_Button" min="-2" pref="32" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                      <Component id="jPrivateKeyDelete_Button" min="-2" pref="32" max="-2" attributes="0"/>
-                      <EmptySpace pref="64" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jPrivateKeyImport_Button" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                          <Component id="jPrivateKeyExport_Button" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jPriv_EmailLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jPriv_NameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jPriv_PassphraseLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jPriv_PassphraseTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Component id="jPriv_NameTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Component id="jPriv_EmailTextbox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jPriv_ElGamalBitsLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                              <Component id="jPriv_ElGamalBitsCombobox" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jPriv_DSABitsLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                              <Component id="jPriv_DSABitsCombobox" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jPriv_ImportButton" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                          <Component id="jPriv_ExportButton" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                          <Component id="jPriv_DeleteButton" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                          <Component id="jPriv_GenerateButton" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -602,7 +601,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jPrivateKeyRings_Table">
+                <Component class="javax.swing.JTable" name="jPriv_PrivateKeyringsTable">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="0">
@@ -643,60 +642,60 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="jPrivateKeyGenerate_Button">
+            <Component class="javax.swing.JButton" name="jPriv_GenerateButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Generate"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPrivateKeyGenerate_ButtonMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPriv_GenerateButtonMouseClicked"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jPrivateKeyImport_Button">
+            <Component class="javax.swing.JButton" name="jPriv_ImportButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Import"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPrivateKeyImport_ButtonMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPriv_ImportButtonMouseClicked"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jPrivateKeyExport_Button">
+            <Component class="javax.swing.JButton" name="jPriv_ExportButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Export"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPrivateKeyExport_ButtonMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPriv_ExportButtonMouseClicked"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="jPrivateKeyName_TextField">
+            <Component class="javax.swing.JTextField" name="jPriv_NameTextbox">
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel1">
+            <Component class="javax.swing.JLabel" name="jPriv_NameLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Name"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jPrivateKeyPassphrase_TextField">
+            <Component class="javax.swing.JTextField" name="jPriv_PassphraseTextbox">
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel2">
+            <Component class="javax.swing.JLabel" name="jPriv_PassphraseLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Passphrase"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jPrivateKeyEmail_TextField">
+            <Component class="javax.swing.JTextField" name="jPriv_EmailTextbox">
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel3">
+            <Component class="javax.swing.JLabel" name="jPriv_EmailLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Email"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jPrivateKeyDelete_Button">
+            <Component class="javax.swing.JButton" name="jPriv_DeleteButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Delete"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPrivateKeyDelete_ButtonMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPriv_DeleteButtonMouseClicked"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jPrivateKeyDSABits_ComboBox">
+            <Component class="javax.swing.JComboBox" name="jPriv_DSABitsCombobox">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="2">
@@ -709,17 +708,17 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel4">
+            <Component class="javax.swing.JLabel" name="jPriv_DSABitsLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="DSA bits"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel5">
+            <Component class="javax.swing.JLabel" name="jPriv_ElGamalBitsLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="ElGamal bits"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jPrivateKeyElGamalBits_ComboBox">
+            <Component class="javax.swing.JComboBox" name="jPriv_ElGamalBitsCombobox">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">

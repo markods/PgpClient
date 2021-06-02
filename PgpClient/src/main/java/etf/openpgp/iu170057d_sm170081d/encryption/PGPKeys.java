@@ -12,6 +12,7 @@ import java.security.NoSuchProviderException;
 import java.security.Security;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.logging.Level;
 
 import org.bouncycastle.bcpg.ArmoredInputStream;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
@@ -38,9 +39,8 @@ import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyEncryptorBuilder;
 
 public class PGPKeys {
 
-    // TODO(Uros): This should be system specific
-    private static final File publicKeyFile = new File("C:\\Users\\User\\Desktop\\public.asc");
-    private static final File privateKeyFile = new File("C:\\Users\\User\\Desktop\\secret.asc");
+    private static final File publicKeyFile = new File("./settings/public.asc");
+    private static final File privateKeyFile = new File("./settings/secret.asc");
         
     private static PGPPublicKeyRingCollection publicKeyRingCollection;
     private static PGPSecretKeyRingCollection secretKeyRingCollection; 
@@ -50,20 +50,60 @@ public class PGPKeys {
             Security.addProvider(new BouncyCastleProvider());
         }
         
-        try {
-            publicKeyRingCollection = new PGPPublicKeyRingCollection(
-                    new ArmoredInputStream(
-                            new FileInputStream(publicKeyFile)),
-                            new BcKeyFingerprintCalculator());
-            secretKeyRingCollection = new PGPSecretKeyRingCollection(
-                    new ArmoredInputStream(
-                            new FileInputStream(privateKeyFile)),
-                            new BcKeyFingerprintCalculator());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException | PGPException e) {
-            e.printStackTrace();
+        {
+            boolean useEmptyPublicKeyring = false;
+
+            try {
+                publicKeyRingCollection = new PGPPublicKeyRingCollection(
+                        new ArmoredInputStream(
+                                new FileInputStream(publicKeyFile)),
+                                new BcKeyFingerprintCalculator());
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log( Level.INFO, "Public keyring file missing from settings; recreating as empty keyring." );
+                useEmptyPublicKeyring = true;
+            } catch( PGPException ex ) {
+                java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                System.exit(1);
+            }
+            
+            if( useEmptyPublicKeyring )
+            {
+                try {
+                    publicKeyRingCollection = new PGPPublicKeyRingCollection( new java.util.ArrayList<PGPPublicKeyRing>() );
+                } catch( IOException | PGPException ex ) {
+                    java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    System.exit(1);
+                }
+            }
         }
+        
+        {
+            boolean useEmptySecretKeyring = false;
+
+            try {
+                secretKeyRingCollection = new PGPSecretKeyRingCollection(
+                        new ArmoredInputStream(
+                                new FileInputStream(privateKeyFile)),
+                                new BcKeyFingerprintCalculator());
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log( Level.INFO, "Secret keyring file missing from settings; recreating as empty keyring." );
+                useEmptySecretKeyring = true;
+            } catch( PGPException ex ) {
+                java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                System.exit(1);
+            }
+        
+            if( useEmptySecretKeyring )
+            {
+                try {
+                    secretKeyRingCollection = new PGPSecretKeyRingCollection( new java.util.ArrayList<PGPSecretKeyRing>() );
+                } catch( IOException | PGPException ex ) {
+                    java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    System.exit(1);
+                }
+            }
+        }
+        
     }
 
     private PGPKeys() {}
