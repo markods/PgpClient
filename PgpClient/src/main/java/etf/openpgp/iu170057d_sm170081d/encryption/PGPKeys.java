@@ -281,7 +281,7 @@ public class PGPKeys {
             return keyRing;
         }
         else {
-            System.out.println("null");
+            System.out.println("null " + id);
             throw new IllegalArgumentException("Can't find signing key in key ring.");
         }
     }

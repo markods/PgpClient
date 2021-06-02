@@ -563,7 +563,7 @@ public class App extends javax.swing.JFrame
         long senderKeyID = new BigInteger( splittedSenderNameAndKey[ splittedSenderNameAndKey.length - 1 ], 16 ).longValue();
         try
         {
-            PGPSecretKeyRing senderKeyRing = PGPKeys.findSecretKeyRing( senderKeyID );
+            PGPSecretKeyRing senderKeyRing = PGPKeys.findSecretKeyRing(senderKeyID);
             Iterator<PGPSecretKey> keyIter = senderKeyRing.getSecretKeys();
             senderSecretKey = keyIter.next();
         }
@@ -578,8 +578,8 @@ public class App extends javax.swing.JFrame
         int receiverKeyComboBoxIndex = jSend_ToComboBox.getSelectedIndex();
         // TODO(Uros): should we do something with this?
         String receiverNameAndKeyID = jSend_ToComboBox.getItemAt( receiverKeyComboBoxIndex );
-        String[] splittedReceriverNameAndKey = senderNameAndKeyID.split( " | " );
-        long receiverKeyID = new BigInteger( splittedReceriverNameAndKey[ splittedReceriverNameAndKey.length - 1 ], 16 ).longValue();
+        String[] splittedReceiverNameAndKey = receiverNameAndKeyID.split( " | " );
+        long receiverKeyID = new BigInteger( splittedReceiverNameAndKey[ splittedReceiverNameAndKey.length - 1 ], 16 ).longValue();
         try
         {
             PGPPublicKeyRing receiverKeyRing = PGPKeys.findPublicKeyRing( receiverKeyID );
@@ -895,8 +895,6 @@ public class App extends javax.swing.JFrame
 
         try
         {
-            PGPSecretKeyRingCollection secretKeyRing = PGPKeys.getSecretKeysCollection();
-
             Iterator<PGPSecretKeyRing> iter = PGPKeys.getSecretKeysCollection().getKeyRings();
             while( iter.hasNext() )
             {
@@ -933,8 +931,6 @@ public class App extends javax.swing.JFrame
 
         try
         {
-            PGPPublicKeyRingCollection publicKeyRing = PGPKeys.getPublicKeysCollection();
-
             Iterator<PGPPublicKeyRing> iter = PGPKeys.getPublicKeysCollection().getKeyRings();
             while( iter.hasNext() )
             {
