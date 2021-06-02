@@ -1,7 +1,5 @@
 package etf.openpgp.iu170057d_sm170081d;
 
-import etf.openpgp.iu170057d_sm170081d.App;
-
 public class Main {
     
     /* Set the Nimbus look and feel (preferably)

@@ -1,6 +1,8 @@
 package etf.openpgp.iu170057d_sm170081d.utils;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -22,7 +24,7 @@ public class FileUtils {
     
     public static byte[] readFromFile(String filePath) {
         File file = new File(filePath);
-        try (FileInputStream fin = new FileInputStream(file)) { 
+        try (FileInputStream fin = new FileInputStream(file)) {
             byte fileContent[] = new byte[(int)file.length()];             
             fin.read(fileContent);
             return fileContent;
@@ -33,6 +35,18 @@ public class FileUtils {
         }
         
         return null;
+    }
+    
+    public static void ensureFileExists(File file) throws FileNotFoundException {
+        file.getParentFile().mkdirs();
+
+        try {
+            file.createNewFile();
+        } catch( IOException ex ) {
+            if( Files.notExists(Paths.get( file.getAbsolutePath() )) ) {
+                throw new FileNotFoundException("Could not ensure the file exists");
+            }
+        }
     }
     
 
