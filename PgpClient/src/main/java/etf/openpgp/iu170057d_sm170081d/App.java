@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package etf.openpgp.iu170057d_sm170081d;
 
 import java.io.File;
 import java.util.Iterator;
 
-import etf.openpgp.iu170057d_sm170081d.utils.Utils;
+import etf.openpgp.iu170057d_sm170081d.utils.FileUtils;
 import etf.openpgp.iu170057d_sm170081d.encryption.Encryption;
 import etf.openpgp.iu170057d_sm170081d.encryption.PGPKeys;
 import java.io.IOException;
@@ -26,10 +21,6 @@ import org.bouncycastle.openpgp.PGPSecretKeyRingCollection;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPSecretKey;
 
-/**
- *
- * @author Marko
- */
 public class App extends javax.swing.JFrame {
     
     /**
@@ -595,18 +586,27 @@ public class App extends javax.swing.JFrame {
                 addCompression,
                 addConversionToRadix64);
         
-        // TODO(Marko): Read the actual file path in a new dialog
-        String encryptedFilePath = "C:\\Users\\User\\Desktop\\test.txt";
-        Utils.writeToFile(encryptedFilePath, encryptedMessage);
+        String encryptedFilePath = FileUtils.getUserSelectedFilePath(FileUtils.SAVE_DIALOG);
+        if( encryptedFilePath == null )
+        {
+            jStatusbar.setText("File with given path missing.");
+            return;
+        }
+
+        FileUtils.writeToFile(encryptedFilePath, encryptedMessage);
         jStatusbar.setText("Sent message.");
     }//GEN-LAST:event_jSend_SendButtonMouseClicked
 
     private void jRecv_OpenButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRecv_OpenButtonMouseClicked
-        // TODO(Marko): Read the actual file path in a new dialog
-        String encryptedFilePath = "C:\\Users\\User\\Desktop\\test.txt";
+        String encryptedFilePath = FileUtils.getUserSelectedFilePath(FileUtils.SAVE_DIALOG);
+        if( encryptedFilePath == null )
+        {
+            jStatusbar.setText("File with given path missing.");
+            return;
+        }
         
         // Read encrypted message
-        byte[] encryptedMessage = Utils.readFromFile(encryptedFilePath);
+        byte[] encryptedMessage = FileUtils.readFromFile(encryptedFilePath);
         
         // Read passphrase to be used if necessery
         char[] receiverPassphrase = jRecvPassphrase_PasswordField.getPassword();
@@ -622,8 +622,12 @@ public class App extends javax.swing.JFrame {
     }//GEN-LAST:event_jRecv_OpenButtonMouseClicked
 
     private void jRecv_SaveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRecv_SaveButtonMouseClicked
-        // TODO(Marko): Read the actual file path in a new dialog
-        String decryptedFilePath = "C:\\Users\\User\\Desktop\\received.txt";
+        String encryptedFilePath = FileUtils.getUserSelectedFilePath(FileUtils.SAVE_DIALOG);
+        if( encryptedFilePath == null )
+        {
+            jStatusbar.setText("File with given path missing.");
+            return;
+        }
         
         // TODO(Uros): Implement
     }//GEN-LAST:event_jRecv_SaveButtonMouseClicked
@@ -649,8 +653,12 @@ public class App extends javax.swing.JFrame {
     }//GEN-LAST:event_jDeletePublicKey_ButtonMouseClicked
 
     private void jImportPublicKey_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jImportPublicKey_ButtonMouseClicked
-        // TODO (Marko) Get this using dialog component
-        String importPublicKeyFilePath = "C:\\Users\\User\\Desktop\\export-public.asc";
+        String importPublicKeyFilePath = FileUtils.getUserSelectedFilePath(FileUtils.SAVE_DIALOG);
+        if( importPublicKeyFilePath == null )
+        {
+            jStatusbar.setText("File with given path missing.");
+            return;
+        }
         
         try {
             PGPKeys.importPublicKey(new File(importPublicKeyFilePath));
@@ -661,8 +669,12 @@ public class App extends javax.swing.JFrame {
     }//GEN-LAST:event_jImportPublicKey_ButtonMouseClicked
 
     private void jExportPublicKey_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jExportPublicKey_ButtonMouseClicked
-        // TODO (Marko) Get this using dialog component
-        String exportPublicKeyFilePath = "C:\\Users\\User\\Desktop\\export-public.asc";
+        String exportPublicKeyFilePath = FileUtils.getUserSelectedFilePath(FileUtils.SAVE_DIALOG);
+        if( exportPublicKeyFilePath == null )
+        {
+            jStatusbar.setText("File with given path missing.");
+            return;
+        }
         
         int rowIdx = jPublicKeyRings_Table.getSelectedRow();
         
@@ -702,8 +714,12 @@ public class App extends javax.swing.JFrame {
     }//GEN-LAST:event_jPrivateKeyDelete_ButtonMouseClicked
 
     private void jPrivateKeyImport_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPrivateKeyImport_ButtonMouseClicked
-        // TODO (Marko) Get this using dialog component
-        String importSecretKeyFilePath = "C:\\Users\\User\\Desktop\\export-private.asc";
+        String importSecretKeyFilePath = FileUtils.getUserSelectedFilePath(FileUtils.SAVE_DIALOG);
+        if( importSecretKeyFilePath == null )
+        {
+            jStatusbar.setText("File with given path missing.");
+            return;
+        }
         
         try {
             PGPKeys.importSecretKey(new File(importSecretKeyFilePath));
@@ -714,8 +730,12 @@ public class App extends javax.swing.JFrame {
     }//GEN-LAST:event_jPrivateKeyImport_ButtonMouseClicked
 
     private void jPrivateKeyExport_ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPrivateKeyExport_ButtonMouseClicked
-        // TODO (Marko) Get this using dialog component
-        String exportSecretKeyFilePath = "C:\\Users\\User\\Desktop\\export-private.asc";
+        String exportSecretKeyFilePath = FileUtils.getUserSelectedFilePath(FileUtils.SAVE_DIALOG);
+        if( exportSecretKeyFilePath == null )
+        {
+            jStatusbar.setText("File with given path missing.");
+            return;
+        }
         
         int rowIdx = jPrivateKeyRings_Table.getSelectedRow();
         

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package etf.openpgp.iu170057d_sm170081d.encryption;
 
 import java.io.File;
@@ -41,10 +36,6 @@ import org.bouncycastle.openpgp.operator.jcajce.JcaPGPDigestCalculatorProviderBu
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPKeyPair;
 import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyEncryptorBuilder;
 
-/**
- *
- * @author User
- */
 public class PGPKeys {
 
     // TODO(Uros): This should be system specific
