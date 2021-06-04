@@ -1,3 +1,7 @@
+# PGP files
+*.asc
+*.pgp
+
 # Compiled class file
 *.class
 
