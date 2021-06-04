@@ -3,7 +3,6 @@ package etf.openpgp.iu170057d_sm170081d.encryption;
 import etf.openpgp.iu170057d_sm170081d.utils.FileUtils;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.KeyPair;
@@ -51,61 +50,27 @@ public class PGPKeys {
             Security.addProvider(new BouncyCastleProvider());
         }
         
-        {
-            boolean useEmptyPublicKeyring = false;
-            try {
-                FileUtils.ensureFileExists(publicKeyFile);
-                publicKeyRingCollection = new PGPPublicKeyRingCollection(
-                        new ArmoredInputStream(
-                                new FileInputStream(publicKeyFile)),
-                                new BcKeyFingerprintCalculator());
-            } catch( IOException ex ) {
-                java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log( Level.INFO, "Public keyring file missing from settings and could not be recreated; using empty keyring in memory only." );
-                useEmptyPublicKeyring = true;
-            } catch( PGPException ex ) {
-                java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                System.exit(1);
-            }
-            
-            if( useEmptyPublicKeyring )
-            {
-                try {
-                    publicKeyRingCollection = new PGPPublicKeyRingCollection( new java.util.ArrayList<PGPPublicKeyRing>() );
-                } catch( IOException | PGPException ex ) {
-                    java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                    System.exit(1);
-                }
-            }
+        try {
+            FileUtils.ensureFileExists(publicKeyFile);
+            publicKeyRingCollection = new PGPPublicKeyRingCollection(
+                    new ArmoredInputStream(
+                            new FileInputStream(publicKeyFile)),
+                            new BcKeyFingerprintCalculator());
+        } catch( IOException | PGPException ex ) {
+            java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log( Level.INFO, "Public keyring file missing from settings and could not be recreated; exiting." );
+            System.exit(1);
         }
         
-        {
-            boolean useEmptySecretKeyring = false;
-
-            try {
-                FileUtils.ensureFileExists(privateKeyFile);
-                secretKeyRingCollection = new PGPSecretKeyRingCollection(
-                        new ArmoredInputStream(
-                                new FileInputStream(privateKeyFile)),
-                                new BcKeyFingerprintCalculator());
-            } catch( IOException ex ) {
-                java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log( Level.INFO, "Secret keyring file missing from settings and could not be recreated; using empty keyring in memory only." );
-                useEmptySecretKeyring = true;
-            } catch( PGPException ex ) {
-                java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                System.exit(1);
-            }
-        
-            if( useEmptySecretKeyring )
-            {
-                try {
-                    secretKeyRingCollection = new PGPSecretKeyRingCollection( new java.util.ArrayList<PGPSecretKeyRing>() );
-                } catch( IOException | PGPException ex ) {
-                    java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                    System.exit(1);
-                }
-            }
+        try {
+            FileUtils.ensureFileExists(privateKeyFile);
+            secretKeyRingCollection = new PGPSecretKeyRingCollection(
+                    new ArmoredInputStream(
+                            new FileInputStream(privateKeyFile)),
+                            new BcKeyFingerprintCalculator());
+        } catch( IOException | PGPException ex ) {
+            java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log( Level.INFO, "Secret keyring file missing from settings and could not be recreated; exiting." );
+            System.exit(1);
         }
-        
     }
 
     private PGPKeys() {}

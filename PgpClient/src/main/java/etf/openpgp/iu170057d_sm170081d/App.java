@@ -30,6 +30,8 @@ public class App extends javax.swing.JFrame
     public App()
     {
         initComponents();
+        populatePublicKeyRingTable();
+        populatePrivateKeyRingTable();
     }
 
     /**
@@ -56,16 +58,24 @@ public class App extends javax.swing.JFrame
         jSend_Radix64Checkbox = new javax.swing.JCheckBox();
         jSend_TestButton = new javax.swing.JButton();
         jSend_PassphrasePasswordbox = new javax.swing.JPasswordField();
-        jSignature_Checkbox = new javax.swing.JCheckBox();
+        jSend_SignatureCheckbox = new javax.swing.JCheckBox();
         jRecv_Tab = new javax.swing.JPanel();
         jRecv_FromLabel = new javax.swing.JLabel();
-        jRecv_BodyScrollpane = new javax.swing.JScrollPane();
+        jRecv_ToLabel = new javax.swing.JLabel();
+        jSend_BodyScrollpane1 = new javax.swing.JScrollPane();
         jRecv_BodyTextarea = new javax.swing.JTextArea();
-        jRecv_OpenButton = new javax.swing.JButton();
+        jRecv_EncryptionLabel = new javax.swing.JLabel();
         jRecv_PassphraseLabel = new javax.swing.JLabel();
-        jRecv_SaveButton = new javax.swing.JButton();
-        jRecv_FromTextbox = new javax.swing.JTextField();
+        jRecv_CompressionCheckbox = new javax.swing.JCheckBox();
+        jRecv_Radix64Checkbox = new javax.swing.JCheckBox();
+        jRecv_DecryptButton = new javax.swing.JButton();
         jRecv_PassphrasePasswordbox = new javax.swing.JPasswordField();
+        jRecv_SignatureCheckbox = new javax.swing.JCheckBox();
+        jRecv_OpenButton = new javax.swing.JButton();
+        jRecv_SaveButton = new javax.swing.JButton();
+        jRecv_EncryptionTextbox = new javax.swing.JTextField();
+        jRecv_FromTextbox = new javax.swing.JTextField();
+        jRecv_ToTextbox = new javax.swing.JTextField();
         jPubl_Tab = new javax.swing.JPanel();
         jPubl_PublicKeyringsScrollpane = new javax.swing.JScrollPane();
         jPubl_PublicKeyringsTable = new javax.swing.JTable();
@@ -80,7 +90,6 @@ public class App extends javax.swing.JFrame
         jPriv_ExportButton = new javax.swing.JButton();
         jPriv_NameTextbox = new javax.swing.JTextField();
         jPriv_NameLabel = new javax.swing.JLabel();
-        jPriv_PassphraseTextbox = new javax.swing.JTextField();
         jPriv_PassphraseLabel = new javax.swing.JLabel();
         jPriv_EmailTextbox = new javax.swing.JTextField();
         jPriv_EmailLabel = new javax.swing.JLabel();
@@ -89,6 +98,7 @@ public class App extends javax.swing.JFrame
         jPriv_DSABitsLabel = new javax.swing.JLabel();
         jPriv_ElGamalBitsLabel = new javax.swing.JLabel();
         jPriv_ElGamalBitsCombobox = new javax.swing.JComboBox<>();
+        jPriv_PassphrasePasswordbox = new javax.swing.JPasswordField();
         jStatusbar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -98,8 +108,22 @@ public class App extends javax.swing.JFrame
         jTabs.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         jTabs.setDoubleBuffered(true);
         jTabs.setPreferredSize(new java.awt.Dimension(640, 480));
+        jTabs.addChangeListener(new javax.swing.event.ChangeListener()
+        {
+            public void stateChanged(javax.swing.event.ChangeEvent evt)
+            {
+                jTabsStateChanged(evt);
+            }
+        });
 
         jSend_Tab.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 30, 25, 30));
+        jSend_Tab.addComponentListener(new java.awt.event.ComponentAdapter()
+        {
+            public void componentShown(java.awt.event.ComponentEvent evt)
+            {
+                jSend_TabComponentShown(evt);
+            }
+        });
 
         jSend_FromLabel.setText("From");
 
@@ -148,9 +172,9 @@ public class App extends javax.swing.JFrame
             }
         });
 
-        jSignature_Checkbox.setSelected(true);
-        jSignature_Checkbox.setText("Signature");
-        jSignature_Checkbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jSend_SignatureCheckbox.setSelected(true);
+        jSend_SignatureCheckbox.setText("Signature");
+        jSend_SignatureCheckbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
         javax.swing.GroupLayout jSend_TabLayout = new javax.swing.GroupLayout(jSend_Tab);
         jSend_Tab.setLayout(jSend_TabLayout);
@@ -161,7 +185,7 @@ public class App extends javax.swing.JFrame
                 .addGap(18, 18, 18)
                 .addComponent(jSend_Radix64Checkbox)
                 .addGap(18, 18, 18)
-                .addComponent(jSignature_Checkbox)
+                .addComponent(jSend_SignatureCheckbox)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jSend_BodyScrollpane)
             .addGroup(jSend_TabLayout.createSequentialGroup()
@@ -173,7 +197,7 @@ public class App extends javax.swing.JFrame
                     .addComponent(jSend_FromComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSend_ToComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSend_SendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jSend_SendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jSend_TabLayout.createSequentialGroup()
                 .addComponent(jSend_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -181,9 +205,9 @@ public class App extends javax.swing.JFrame
                 .addGap(36, 36, 36)
                 .addComponent(jSend_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSend_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                .addComponent(jSend_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSend_TestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jSend_TestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jSend_TabLayout.setVerticalGroup(
             jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,7 +226,7 @@ public class App extends javax.swing.JFrame
                 .addComponent(jSend_BodyScrollpane, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSend_TestButton)
+                    .addComponent(jSend_TestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSend_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSend_PassphrasePasswordbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSend_EncryptionCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -211,19 +235,61 @@ public class App extends javax.swing.JFrame
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jSend_CompressionCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSend_Radix64Checkbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSignature_Checkbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jSend_SignatureCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jTabs.addTab("Send email", jSend_Tab);
 
         jRecv_Tab.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 30, 25, 30));
+        jRecv_Tab.addComponentListener(new java.awt.event.ComponentAdapter()
+        {
+            public void componentShown(java.awt.event.ComponentEvent evt)
+            {
+                jRecv_TabComponentShown(evt);
+            }
+        });
 
         jRecv_FromLabel.setText("From");
 
+        jRecv_ToLabel.setText("To");
+
         jRecv_BodyTextarea.setEditable(false);
         jRecv_BodyTextarea.setColumns(20);
+        jRecv_BodyTextarea.setLineWrap(true);
         jRecv_BodyTextarea.setTabSize(4);
-        jRecv_BodyScrollpane.setViewportView(jRecv_BodyTextarea);
+        jRecv_BodyTextarea.setName(""); // NOI18N
+        jSend_BodyScrollpane1.setViewportView(jRecv_BodyTextarea);
+
+        jRecv_EncryptionLabel.setText("Encryption");
+
+        jRecv_PassphraseLabel.setText("Passphrase");
+
+        jRecv_CompressionCheckbox.setSelected(true);
+        jRecv_CompressionCheckbox.setText("Compression ");
+        jRecv_CompressionCheckbox.setEnabled(false);
+        jRecv_CompressionCheckbox.setFocusable(false);
+        jRecv_CompressionCheckbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+
+        jRecv_Radix64Checkbox.setSelected(true);
+        jRecv_Radix64Checkbox.setText("Radix64 Encoding");
+        jRecv_Radix64Checkbox.setEnabled(false);
+        jRecv_Radix64Checkbox.setFocusable(false);
+        jRecv_Radix64Checkbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+
+        jRecv_DecryptButton.setText("Decrypt");
+        jRecv_DecryptButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jRecv_DecryptButtonActionPerformed(evt);
+            }
+        });
+
+        jRecv_SignatureCheckbox.setSelected(true);
+        jRecv_SignatureCheckbox.setText("Signature");
+        jRecv_SignatureCheckbox.setEnabled(false);
+        jRecv_SignatureCheckbox.setFocusable(false);
+        jRecv_SignatureCheckbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
         jRecv_OpenButton.setText("Open");
         jRecv_OpenButton.addActionListener(new java.awt.event.ActionListener()
@@ -234,8 +300,6 @@ public class App extends javax.swing.JFrame
             }
         });
 
-        jRecv_PassphraseLabel.setText("Passphrase");
-
         jRecv_SaveButton.setText("Save");
         jRecv_SaveButton.addActionListener(new java.awt.event.ActionListener()
         {
@@ -245,46 +309,89 @@ public class App extends javax.swing.JFrame
             }
         });
 
+        jRecv_EncryptionTextbox.setEditable(false);
+
         jRecv_FromTextbox.setEditable(false);
+
+        jRecv_ToTextbox.setEditable(false);
 
         javax.swing.GroupLayout jRecv_TabLayout = new javax.swing.GroupLayout(jRecv_Tab);
         jRecv_Tab.setLayout(jRecv_TabLayout);
         jRecv_TabLayout.setHorizontalGroup(
             jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jRecv_TabLayout.createSequentialGroup()
-                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRecv_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRecv_FromLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jRecv_FromLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRecv_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jRecv_FromTextbox)
-                    .addComponent(jRecv_PassphrasePasswordbox))
+                    .addComponent(jRecv_ToTextbox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRecv_OpenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRecv_SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addComponent(jRecv_BodyScrollpane, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+                    .addComponent(jRecv_OpenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRecv_SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addComponent(jSend_BodyScrollpane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jRecv_TabLayout.createSequentialGroup()
+                .addComponent(jRecv_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRecv_EncryptionTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(jRecv_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRecv_PassphrasePasswordbox, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRecv_DecryptButton, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+            .addGroup(jRecv_TabLayout.createSequentialGroup()
+                .addComponent(jRecv_CompressionCheckbox)
+                .addGap(18, 18, 18)
+                .addComponent(jRecv_Radix64Checkbox)
+                .addGap(18, 18, 18)
+                .addComponent(jRecv_SignatureCheckbox)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jRecv_TabLayout.setVerticalGroup(
             jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jRecv_TabLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
+                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jRecv_TabLayout.createSequentialGroup()
+                        .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRecv_FromLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jRecv_FromTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jRecv_ToTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jRecv_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jRecv_TabLayout.createSequentialGroup()
+                        .addComponent(jRecv_OpenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jRecv_SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSend_BodyScrollpane1, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRecv_FromTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRecv_OpenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRecv_FromLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRecv_DecryptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRecv_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRecv_PassphrasePasswordbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRecv_SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addComponent(jRecv_BodyScrollpane, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE))
+                    .addComponent(jRecv_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRecv_EncryptionTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRecv_CompressionCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRecv_Radix64Checkbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRecv_SignatureCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jTabs.addTab("Receive email", jRecv_Tab);
 
         jPubl_Tab.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 30, 25, 30));
+        jPubl_Tab.addComponentListener(new java.awt.event.ComponentAdapter()
+        {
+            public void componentShown(java.awt.event.ComponentEvent evt)
+            {
+                jPubl_TabComponentShown(evt);
+            }
+        });
 
         jPubl_PublicKeyringsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -307,6 +414,7 @@ public class App extends javax.swing.JFrame
                 return canEdit [columnIndex];
             }
         });
+        jPubl_PublicKeyringsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jPubl_PublicKeyringsScrollpane.setViewportView(jPubl_PublicKeyringsTable);
         if (jPubl_PublicKeyringsTable.getColumnModel().getColumnCount() > 0)
         {
@@ -369,6 +477,13 @@ public class App extends javax.swing.JFrame
         jTabs.addTab("Public Keys", jPubl_Tab);
 
         jPriv_Tab.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 30, 25, 30));
+        jPriv_Tab.addComponentListener(new java.awt.event.ComponentAdapter()
+        {
+            public void componentShown(java.awt.event.ComponentEvent evt)
+            {
+                jPriv_TabComponentShown(evt);
+            }
+        });
 
         jPriv_PrivateKeyringsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -391,6 +506,7 @@ public class App extends javax.swing.JFrame
                 return canEdit [columnIndex];
             }
         });
+        jPriv_PrivateKeyringsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jPriv_PrivateKeyringsScrollpane.setViewportView(jPriv_PrivateKeyringsTable);
         if (jPriv_PrivateKeyringsTable.getColumnModel().getColumnCount() > 0)
         {
@@ -441,13 +557,13 @@ public class App extends javax.swing.JFrame
             }
         });
 
-        jPriv_DSABitsCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1024", "2048" }));
+        jPriv_DSABitsCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2048", "1024" }));
 
         jPriv_DSABitsLabel.setText("DSA bits");
 
         jPriv_ElGamalBitsLabel.setText("ElGamal bits");
 
-        jPriv_ElGamalBitsCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1024", "2048", "4096" }));
+        jPriv_ElGamalBitsCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "4096", "2048", "1024" }));
 
         javax.swing.GroupLayout jPriv_TabLayout = new javax.swing.GroupLayout(jPriv_Tab);
         jPriv_Tab.setLayout(jPriv_TabLayout);
@@ -462,6 +578,7 @@ public class App extends javax.swing.JFrame
                 .addGap(36, 36, 36)
                 .addComponent(jPriv_GenerateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPriv_PrivateKeyringsScrollpane)
             .addGroup(jPriv_TabLayout.createSequentialGroup()
                 .addGroup(jPriv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPriv_NameLabel)
@@ -472,8 +589,10 @@ public class App extends javax.swing.JFrame
                     .addComponent(jPriv_EmailLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPriv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPriv_PassphraseLabel)
-                    .addComponent(jPriv_PassphraseTextbox, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
+                    .addComponent(jPriv_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                    .addGroup(jPriv_TabLayout.createSequentialGroup()
+                        .addComponent(jPriv_PassphraseLabel)
+                        .addGap(0, 0, 0)))
                 .addGap(18, 18, 18)
                 .addGroup(jPriv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPriv_DSABitsLabel)
@@ -482,7 +601,6 @@ public class App extends javax.swing.JFrame
                 .addGroup(jPriv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPriv_ElGamalBitsLabel)
                     .addComponent(jPriv_ElGamalBitsCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addComponent(jPriv_PrivateKeyringsScrollpane)
         );
         jPriv_TabLayout.setVerticalGroup(
             jPriv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -498,9 +616,9 @@ public class App extends javax.swing.JFrame
                             .addComponent(jPriv_PassphraseLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPriv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jPriv_PassphraseTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPriv_NameTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPriv_EmailTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jPriv_EmailTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPriv_PassphrasePasswordbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPriv_TabLayout.createSequentialGroup()
                         .addComponent(jPriv_ElGamalBitsLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -543,6 +661,255 @@ public class App extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jPriv_DeleteButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jPriv_DeleteButtonActionPerformed
+    {//GEN-HEADEREND:event_jPriv_DeleteButtonActionPerformed
+        int rowIdx = jPriv_PrivateKeyringsTable.getSelectedRow();
+
+        if( rowIdx < 0 )
+        {
+            jStatusbar.setText( "A key must be selected in order to perform delete operation!." );
+            return;
+        }
+
+        long keyID = ( long )jPriv_PrivateKeyringsTable.getValueAt( rowIdx, 3 );
+        try
+        {
+            PGPSecretKeyRing keyRingToBeDeleted = PGPKeys.findSecretKeyRing( keyID );
+            PGPKeys.removeSecretKey( keyRingToBeDeleted );
+            PGPKeys.saveSecretKeysToFile();
+            populatePrivateKeyRingTable();
+            jStatusbar.setText( "Deleted private key successfully." );
+        }
+        catch( IOException | PGPException ex )
+        {
+            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            jStatusbar.setText( "Could not delete private key." );
+        }
+    }//GEN-LAST:event_jPriv_DeleteButtonActionPerformed
+
+    private void jPriv_ExportButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jPriv_ExportButtonActionPerformed
+    {//GEN-HEADEREND:event_jPriv_ExportButtonActionPerformed
+        String exportSecretKeyFilePath = FileUtils.getUserSelectedFilePath( FileUtils.SAVE_DIALOG );
+        if( exportSecretKeyFilePath == null )
+        {
+            jStatusbar.setText( "File with given path missing." );
+            return;
+        }
+
+        int rowIdx = jPriv_PrivateKeyringsTable.getSelectedRow();
+
+        if( rowIdx < 0 )
+        {
+            jStatusbar.setText( "A key must be selected in order to perform export operation!." );
+            return;
+        }
+
+        long keyID = ( long )jPriv_PrivateKeyringsTable.getValueAt( rowIdx, 3 );
+        try
+        {
+            PGPSecretKeyRing keyRingToBeExported = PGPKeys.findSecretKeyRing( keyID );
+            PGPKeys.exportSecretKey( keyRingToBeExported, new File( exportSecretKeyFilePath ) );
+            jStatusbar.setText( "Exported private key successfully." );
+        }
+        catch( IOException | PGPException ex )
+        {
+            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            jStatusbar.setText( "Could not export private key." );
+        }
+    }//GEN-LAST:event_jPriv_ExportButtonActionPerformed
+
+    private void jPriv_ImportButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jPriv_ImportButtonActionPerformed
+    {//GEN-HEADEREND:event_jPriv_ImportButtonActionPerformed
+        String importSecretKeyFilePath = FileUtils.getUserSelectedFilePath( FileUtils.OPEN_DIALOG );
+        if( importSecretKeyFilePath == null )
+        {
+            jStatusbar.setText( "File with given path missing." );
+            return;
+        }
+
+        try
+        {
+            PGPKeys.importSecretKey( new File( importSecretKeyFilePath ) );
+            populatePrivateKeyRingTable();
+            jStatusbar.setText( "Imported private key successfully." );
+        }
+        catch( IOException | PGPException ex )
+        {
+            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            jStatusbar.setText( "Could not import private key." );
+        }
+    }//GEN-LAST:event_jPriv_ImportButtonActionPerformed
+
+    private void jPriv_GenerateButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jPriv_GenerateButtonActionPerformed
+    {//GEN-HEADEREND:event_jPriv_GenerateButtonActionPerformed
+        int selectedDSABitsIndex = jPriv_DSABitsCombobox.getSelectedIndex();
+        int selectedDSABits = Integer.parseInt( jPriv_DSABitsCombobox.getItemAt( selectedDSABitsIndex ) );
+
+        int selectedElGamalBitsIndex = jPriv_ElGamalBitsCombobox.getSelectedIndex();
+        int selectedElGamalBits = Integer.parseInt( jPriv_ElGamalBitsCombobox.getItemAt( selectedElGamalBitsIndex ) );
+
+        String name = jPriv_NameTextbox.getText();
+        String email = jPriv_EmailTextbox.getText();
+        String passphrase = jPriv_PassphrasePasswordbox.getText();
+
+        if( "".equals( name ) || "".equals( email ) || "".equals( passphrase ) )
+        {
+            jStatusbar.setText( "Invalid private key generation data." );
+            return;
+        }
+
+        String userID = name + " <" + email + ">";
+
+        try
+        {
+            PGPKeyRingGenerator pgpKeyRingGenerator = PGPKeys.createPGPKeyRingGenerator(
+                PGPKeys.generateDsaKeyPair( selectedDSABits ),
+                PGPKeys.generateElGamalKeyPair( selectedElGamalBits ),
+                userID,
+                passphrase.toCharArray() );
+
+            PGPKeys.addPublicKey( pgpKeyRingGenerator );
+            PGPKeys.addSecretKey( pgpKeyRingGenerator );
+            PGPKeys.savePublicKeysToFile();
+            PGPKeys.saveSecretKeysToFile();
+
+            populatePrivateKeyRingTable();
+            populatePublicKeyRingTable();
+            
+            jPriv_NameTextbox.setText( "" );
+            jPriv_EmailTextbox.setText( "" );
+            jPriv_PassphrasePasswordbox.setText( "" );
+            jStatusbar.setText( "Private key generated successfully." );
+        }
+        catch( Exception ex )
+        {
+            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            jStatusbar.setText( "Could not generate private key." );
+        }
+    }//GEN-LAST:event_jPriv_GenerateButtonActionPerformed
+
+    private void jPubl_ExportButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jPubl_ExportButtonActionPerformed
+    {//GEN-HEADEREND:event_jPubl_ExportButtonActionPerformed
+        String exportPublicKeyFilePath = FileUtils.getUserSelectedFilePath( FileUtils.SAVE_DIALOG );
+        if( exportPublicKeyFilePath == null )
+        {
+            jStatusbar.setText( "File with given path missing." );
+            return;
+        }
+
+        int rowIdx = jPubl_PublicKeyringsTable.getSelectedRow();
+
+        if( rowIdx < 0 )
+        {
+            jStatusbar.setText( "A public key must be selected in order to perform the export operation!." );
+            return;
+        }
+
+        long keyID = ( long )jPubl_PublicKeyringsTable.getValueAt( rowIdx, 2 );
+        try
+        {
+            PGPPublicKeyRing keyRingToBeExported = PGPKeys.findPublicKeyRing( keyID );
+            PGPKeys.exportPublicKey( keyRingToBeExported, new File( exportPublicKeyFilePath ) );
+            jStatusbar.setText( "Exported public key successfully." );
+        }
+        catch( IOException | PGPException ex )
+        {
+            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            jStatusbar.setText( "Could not export public key." );
+        }
+    }//GEN-LAST:event_jPubl_ExportButtonActionPerformed
+
+    private void jPubl_ImportButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jPubl_ImportButtonActionPerformed
+    {//GEN-HEADEREND:event_jPubl_ImportButtonActionPerformed
+        String importPublicKeyFilePath = FileUtils.getUserSelectedFilePath( FileUtils.OPEN_DIALOG );
+        if( importPublicKeyFilePath == null )
+        {
+            jStatusbar.setText( "File with given path missing." );
+            return;
+        }
+
+        try
+        {
+            PGPKeys.importPublicKey( new File( importPublicKeyFilePath ) );
+            populatePublicKeyRingTable();
+            jStatusbar.setText( "Imported public key successfully." );
+        }
+        catch( IOException | PGPException ex )
+        {
+            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            jStatusbar.setText( "Could not import public key." );
+        }
+    }//GEN-LAST:event_jPubl_ImportButtonActionPerformed
+
+    private void jPubl_DeleteButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jPubl_DeleteButtonActionPerformed
+    {//GEN-HEADEREND:event_jPubl_DeleteButtonActionPerformed
+        int rowIdx = jPubl_PublicKeyringsTable.getSelectedRow();
+
+        if( rowIdx < 0 )
+        {
+            jStatusbar.setText( "A key must be selected in order to perform delete operation!." );
+            return;
+        }
+
+        long keyID = ( long )jPubl_PublicKeyringsTable.getValueAt( rowIdx, 2 );
+        try
+        {
+            PGPPublicKeyRing keyRingToBeDeleted = PGPKeys.findPublicKeyRing( keyID );
+            PGPKeys.removePublicKey( keyRingToBeDeleted );
+            PGPKeys.savePublicKeysToFile();
+            populatePublicKeyRingTable();
+            jStatusbar.setText( "Deleted public key successfully." );
+        }
+        catch( IOException | PGPException ex )
+        {
+            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            jStatusbar.setText( "Could not delete public key." );
+        }
+    }//GEN-LAST:event_jPubl_DeleteButtonActionPerformed
+
+    private void jRecv_SaveButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_SaveButtonActionPerformed
+    {//GEN-HEADEREND:event_jRecv_SaveButtonActionPerformed
+        String encryptedFilePath = FileUtils.getUserSelectedFilePath( FileUtils.SAVE_DIALOG );
+        if( encryptedFilePath == null )
+        {
+            jStatusbar.setText( "File with given path missing." );
+            return;
+        }
+
+        // TODO(Uros): Implement
+    }//GEN-LAST:event_jRecv_SaveButtonActionPerformed
+
+    private void jRecv_OpenButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_OpenButtonActionPerformed
+    {//GEN-HEADEREND:event_jRecv_OpenButtonActionPerformed
+        String encryptedFilePath = FileUtils.getUserSelectedFilePath( FileUtils.OPEN_DIALOG );
+        if( encryptedFilePath == null )
+        {
+            jStatusbar.setText( "File with given path missing." );
+            return;
+        }
+
+        // Read encrypted message
+        byte[] encryptedMessage = FileUtils.readFromFile( encryptedFilePath );
+
+        // Read passphrase to be used if necessery
+        char[] receiverPassphrase = jRecv_PassphrasePasswordbox.getPassword();
+
+        // TODO: only encrypted files need to be decrypted here
+        // Decryption
+        Encryption.DecryptedMessage decryptedMessage = Encryption.decrypt(
+            encryptedMessage,
+            receiverPassphrase );
+        String dectryptedMessageString = new String( decryptedMessage.decryptedMessage );
+
+        // Write output
+        jRecv_BodyTextarea.setText( dectryptedMessageString );
+        jStatusbar.setText( "Opened message." );
+    }//GEN-LAST:event_jRecv_OpenButtonActionPerformed
+
+    private void jSend_TestButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jSend_TestButtonActionPerformed
+    {//GEN-HEADEREND:event_jSend_TestButtonActionPerformed
+        // TODO(Uros): Do we need this?
+    }//GEN-LAST:event_jSend_TestButtonActionPerformed
 
     private void jSend_SendButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jSend_SendButtonActionPerformed
     {//GEN-HEADEREND:event_jSend_SendButtonActionPerformed
@@ -551,7 +918,7 @@ public class App extends javax.swing.JFrame
         byte[] byteMessage = textMessage.getBytes();
 
         // Read encryption metadata
-        boolean addSignature = jSignature_Checkbox.isSelected();
+        boolean addSignature = jSend_SignatureCheckbox.isSelected();
         boolean addCompression = jSend_CompressionCheckbox.isSelected();
         boolean addConversionToRadix64 = jSend_Radix64Checkbox.isSelected();
 
@@ -593,27 +960,26 @@ public class App extends javax.swing.JFrame
         }
 
         // Read encryption algorithm
-        Encryption.SymmetricEncryptionAlgorithm encryptionAlgorithm = null;
+        Encryption.EncryptionAlgorithm encryptionAlgorithm = Encryption.EncryptionAlgorithm.NONE;
+
         int encryptionAlgorithmIndex = jSend_EncryptionCombobox.getSelectedIndex();
         switch( encryptionAlgorithmIndex )
         {
-        case 0:
-        {
-            encryptionAlgorithm = Encryption.SymmetricEncryptionAlgorithm.ELGAMAL_IDEA;
-            break;
-        }
-        case 1:
-        {
-            encryptionAlgorithm = Encryption.SymmetricEncryptionAlgorithm.ELGAMAL_3DES;
-            break;
-        }
-        case 2:
-        {
-            encryptionAlgorithm = Encryption.SymmetricEncryptionAlgorithm.NONE;
-            break;
-        }
-        default:
-            break;
+            case 0:
+            {
+                encryptionAlgorithm = Encryption.EncryptionAlgorithm.ELGAMAL_IDEA;
+                break;
+            }
+            case 1:
+            {
+                encryptionAlgorithm = Encryption.EncryptionAlgorithm.ELGAMAL_3DES;
+                break;
+            }
+            case 2:
+            {
+                encryptionAlgorithm = Encryption.EncryptionAlgorithm.NONE;
+                break;
+            }
         }
 
         // Read passphrase
@@ -621,14 +987,14 @@ public class App extends javax.swing.JFrame
 
         // Encryption
         byte[] encryptedMessage = Encryption.encrypt(
-                byteMessage,
-                senderSecretKey,
-                receiverPublicKey,
-                encryptionAlgorithm,
-                senderPassphrase,
-                addSignature,
-                addCompression,
-                addConversionToRadix64 );
+            byteMessage,
+            senderSecretKey,
+            receiverPublicKey,
+            encryptionAlgorithm,
+            senderPassphrase,
+            addSignature,
+            addCompression,
+            addConversionToRadix64 );
 
         String encryptedFilePath = FileUtils.getUserSelectedFilePath( FileUtils.SAVE_DIALOG );
         if( encryptedFilePath == null )
@@ -641,255 +1007,63 @@ public class App extends javax.swing.JFrame
         jStatusbar.setText( "Sent message." );
     }//GEN-LAST:event_jSend_SendButtonActionPerformed
 
-    private void jSend_TestButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jSend_TestButtonActionPerformed
-    {//GEN-HEADEREND:event_jSend_TestButtonActionPerformed
-        // TODO(Uros): Do we need this?
-    }//GEN-LAST:event_jSend_TestButtonActionPerformed
+    private void jRecv_DecryptButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_DecryptButtonActionPerformed
+    {//GEN-HEADEREND:event_jRecv_DecryptButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRecv_DecryptButtonActionPerformed
+
+    
+    
+    private void jTabsStateChanged(javax.swing.event.ChangeEvent evt)//GEN-FIRST:event_jTabsStateChanged
+    {//GEN-HEADEREND:event_jTabsStateChanged
+        jStatusbar.setText( "Status" );
+    }//GEN-LAST:event_jTabsStateChanged
+
+    private void jSend_TabComponentShown(java.awt.event.ComponentEvent evt)//GEN-FIRST:event_jSend_TabComponentShown
+    {//GEN-HEADEREND:event_jSend_TabComponentShown
+        populateFromComboBox();
+        populateToComboBox();
+        jSend_BodyTextarea.setText( "" );
+        jSend_EncryptionCombobox.setSelectedIndex( 0 );
+        jSend_PassphrasePasswordbox.setText( "" );
+        jSend_CompressionCheckbox.setSelected( true );
+        jSend_Radix64Checkbox.setSelected( true );
+        jSend_SignatureCheckbox.setSelected( true );
+    }//GEN-LAST:event_jSend_TabComponentShown
+
+    private void jRecv_TabComponentShown(java.awt.event.ComponentEvent evt)//GEN-FIRST:event_jRecv_TabComponentShown
+    {//GEN-HEADEREND:event_jRecv_TabComponentShown
+        populatePublicKeyRingTable();
+        jRecv_FromTextbox.setText( "" );
+        jRecv_ToTextbox.setText( "" );
+        jRecv_BodyTextarea.setText( "" );
+        jRecv_EncryptionTextbox.setText( "" );
+        jRecv_PassphrasePasswordbox.setText( "" );
+        jRecv_CompressionCheckbox.setSelected( false );
+        jRecv_Radix64Checkbox.setSelected( false );
+        jRecv_SignatureCheckbox.setSelected( false );
+    }//GEN-LAST:event_jRecv_TabComponentShown
+
+    private void jPubl_TabComponentShown(java.awt.event.ComponentEvent evt)//GEN-FIRST:event_jPubl_TabComponentShown
+    {//GEN-HEADEREND:event_jPubl_TabComponentShown
+    }//GEN-LAST:event_jPubl_TabComponentShown
+
+    private void jPriv_TabComponentShown(java.awt.event.ComponentEvent evt)//GEN-FIRST:event_jPriv_TabComponentShown
+    {//GEN-HEADEREND:event_jPriv_TabComponentShown
+        populatePrivateKeyRingTable();
+        jPriv_NameTextbox.setText( "" );
+        jPriv_EmailTextbox.setText( "" );
+        jPriv_PassphrasePasswordbox.setText( "" );
+        jPriv_DSABitsCombobox.setSelectedIndex( 0 );
+        jPriv_ElGamalBitsCombobox.setSelectedIndex( 0 );
+        
+    }//GEN-LAST:event_jPriv_TabComponentShown
 
 
-    private void jRecv_OpenButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_OpenButtonActionPerformed
-    {//GEN-HEADEREND:event_jRecv_OpenButtonActionPerformed
-        String encryptedFilePath = FileUtils.getUserSelectedFilePath( FileUtils.OPEN_DIALOG );
-        if( encryptedFilePath == null )
-        {
-            jStatusbar.setText( "File with given path missing." );
-            return;
-        }
-
-        // Read encrypted message
-        byte[] encryptedMessage = FileUtils.readFromFile( encryptedFilePath );
-
-        // Read passphrase to be used if necessery
-        char[] receiverPassphrase = jRecv_PassphrasePasswordbox.getPassword();
-
-        // TODO: only encrypted files need to be decrypted here
-        // Decryption
-        Encryption.DecryptedMessage decryptedMessage = Encryption.decrypt(
-                encryptedMessage,
-                receiverPassphrase );
-        String dectryptedMessageString = new String( decryptedMessage.decryptedMessage );
-
-        // Write output
-        jRecv_BodyTextarea.setText( dectryptedMessageString );
-        jStatusbar.setText( "Opened message." );
-    }//GEN-LAST:event_jRecv_OpenButtonActionPerformed
-
-    private void jRecv_SaveButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_SaveButtonActionPerformed
-    {//GEN-HEADEREND:event_jRecv_SaveButtonActionPerformed
-        String encryptedFilePath = FileUtils.getUserSelectedFilePath( FileUtils.SAVE_DIALOG );
-        if( encryptedFilePath == null )
-        {
-            jStatusbar.setText( "File with given path missing." );
-            return;
-        }
-
-        // TODO(Uros): Implement
-    }//GEN-LAST:event_jRecv_SaveButtonActionPerformed
 
 
-    private void jPubl_DeleteButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jPubl_DeleteButtonActionPerformed
-    {//GEN-HEADEREND:event_jPubl_DeleteButtonActionPerformed
-        int rowIdx = jPubl_PublicKeyringsTable.getSelectedRow();
 
-        if( rowIdx < 0 )
-        {
-            jStatusbar.setText( "A key must be selected in order to perform delete operation!." );
-            return;
-        }
-
-        long keyID = ( long )jPubl_PublicKeyringsTable.getValueAt( rowIdx, 2 );
-        try
-        {
-            PGPPublicKeyRing keyRingToBeDeleted = PGPKeys.findPublicKeyRing( keyID );
-            PGPKeys.removePublicKey( keyRingToBeDeleted );
-            PGPKeys.savePublicKeysToFile();
-            populatePublicKeyRingTable();
-            jStatusbar.setText( "Deleted public key successfully." );
-        }
-        catch( IOException | PGPException ex )
-        {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
-            jStatusbar.setText( "Could not delete public key." );
-        }
-    }//GEN-LAST:event_jPubl_DeleteButtonActionPerformed
-
-    private void jPubl_ImportButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jPubl_ImportButtonActionPerformed
-    {//GEN-HEADEREND:event_jPubl_ImportButtonActionPerformed
-        String importPublicKeyFilePath = FileUtils.getUserSelectedFilePath( FileUtils.OPEN_DIALOG );
-        if( importPublicKeyFilePath == null )
-        {
-            jStatusbar.setText( "File with given path missing." );
-            return;
-        }
-
-        try
-        {
-            PGPKeys.importPublicKey( new File( importPublicKeyFilePath ) );
-            populatePublicKeyRingTable();
-            jStatusbar.setText( "Imported public key successfully." );
-        }
-        catch( IOException | PGPException ex )
-        {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
-            jStatusbar.setText( "Could not import public key." );
-        }
-    }//GEN-LAST:event_jPubl_ImportButtonActionPerformed
-
-    private void jPubl_ExportButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jPubl_ExportButtonActionPerformed
-    {//GEN-HEADEREND:event_jPubl_ExportButtonActionPerformed
-        String exportPublicKeyFilePath = FileUtils.getUserSelectedFilePath( FileUtils.SAVE_DIALOG );
-        if( exportPublicKeyFilePath == null )
-        {
-            jStatusbar.setText( "File with given path missing." );
-            return;
-        }
-
-        int rowIdx = jPubl_PublicKeyringsTable.getSelectedRow();
-
-        if( rowIdx < 0 )
-        {
-            jStatusbar.setText( "A public key must be selected in order to perform the export operation!." );
-            return;
-        }
-
-        long keyID = ( long )jPubl_PublicKeyringsTable.getValueAt( rowIdx, 2 );
-        try
-        {
-            PGPPublicKeyRing keyRingToBeExported = PGPKeys.findPublicKeyRing( keyID );
-            PGPKeys.exportPublicKey( keyRingToBeExported, new File( exportPublicKeyFilePath ) );
-            jStatusbar.setText( "Exported public key successfully." );
-        }
-        catch( IOException | PGPException ex )
-        {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
-            jStatusbar.setText( "Could not export public key." );
-        }
-    }//GEN-LAST:event_jPubl_ExportButtonActionPerformed
-
-
-    private void jPriv_DeleteButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jPriv_DeleteButtonActionPerformed
-    {//GEN-HEADEREND:event_jPriv_DeleteButtonActionPerformed
-        int rowIdx = jPriv_PrivateKeyringsTable.getSelectedRow();
-
-        if( rowIdx < 0 )
-        {
-            jStatusbar.setText( "A key must be selected in order to perform delete operation!." );
-            return;
-        }
-
-        long keyID = ( long )jPriv_PrivateKeyringsTable.getValueAt( rowIdx, 3 );
-        try
-        {
-            PGPSecretKeyRing keyRingToBeDeleted = PGPKeys.findSecretKeyRing( keyID );
-            PGPKeys.removeSecretKey( keyRingToBeDeleted );
-            PGPKeys.saveSecretKeysToFile();
-            populatePrivateKeyRingTable();
-            jStatusbar.setText( "Deleted private key successfully." );
-        }
-        catch( IOException | PGPException ex )
-        {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
-            jStatusbar.setText( "Could not delete private key." );
-        }
-    }//GEN-LAST:event_jPriv_DeleteButtonActionPerformed
-
-    private void jPriv_ImportButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jPriv_ImportButtonActionPerformed
-    {//GEN-HEADEREND:event_jPriv_ImportButtonActionPerformed
-        String importSecretKeyFilePath = FileUtils.getUserSelectedFilePath( FileUtils.OPEN_DIALOG );
-        if( importSecretKeyFilePath == null )
-        {
-            jStatusbar.setText( "File with given path missing." );
-            return;
-        }
-
-        try
-        {
-            PGPKeys.importSecretKey( new File( importSecretKeyFilePath ) );
-            populatePrivateKeyRingTable();
-            jStatusbar.setText( "Imported private key successfully." );
-        }
-        catch( IOException | PGPException ex )
-        {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
-            jStatusbar.setText( "Could not import private key." );
-        }
-    }//GEN-LAST:event_jPriv_ImportButtonActionPerformed
-
-    private void jPriv_ExportButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jPriv_ExportButtonActionPerformed
-    {//GEN-HEADEREND:event_jPriv_ExportButtonActionPerformed
-        String exportSecretKeyFilePath = FileUtils.getUserSelectedFilePath( FileUtils.SAVE_DIALOG );
-        if( exportSecretKeyFilePath == null )
-        {
-            jStatusbar.setText( "File with given path missing." );
-            return;
-        }
-
-        int rowIdx = jPriv_PrivateKeyringsTable.getSelectedRow();
-
-        if( rowIdx < 0 )
-        {
-            jStatusbar.setText( "A key must be selected in order to perform export operation!." );
-            return;
-        }
-
-        long keyID = ( long )jPriv_PrivateKeyringsTable.getValueAt( rowIdx, 3 );
-        try
-        {
-            PGPSecretKeyRing keyRingToBeExported = PGPKeys.findSecretKeyRing( keyID );
-            PGPKeys.exportSecretKey( keyRingToBeExported, new File( exportSecretKeyFilePath ) );
-            jStatusbar.setText( "Exported private key successfully." );
-        }
-        catch( IOException | PGPException ex )
-        {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
-            jStatusbar.setText( "Could not export private key." );
-        }
-    }//GEN-LAST:event_jPriv_ExportButtonActionPerformed
-
-    private void jPriv_GenerateButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jPriv_GenerateButtonActionPerformed
-    {//GEN-HEADEREND:event_jPriv_GenerateButtonActionPerformed
-        int selectedDSABitsIndex = jPriv_DSABitsCombobox.getSelectedIndex();
-        int selectedDSABits = Integer.parseInt( jPriv_DSABitsCombobox.getItemAt( selectedDSABitsIndex ) );
-
-        int selectedElGamalBitsIndex = jPriv_ElGamalBitsCombobox.getSelectedIndex();
-        int selectedElGamalBits = Integer.parseInt( jPriv_ElGamalBitsCombobox.getItemAt( selectedElGamalBitsIndex ) );
-
-        String name = jPriv_NameTextbox.getText();
-        String email = jPriv_EmailTextbox.getText();
-        String passphrase = jPriv_PassphraseTextbox.getText();
-
-        if( "".equals( name ) || "".equals( email ) || "".equals( passphrase ) )
-        {
-            jStatusbar.setText( "Invalid private key generation data." );
-            return;
-        }
-
-        String userID = name + " <" + email + ">";
-
-        try
-        {
-            PGPKeyRingGenerator pgpKeyRingGenerator = PGPKeys.createPGPKeyRingGenerator(
-                    PGPKeys.generateDsaKeyPair( selectedDSABits ),
-                    PGPKeys.generateElGamalKeyPair( selectedElGamalBits ),
-                    userID,
-                    passphrase.toCharArray() );
-
-            PGPKeys.addPublicKey( pgpKeyRingGenerator );
-            PGPKeys.addSecretKey( pgpKeyRingGenerator );
-            PGPKeys.savePublicKeysToFile();
-            PGPKeys.saveSecretKeysToFile();
-            populatePrivateKeyRingTable();
-            populatePublicKeyRingTable();
-            jStatusbar.setText( "Private key generated successfully." );
-        }
-        catch( Exception ex )
-        {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
-            jStatusbar.setText( "Could not generate private key." );
-        }
-    }//GEN-LAST:event_jPriv_GenerateButtonActionPerformed
-
-    void populateSendMessageFromComboBox()
+    final void populateFromComboBox()
     {
         jSend_FromComboBox.removeAllItems();
 
@@ -925,7 +1099,7 @@ public class App extends javax.swing.JFrame
         }
     }
 
-    void populateSendMessageToComboBox()
+    final void populateToComboBox()
     {
         jSend_ToComboBox.removeAllItems();
 
@@ -950,11 +1124,10 @@ public class App extends javax.swing.JFrame
         }
     }
 
-    void populatePublicKeyRingTable()
+    final void populatePublicKeyRingTable()
     {
         try
         {
-            PGPPublicKeyRingCollection publicKeyRing = PGPKeys.getPublicKeysCollection();
             DefaultTableModel model = ( DefaultTableModel )jPubl_PublicKeyringsTable.getModel();
             int rowCount = model.getRowCount();
             //Remove rows one by one from the end of the table
@@ -983,12 +1156,10 @@ public class App extends javax.swing.JFrame
         }
     }
 
-    void populatePrivateKeyRingTable()
+    final void populatePrivateKeyRingTable()
     {
         try
         {
-            PGPSecretKeyRingCollection secretKeyRing = PGPKeys.getSecretKeysCollection();
-
             DefaultTableModel model = ( DefaultTableModel )jPriv_PrivateKeyringsTable.getModel();
             int rowCount = model.getRowCount();
             //Remove rows one by one from the end of the table
@@ -1045,7 +1216,7 @@ public class App extends javax.swing.JFrame
     private javax.swing.JLabel jPriv_NameLabel;
     private javax.swing.JTextField jPriv_NameTextbox;
     private javax.swing.JLabel jPriv_PassphraseLabel;
-    private javax.swing.JTextField jPriv_PassphraseTextbox;
+    private javax.swing.JPasswordField jPriv_PassphrasePasswordbox;
     private javax.swing.JScrollPane jPriv_PrivateKeyringsScrollpane;
     private javax.swing.JTable jPriv_PrivateKeyringsTable;
     private javax.swing.JPanel jPriv_Tab;
@@ -1055,16 +1226,24 @@ public class App extends javax.swing.JFrame
     private javax.swing.JScrollPane jPubl_PublicKeyringsScrollpane;
     private javax.swing.JTable jPubl_PublicKeyringsTable;
     private javax.swing.JPanel jPubl_Tab;
-    private javax.swing.JScrollPane jRecv_BodyScrollpane;
     private javax.swing.JTextArea jRecv_BodyTextarea;
+    private javax.swing.JCheckBox jRecv_CompressionCheckbox;
+    private javax.swing.JButton jRecv_DecryptButton;
+    private javax.swing.JLabel jRecv_EncryptionLabel;
+    private javax.swing.JTextField jRecv_EncryptionTextbox;
     private javax.swing.JLabel jRecv_FromLabel;
     private javax.swing.JTextField jRecv_FromTextbox;
     private javax.swing.JButton jRecv_OpenButton;
     private javax.swing.JLabel jRecv_PassphraseLabel;
     private javax.swing.JPasswordField jRecv_PassphrasePasswordbox;
+    private javax.swing.JCheckBox jRecv_Radix64Checkbox;
     private javax.swing.JButton jRecv_SaveButton;
+    private javax.swing.JCheckBox jRecv_SignatureCheckbox;
     private javax.swing.JPanel jRecv_Tab;
+    private javax.swing.JLabel jRecv_ToLabel;
+    private javax.swing.JTextField jRecv_ToTextbox;
     private javax.swing.JScrollPane jSend_BodyScrollpane;
+    private javax.swing.JScrollPane jSend_BodyScrollpane1;
     private javax.swing.JTextArea jSend_BodyTextarea;
     private javax.swing.JCheckBox jSend_CompressionCheckbox;
     private javax.swing.JComboBox<String> jSend_EncryptionCombobox;
@@ -1075,11 +1254,11 @@ public class App extends javax.swing.JFrame
     private javax.swing.JPasswordField jSend_PassphrasePasswordbox;
     private javax.swing.JCheckBox jSend_Radix64Checkbox;
     private javax.swing.JButton jSend_SendButton;
+    private javax.swing.JCheckBox jSend_SignatureCheckbox;
     private javax.swing.JPanel jSend_Tab;
     private javax.swing.JButton jSend_TestButton;
     private javax.swing.JComboBox<String> jSend_ToComboBox;
     private javax.swing.JLabel jSend_ToLabel;
-    private javax.swing.JCheckBox jSignature_Checkbox;
     private javax.swing.JTextField jStatusbar;
     private javax.swing.JTabbedPane jTabs;
     // End of variables declaration//GEN-END:variables

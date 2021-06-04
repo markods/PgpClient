@@ -26,12 +26,6 @@ public class Main {
         SetLookAndFeel("Nimbus");
         App app = new App();
         
-         app.populatePublicKeyRingTable();
-         app.populatePrivateKeyRingTable();
-        // TODO(Uros): Call these event whenever send or receive pages are opened
-        app.populateSendMessageFromComboBox();
-        app.populateSendMessageToComboBox();
-        
         java.awt.EventQueue.invokeLater(() -> {
             app.setVisible(true);
         });
