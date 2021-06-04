@@ -15,9 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPKeyRingGenerator;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
-import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPSecretKeyRing;
-import org.bouncycastle.openpgp.PGPSecretKeyRingCollection;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPSecretKey;
 
@@ -682,7 +680,7 @@ public class App extends javax.swing.JFrame
         }
         catch( IOException | PGPException ex )
         {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            Logger.getLogger( App.class.getName() ).log( Level.INFO, "Could not delete private key.", ex );
             jStatusbar.setText( "Could not delete private key." );
         }
     }//GEN-LAST:event_jPriv_DeleteButtonActionPerformed
@@ -713,7 +711,7 @@ public class App extends javax.swing.JFrame
         }
         catch( IOException | PGPException ex )
         {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            Logger.getLogger( App.class.getName() ).log( Level.INFO, "Could not export private key.", ex );
             jStatusbar.setText( "Could not export private key." );
         }
     }//GEN-LAST:event_jPriv_ExportButtonActionPerformed
@@ -735,7 +733,7 @@ public class App extends javax.swing.JFrame
         }
         catch( IOException | PGPException ex )
         {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            Logger.getLogger( App.class.getName() ).log( Level.INFO, "Could not import private key.", ex );
             jStatusbar.setText( "Could not import private key." );
         }
     }//GEN-LAST:event_jPriv_ImportButtonActionPerformed
@@ -783,7 +781,7 @@ public class App extends javax.swing.JFrame
         }
         catch( Exception ex )
         {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            Logger.getLogger( App.class.getName() ).log( Level.INFO, "Could not generate private key.", ex );
             jStatusbar.setText( "Could not generate private key." );
         }
     }//GEN-LAST:event_jPriv_GenerateButtonActionPerformed
@@ -814,7 +812,7 @@ public class App extends javax.swing.JFrame
         }
         catch( IOException | PGPException ex )
         {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            Logger.getLogger( App.class.getName() ).log( Level.INFO, "Could not export public key.", ex );
             jStatusbar.setText( "Could not export public key." );
         }
     }//GEN-LAST:event_jPubl_ExportButtonActionPerformed
@@ -836,7 +834,7 @@ public class App extends javax.swing.JFrame
         }
         catch( IOException | PGPException ex )
         {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            Logger.getLogger( App.class.getName() ).log( Level.INFO, "Could not import public key.", ex );
             jStatusbar.setText( "Could not import public key." );
         }
     }//GEN-LAST:event_jPubl_ImportButtonActionPerformed
@@ -862,7 +860,7 @@ public class App extends javax.swing.JFrame
         }
         catch( IOException | PGPException ex )
         {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            Logger.getLogger( App.class.getName() ).log( Level.INFO, "Could not delete public key.", ex );
             jStatusbar.setText( "Could not delete public key." );
         }
     }//GEN-LAST:event_jPubl_DeleteButtonActionPerformed
@@ -894,7 +892,6 @@ public class App extends javax.swing.JFrame
         // Read passphrase to be used if necessery
         char[] receiverPassphrase = jRecv_PassphrasePasswordbox.getPassword();
 
-        // TODO: only encrypted files need to be decrypted here
         // Decryption
         Encryption.DecryptedMessage decryptedMessage = Encryption.decrypt(
             encryptedMessage,
@@ -908,7 +905,7 @@ public class App extends javax.swing.JFrame
 
     private void jSend_TestButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jSend_TestButtonActionPerformed
     {//GEN-HEADEREND:event_jSend_TestButtonActionPerformed
-        // TODO(Uros): Do we need this?
+        // TODO(Uros): implement
     }//GEN-LAST:event_jSend_TestButtonActionPerformed
 
     private void jSend_SendButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jSend_SendButtonActionPerformed
@@ -936,14 +933,13 @@ public class App extends javax.swing.JFrame
         }
         catch( IOException | PGPException ex )
         {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
-            // TODO(Uros): possibly return here
+            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, "Sender public key not read correctly -- impossible!", ex );
+            return;
         }
 
         // Read receiver public key
         PGPPublicKey receiverPublicKey = null;
         int receiverKeyComboBoxIndex = jSend_ToComboBox.getSelectedIndex();
-        // TODO(Uros): should we do something with this?
         String receiverNameAndKeyID = jSend_ToComboBox.getItemAt( receiverKeyComboBoxIndex );
         String[] splittedReceiverNameAndKey = receiverNameAndKeyID.split( " | " );
         long receiverKeyID = new BigInteger( splittedReceiverNameAndKey[ splittedReceiverNameAndKey.length - 1 ], 16 ).longValue();
@@ -955,8 +951,8 @@ public class App extends javax.swing.JFrame
         }
         catch( IOException | PGPException ex )
         {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
-            // TODO(Uros): possibly return here
+            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, "Receiver public key not read correctly -- impossible!", ex );
+            return;
         }
 
         // Read encryption algorithm
@@ -1009,7 +1005,7 @@ public class App extends javax.swing.JFrame
 
     private void jRecv_DecryptButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_DecryptButtonActionPerformed
     {//GEN-HEADEREND:event_jRecv_DecryptButtonActionPerformed
-        // TODO add your handling code here:
+        // TODO(Uros): implement
     }//GEN-LAST:event_jRecv_DecryptButtonActionPerformed
 
     
@@ -1033,7 +1029,6 @@ public class App extends javax.swing.JFrame
 
     private void jRecv_TabComponentShown(java.awt.event.ComponentEvent evt)//GEN-FIRST:event_jRecv_TabComponentShown
     {//GEN-HEADEREND:event_jRecv_TabComponentShown
-        populatePublicKeyRingTable();
         jRecv_FromTextbox.setText( "" );
         jRecv_ToTextbox.setText( "" );
         jRecv_BodyTextarea.setText( "" );
@@ -1046,6 +1041,7 @@ public class App extends javax.swing.JFrame
 
     private void jPubl_TabComponentShown(java.awt.event.ComponentEvent evt)//GEN-FIRST:event_jPubl_TabComponentShown
     {//GEN-HEADEREND:event_jPubl_TabComponentShown
+        populatePublicKeyRingTable();
     }//GEN-LAST:event_jPubl_TabComponentShown
 
     private void jPriv_TabComponentShown(java.awt.event.ComponentEvent evt)//GEN-FIRST:event_jPriv_TabComponentShown
@@ -1095,7 +1091,7 @@ public class App extends javax.swing.JFrame
         }
         catch( IOException | PGPException ex )
         {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, "Could not populate <send from> combo box!", ex );
         }
     }
 
@@ -1120,7 +1116,8 @@ public class App extends javax.swing.JFrame
         }
         catch( IOException | PGPException ex )
         {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, "Could not populate <send to> combo box", ex );
+            return;
         }
     }
 
@@ -1152,7 +1149,8 @@ public class App extends javax.swing.JFrame
         }
         catch( IOException | PGPException ex )
         {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, "Could not populate <public key ring table>", ex );
+            return;
         }
     }
 
@@ -1197,7 +1195,8 @@ public class App extends javax.swing.JFrame
         }
         catch( IOException | PGPException ex )
         {
-            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, null, ex );
+            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, "Could not populate <private key ring table>", ex );
+            return;
         }
     }
 

@@ -57,7 +57,7 @@ public class PGPKeys {
                             new FileInputStream(publicKeyFile)),
                             new BcKeyFingerprintCalculator());
         } catch( IOException | PGPException ex ) {
-            java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log( Level.INFO, "Public keyring file missing from settings and could not be recreated; exiting." );
+            java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log( Level.INFO, "Public keyring file missing from settings and could not be recreated; exiting.", ex );
             System.exit(1);
         }
         
@@ -68,7 +68,7 @@ public class PGPKeys {
                             new FileInputStream(privateKeyFile)),
                             new BcKeyFingerprintCalculator());
         } catch( IOException | PGPException ex ) {
-            java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log( Level.INFO, "Secret keyring file missing from settings and could not be recreated; exiting." );
+            java.util.logging.Logger.getLogger(PGPKeys.class.getName()).log( Level.INFO, "Secret keyring file missing from settings and could not be recreated; exiting.", ex );
             System.exit(1);
         }
     }
@@ -126,7 +126,7 @@ public class PGPKeys {
             publicKeyRing.encode(aos);
         }
     }
-        
+    
     public static void importPublicKey(File file) throws IOException, PGPException {
         ArmoredInputStream ais = new ArmoredInputStream(new FileInputStream(file));
         PGPPublicKeyRingCollection pgpPubKeyCol = new PGPPublicKeyRingCollection(ais, new BcKeyFingerprintCalculator());
