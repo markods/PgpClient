@@ -7,7 +7,6 @@ import etf.openpgp.iu170057d_sm170081d.utils.FileUtils;
 import etf.openpgp.iu170057d_sm170081d.encryption.Encryption;
 import etf.openpgp.iu170057d_sm170081d.encryption.PGPKeys;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -684,10 +683,11 @@ public class App extends javax.swing.JFrame
         long keyID = ( long )jPriv_PrivateKeyringsTable.getValueAt( rowIdx, 3 );
         try
         {
-            PGPSecretKeyRing keyRingToBeDeleted = PGPKeys.findSecretKeyRing( keyID );
-            PGPKeys.removeSecretKey( keyRingToBeDeleted );
+            PGPSecretKeyRing secretKeyringToBeDeleted = PGPKeys.findSecretKeyRing( keyID );
+            PGPKeys.removeSecretKey( secretKeyringToBeDeleted );
             PGPKeys.saveSecretKeysToFile();
             populatePrivateKeyRingTable();
+
             jStatusbar.setText( "Deleted private key successfully." );
         }
         catch( IOException | PGPException ex )
@@ -811,7 +811,7 @@ public class App extends javax.swing.JFrame
 
         if( rowIdx < 0 )
         {
-            jStatusbar.setText( "A public key must be selected in order to perform the export operation!." );
+            jStatusbar.setText( "A public key must be selected in order to perform the export operation!" );
             return;
         }
 
@@ -857,17 +857,18 @@ public class App extends javax.swing.JFrame
 
         if( rowIdx < 0 )
         {
-            jStatusbar.setText( "A key must be selected in order to perform delete operation!." );
+            jStatusbar.setText( "A public key must be selected in order to perform the delete operation!" );
             return;
         }
 
         long keyID = ( long )jPubl_PublicKeyringsTable.getValueAt( rowIdx, 2 );
         try
         {
-            PGPPublicKeyRing keyRingToBeDeleted = PGPKeys.findPublicKeyRing( keyID );
-            PGPKeys.removePublicKey( keyRingToBeDeleted );
+            PGPPublicKeyRing publicKeyringToBeDeleted = PGPKeys.findPublicKeyRing( keyID );
+            PGPKeys.removePublicKey( publicKeyringToBeDeleted );
             PGPKeys.savePublicKeysToFile();
             populatePublicKeyRingTable();
+            
             jStatusbar.setText( "Deleted public key successfully." );
         }
         catch( IOException | PGPException ex )
@@ -912,6 +913,9 @@ public class App extends javax.swing.JFrame
 
         // Write output
         jRecv_BodyTextarea.setText( dectryptedMessageString );
+
+        // Enable various text components
+        setEnableReceiveTabComponents( true );
         jStatusbar.setText( "Opened message." );
     }//GEN-LAST:event_jRecv_OpenButtonActionPerformed
 
@@ -934,16 +938,15 @@ public class App extends javax.swing.JFrame
         // Read sender secret key id
         int senderKeyComboBoxIndex = jSend_FromCombobox.getSelectedIndex();
         String senderNameAndKeyID = jSend_FromCombobox.getItemAt( senderKeyComboBoxIndex );
-        String senderKeyIdHexString = senderNameAndKeyID.split( "\\|" )[1];
+        String senderKeyIdHexString = senderNameAndKeyID.split( "\\|" )[ 1 ];
         long senderKeyID = PGPKeys.hexStringToKeyId( senderKeyIdHexString );
-        
+
         // Read receiver public key id
         int receiverKeyComboBoxIndex = jSend_ToCombobox.getSelectedIndex();
         String receiverNameAndKeyID = jSend_ToCombobox.getItemAt( receiverKeyComboBoxIndex );
-        String receiverKeyIdHexString = receiverNameAndKeyID.split( "\\|" )[1];
+        String receiverKeyIdHexString = receiverNameAndKeyID.split( "\\|" )[ 1 ];
         long receiverKeyID = PGPKeys.hexStringToKeyId( receiverKeyIdHexString );
 
-        
         // Read sender secret key
         PGPSecretKey senderSecretKey = null;
         try
@@ -1041,6 +1044,7 @@ public class App extends javax.swing.JFrame
         jSend_CompressionCheckbox.setSelected( true );
         jSend_Radix64Checkbox.setSelected( true );
         jSend_SignatureCheckbox.setSelected( true );
+
         jSend_PassphrasePasswordbox.setEnabled( jSend_SignatureCheckbox.isSelected() );
     }//GEN-LAST:event_jSend_TabComponentShown
 
@@ -1054,6 +1058,8 @@ public class App extends javax.swing.JFrame
         jRecv_CompressionCheckbox.setSelected( false );
         jRecv_Radix64Checkbox.setSelected( false );
         jRecv_SignatureCheckbox.setSelected( false );
+
+        setEnableReceiveTabComponents( false );
         jRecv_PassphrasePasswordbox.setEnabled( jRecv_SignatureCheckbox.isSelected() );
     }//GEN-LAST:event_jRecv_TabComponentShown
 
@@ -1083,7 +1089,7 @@ public class App extends javax.swing.JFrame
         jRecv_PassphrasePasswordbox.setEnabled( jRecv_SignatureCheckbox.isSelected() );
     }//GEN-LAST:event_jRecv_SignatureCheckboxActionPerformed
 
-    final void populateEmailFromCombobox()
+    private void populateEmailFromCombobox()
     {
         jSend_FromCombobox.removeAllItems();
 
@@ -1099,7 +1105,7 @@ public class App extends javax.swing.JFrame
 
                 String nameAndEmail = ( String )key.getUserIDs().next();
                 String[] parsed = nameAndEmail.split( " " );
-                
+
                 String userEmail = parsed[ parsed.length - 1 ];
                 String userName = "";
                 for( int i = 0; i < parsed.length - 1; i++ )
@@ -1110,7 +1116,7 @@ public class App extends javax.swing.JFrame
                         userName += " ";
                     }
                 }
-                
+
                 String keyId = PGPKeys.keyIdToHexString( key.getKeyID() );
 
                 jSend_FromCombobox.addItem( userName + " " + userEmail + " | " + keyId );
@@ -1122,7 +1128,7 @@ public class App extends javax.swing.JFrame
         }
     }
 
-    final void populateEmailToCombobox()
+    private void populateEmailToCombobox()
     {
         jSend_ToCombobox.removeAllItems();
 
@@ -1148,7 +1154,7 @@ public class App extends javax.swing.JFrame
         }
     }
 
-    final void populatePublicKeyRingTable()
+    private void populatePublicKeyRingTable()
     {
         try
         {
@@ -1181,7 +1187,7 @@ public class App extends javax.swing.JFrame
         }
     }
 
-    final void populatePrivateKeyRingTable()
+    private void populatePrivateKeyRingTable()
     {
         try
         {
@@ -1214,9 +1220,9 @@ public class App extends javax.swing.JFrame
                     }
                 }
                 
-                System.out.println("key.getKeyID() " + key.getKeyID());
-                System.out.println("PGPKeys.keyIdToHexString( key.getKeyID() ) " + PGPKeys.keyIdToHexString( key.getKeyID() ));
-                System.out.println("PGPKeys.hexStringToKeyId(PGPKeys.keyIdToHexString( key.getKeyID() )) " + PGPKeys.hexStringToKeyId(PGPKeys.keyIdToHexString( key.getKeyID() )));
+//                System.out.println("key.getKeyID() " + key.getKeyID());
+//                System.out.println("PGPKeys.keyIdToHexString( key.getKeyID() ) " + PGPKeys.keyIdToHexString( key.getKeyID() ));
+//                System.out.println("PGPKeys.hexStringToKeyId(PGPKeys.keyIdToHexString( key.getKeyID() )) " + PGPKeys.hexStringToKeyId(PGPKeys.keyIdToHexString( key.getKeyID() )));
                 
                 
 
@@ -1231,6 +1237,15 @@ public class App extends javax.swing.JFrame
             Logger.getLogger( App.class.getName() ).log( Level.SEVERE, "Could not populate <private key ring table>", ex );
             return;
         }
+    }
+
+    private void setEnableReceiveTabComponents( boolean enable )
+    {
+        jRecv_FromTextbox.setEnabled( enable );
+        jRecv_ToTextbox.setEnabled( enable );
+        jRecv_BodyTextarea.setEnabled( enable );
+        jRecv_EncryptionTextbox.setEnabled( enable );
+        jRecv_PassphrasePasswordbox.setEnabled( enable );
     }
 
 

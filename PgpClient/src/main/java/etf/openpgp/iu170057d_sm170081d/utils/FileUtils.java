@@ -18,36 +18,62 @@ public class FileUtils
 
     public static void writeToFile( String filePath, byte[] content )
     {
-        try( FileOutputStream fos = new FileOutputStream( filePath ) )
+        FileOutputStream fos = null;
+        try
         {
+            fos = new FileOutputStream( filePath );
             fos.write( content );
         }
         catch( FileNotFoundException ex )
         {
-            Logger.getLogger( FileUtils.class.getName() ).log( Level.SEVERE, null, ex );
+            Logger.getLogger( FileUtils.class.getName() ).log( Level.INFO, "Could not find file with given path", ex );
         }
         catch( IOException ex )
         {
-            Logger.getLogger( FileUtils.class.getName() ).log( Level.SEVERE, null, ex );
+            Logger.getLogger( FileUtils.class.getName() ).log( Level.INFO, "Could not write file contents fully.", ex );
+        }
+        finally
+        {
+            try
+            {
+                if( fos != null )
+                    fos.close();
+            }
+            catch( IOException ex )
+            {
+            }
         }
     }
 
     public static byte[] readFromFile( String filePath )
     {
         File file = new File( filePath );
-        try( FileInputStream fin = new FileInputStream( file ) )
+        FileInputStream fin = null;
+        try
         {
+            fin = new FileInputStream( file );
             byte fileContent[] = new byte[( int )file.length()];
             fin.read( fileContent );
             return fileContent;
         }
         catch( FileNotFoundException ex )
         {
-            Logger.getLogger( FileUtils.class.getName() ).log( Level.INFO, "File not found.", ex );
+            Logger.getLogger( FileUtils.class.getName() ).log( Level.INFO, "Could not find file with given path.", ex );
         }
         catch( IOException ex )
         {
             Logger.getLogger( FileUtils.class.getName() ).log( Level.INFO, "Could not read file contents fully.", ex );
+        }
+        finally
+        {
+            try
+            {
+                if( fin != null )
+                    fin.close();
+            }
+            catch( IOException ex )
+            {
+            }
         }
 
         return null;

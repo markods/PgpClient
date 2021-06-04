@@ -17,8 +17,8 @@
    + public i private keyring               | M |   netbeans
 
 + interfejs listeneri
-   + send email                             | U |   netbeans
-   + receive email                          | U |   netbeans
+   + send email                             | M |   netbeans
+   + receive email                          | M |   netbeans
    + public i private keyring               | U |   netbeans
 
 
@@ -27,6 +27,7 @@
 ----------------------
 + sta od kriptografskih algoritama treba napraviti? -- sve u bouncy castle-u
    + sha1, zip, ...?
+   + koristiti sha-256 jer inace sa sha1 ne radi DSA
 
 + da li treba racunati poverenje? -- ne
 

@@ -64,7 +64,7 @@ public class Encryption
         
         PGPEncryptedDataGenerator ciphertextGenerator = new PGPEncryptedDataGenerator( ciphertextBuilder );
         
-        // TODO(Marko): Implement
+        // TODO(Marko): Implement, use sha-256
 
         PGPLiteralDataGenerator g;
         PGPCompressedDataGenerator g1;
