@@ -97,8 +97,8 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jSend_FromComboBox" max="32767" attributes="0"/>
-                          <Component id="jSend_ToComboBox" max="32767" attributes="0"/>
+                          <Component id="jSend_FromCombobox" max="32767" attributes="0"/>
+                          <Component id="jSend_ToCombobox" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSend_SendButton" min="-2" pref="81" max="-2" attributes="0"/>
@@ -123,11 +123,11 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jSend_FromLabel" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Component id="jSend_FromComboBox" min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Component id="jSend_FromCombobox" min="-2" pref="26" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jSend_ToComboBox" min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Component id="jSend_ToCombobox" min="-2" pref="26" max="-2" attributes="0"/>
                                   <Component id="jSend_ToLabel" min="-2" pref="26" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -164,7 +164,7 @@
                 <Property name="text" type="java.lang.String" value="To"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jSend_FromComboBox">
+            <Component class="javax.swing.JComboBox" name="jSend_FromCombobox">
               <Properties>
                 <Property name="maximumRowCount" type="int" value="16"/>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -175,7 +175,7 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jSend_ToComboBox">
+            <Component class="javax.swing.JComboBox" name="jSend_ToCombobox">
               <Properties>
                 <Property name="maximumRowCount" type="int" value="16"/>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -268,6 +268,9 @@
                 <Property name="text" type="java.lang.String" value="Signature"/>
                 <Property name="horizontalTextPosition" type="int" value="10"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jSend_SignatureCheckboxActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -309,7 +312,7 @@
                           <Component id="jRecv_SaveButton" min="-2" pref="81" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="jSend_BodyScrollpane1" alignment="1" max="32767" attributes="0"/>
+                  <Component id="jRecv_BodyScrollpane" alignment="1" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jRecv_EncryptionLabel" min="-2" pref="69" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -317,9 +320,9 @@
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Component id="jRecv_PassphraseLabel" min="-2" pref="77" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jRecv_PassphrasePasswordbox" min="-2" pref="251" max="-2" attributes="0"/>
+                      <Component id="jRecv_PassphrasePasswordbox" pref="251" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jRecv_DecryptButton" pref="81" max="32767" attributes="0"/>
+                      <Component id="jRecv_DecryptButton" min="-2" pref="81" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="jRecv_CompressionCheckbox" min="-2" max="-2" attributes="0"/>
@@ -353,7 +356,7 @@
                           </Group>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jSend_BodyScrollpane1" pref="260" max="32767" attributes="0"/>
+                      <Component id="jRecv_BodyScrollpane" pref="260" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jRecv_DecryptButton" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
@@ -383,7 +386,7 @@
                 <Property name="text" type="java.lang.String" value="To"/>
               </Properties>
             </Component>
-            <Container class="javax.swing.JScrollPane" name="jSend_BodyScrollpane1">
+            <Container class="javax.swing.JScrollPane" name="jRecv_BodyScrollpane">
               <AuxValues>
                 <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
               </AuxValues>
@@ -413,7 +416,6 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="jRecv_CompressionCheckbox">
               <Properties>
-                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Compression "/>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
@@ -422,7 +424,6 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="jRecv_Radix64Checkbox">
               <Properties>
-                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Radix64 Encoding"/>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
@@ -438,15 +439,20 @@
               </Events>
             </Component>
             <Component class="javax.swing.JPasswordField" name="jRecv_PassphrasePasswordbox">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="jRecv_SignatureCheckbox">
               <Properties>
-                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Signature"/>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="10"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRecv_SignatureCheckboxActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jRecv_OpenButton">
               <Properties>
@@ -646,10 +652,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jPriv_PassphrasePasswordbox" pref="172" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="jPriv_PassphraseLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jPriv_PassphraseLabel" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
