@@ -277,6 +277,7 @@ public class PGPKeys
             while( keyIter.hasNext() )
             {
                 PGPSecretKey key = keyIter.next();
+                System.out.println("key.getKeyID(): " + key.getKeyID());
                 if( (key.getKeyID() == id) )
                 {
                     secKey = key;
@@ -304,17 +305,28 @@ public class PGPKeys
     
     public static long hexStringToKeyId( String userFriendlyHexString )
     {
-        String hexString = "0x" + userFriendlyHexString.replaceAll( "\\s", "" );
+        String hexString = userFriendlyHexString.replaceAll( "\\s", "" );
         try
         {
-            long keyId = Long.decode( hexString );
+            String mostSignificantBits = hexString.substring(0, 8);
+            String leastSignificantBits = hexString.substring(8, 16);
+            long keyId = (Long.parseLong(mostSignificantBits, 16) << 32) | Long.parseLong(leastSignificantBits, 16);            
             return keyId;
         }
         catch( NumberFormatException ex )
         {
-            Logger.getLogger( PGPKeys.class.getName() ).log( Level.FINE, "Invalid hex string given for keyId.", ex );
+            Logger.getLogger( PGPKeys.class.getName() ).log( Level.SEVERE, "Invalid hex string given for keyId.", ex );
             return 0;
         }
     }
-
+    
+    public static void main(String[] args)
+    {
+        long longNumber = 12341234;
+        String longNumberToString = keyIdToHexString(longNumber);
+        long longNumberBackToLongNumber = hexStringToKeyId(longNumberToString);
+        
+        System.out.println(longNumber);
+        System.out.println(longNumberBackToLongNumber);
+    }
 }

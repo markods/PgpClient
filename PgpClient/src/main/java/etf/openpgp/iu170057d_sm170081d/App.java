@@ -1213,6 +1213,12 @@ public class App extends javax.swing.JFrame
                         name += " ";
                     }
                 }
+                
+                System.out.println("key.getKeyID() " + key.getKeyID());
+                System.out.println("PGPKeys.keyIdToHexString( key.getKeyID() ) " + PGPKeys.keyIdToHexString( key.getKeyID() ));
+                System.out.println("PGPKeys.hexStringToKeyId(PGPKeys.keyIdToHexString( key.getKeyID() )) " + PGPKeys.hexStringToKeyId(PGPKeys.keyIdToHexString( key.getKeyID() )));
+                
+                
 
                 model.addRow( new Object[]
                 {
