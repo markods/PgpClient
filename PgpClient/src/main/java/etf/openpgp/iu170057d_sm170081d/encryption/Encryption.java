@@ -1,11 +1,17 @@
 package etf.openpgp.iu170057d_sm170081d.encryption;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.Provider;
 import java.security.SecureRandom;
 import java.security.Security;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
@@ -15,19 +21,32 @@ import org.bouncycastle.openpgp.PGPCompressedData;
 import org.bouncycastle.openpgp.PGPCompressedDataGenerator;
 import org.bouncycastle.openpgp.PGPEncryptedData;
 import org.bouncycastle.openpgp.PGPEncryptedDataGenerator;
+import org.bouncycastle.openpgp.PGPEncryptedDataList;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPLiteralData;
 import org.bouncycastle.openpgp.PGPLiteralDataGenerator;
+import org.bouncycastle.openpgp.PGPMarker;
+import org.bouncycastle.openpgp.PGPObjectFactory;
 import org.bouncycastle.openpgp.PGPOnePassSignature;
+import org.bouncycastle.openpgp.PGPOnePassSignatureList;
 import org.bouncycastle.openpgp.PGPPrivateKey;
 import org.bouncycastle.openpgp.PGPPublicKey;
+import org.bouncycastle.openpgp.PGPPublicKeyEncryptedData;
+import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPSecretKey;
+import org.bouncycastle.openpgp.PGPSecretKeyRingCollection;
 import org.bouncycastle.openpgp.PGPSignature;
 import org.bouncycastle.openpgp.PGPSignatureGenerator;
+import org.bouncycastle.openpgp.PGPSignatureList;
 import org.bouncycastle.openpgp.PGPSignatureSubpacketGenerator;
+import org.bouncycastle.openpgp.PGPUtil;
+import org.bouncycastle.openpgp.operator.bc.BcKeyFingerprintCalculator;
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPContentSignerBuilder;
+import org.bouncycastle.openpgp.operator.jcajce.JcaPGPContentVerifierBuilderProvider;
+import org.bouncycastle.openpgp.operator.jcajce.JcaPGPDigestCalculatorProviderBuilder;
 import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder;
 import org.bouncycastle.openpgp.operator.jcajce.JcePGPDataEncryptorBuilder;
+import org.bouncycastle.openpgp.operator.jcajce.JcePublicKeyDataDecryptorFactoryBuilder;
 import org.bouncycastle.openpgp.operator.jcajce.JcePublicKeyKeyEncryptionMethodGenerator;
 
 public class Encryption
@@ -420,7 +439,7 @@ public class Encryption
 
         // if the message should be signed, append a signature packet
         if( addSignature )
-            message = appendSignaturePacket(message, senderDsaSecretKey, senderPassphrase );
+            message = appendSignaturePacket( message, senderDsaSecretKey, senderPassphrase );
 
         // if the message should be compressed, turn it into a compressed packet
         if( addCompression )
@@ -428,7 +447,7 @@ public class Encryption
 
         // if the message should be encrypted, turn it into an encrypted packet
         if( encryptionAlgorithm != EncryptionAlgorithm.NONE )
-            message = createEncryptedPacket(message, receiverElGamalPublicKey, encryptionAlgorithm, senderPassphrase );
+            message = createEncryptedPacket( message, receiverElGamalPublicKey, encryptionAlgorithm, senderPassphrase );
 
         // if the message should be converted into radix64 format, encode it into that format
         if( addConversionToRadix64 )
@@ -441,7 +460,9 @@ public class Encryption
             byte[] message,
             char[] receiverPassphrase )
     {
-        PgpMessage dm = null; //new PgpMessage( message, false, false, "stub-author" );
+
+
+        PgpMessage dm = null; //new PgpMessage( msg, false, false, "stub-author" );
         return dm;
     }
 }

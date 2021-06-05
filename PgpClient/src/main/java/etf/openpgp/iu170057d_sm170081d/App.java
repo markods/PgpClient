@@ -740,6 +740,7 @@ public class App extends javax.swing.JFrame
         try
         {
             PGPKeys.importSecretKey( new File( importSecretKeyFilePath ) );
+            PGPKeys.saveSecretKeysToFile();
             populatePrivateKeyRingTable();
             jStatusbar.setText( "Imported private key successfully." );
         }
@@ -752,6 +753,7 @@ public class App extends javax.swing.JFrame
 
     private void jPriv_GenerateButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jPriv_GenerateButtonActionPerformed
     {//GEN-HEADEREND:event_jPriv_GenerateButtonActionPerformed
+        // TODO: check why DSS 2048 and ElGamal 4096 generation never completes
         int selectedDSABitsIndex = jPriv_DSABitsCombobox.getSelectedIndex();
         int selectedDSABits = Integer.parseInt( jPriv_DSABitsCombobox.getItemAt( selectedDSABitsIndex ) );
 
@@ -841,6 +843,7 @@ public class App extends javax.swing.JFrame
         try
         {
             PGPKeys.importPublicKey( new File( importPublicKeyFilePath ) );
+            PGPKeys.savePublicKeysToFile();
             populatePublicKeyRingTable();
             jStatusbar.setText( "Imported public key successfully." );
         }

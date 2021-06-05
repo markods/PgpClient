@@ -170,9 +170,9 @@ public class PGPKeys
     public static void importSecretKey( File file ) throws IOException, PGPException
     {
         ArmoredInputStream ais = new ArmoredInputStream( new FileInputStream( file ) );
-        PGPSecretKeyRingCollection pgpPubKeyCol = new PGPSecretKeyRingCollection( ais, new BcKeyFingerprintCalculator() );
+        PGPSecretKeyRingCollection pgpSecKeyCol = new PGPSecretKeyRingCollection( ais, new BcKeyFingerprintCalculator() );
 
-        Iterator<PGPSecretKeyRing> keyRingIter = pgpPubKeyCol.getKeyRings();
+        Iterator<PGPSecretKeyRing> keyRingIter = pgpSecKeyCol.getKeyRings();
         while( keyRingIter.hasNext() )
         {
             PGPSecretKeyRing keyRing = keyRingIter.next();
