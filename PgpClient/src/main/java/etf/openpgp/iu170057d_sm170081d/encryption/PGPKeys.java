@@ -321,14 +321,14 @@ public class PGPKeys
         }
     }
 
-    public static boolean checkPassphrase( PGPSecretKeyRing pgpSecretKeyRing, char[] passphrase )
+    public static boolean isValidPassphrase( PGPSecretKeyRing secretKeyring, char[] passphrase )
     {
-        if( pgpSecretKeyRing == null || passphrase == null )
+        if( secretKeyring == null || passphrase == null )
             return false;
         
         try
         {
-            pgpSecretKeyRing.getSecretKey().extractPrivateKey(
+            secretKeyring.getSecretKey().extractPrivateKey(
                     new JcePBESecretKeyDecryptorBuilder()
                             .setProvider( "BC" )
                             .build( passphrase )

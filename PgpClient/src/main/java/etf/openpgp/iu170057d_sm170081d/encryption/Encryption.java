@@ -407,8 +407,8 @@ public class Encryption
 
     public static byte[] createPgpMessage(
             byte[] message,
-            PGPSecretKey senderSecretKey,
-            PGPPublicKey receiverPublicKey,
+            PGPSecretKey senderDsaSecretKey,
+            PGPPublicKey receiverElGamalPublicKey,
             EncryptionAlgorithm encryptionAlgorithm,
             char[] senderPassphrase,
             boolean addSignature,
@@ -420,7 +420,7 @@ public class Encryption
 
         // if the message should be signed, append a signature packet
         if( addSignature )
-            message = appendSignaturePacket( message, senderSecretKey, senderPassphrase );
+            message = appendSignaturePacket(message, senderDsaSecretKey, senderPassphrase );
 
         // if the message should be compressed, turn it into a compressed packet
         if( addCompression )
@@ -428,7 +428,7 @@ public class Encryption
 
         // if the message should be encrypted, turn it into an encrypted packet
         if( encryptionAlgorithm != EncryptionAlgorithm.NONE )
-            message = createEncryptedPacket( message, receiverPublicKey, encryptionAlgorithm, senderPassphrase );
+            message = createEncryptedPacket(message, receiverElGamalPublicKey, encryptionAlgorithm, senderPassphrase );
 
         // if the message should be converted into radix64 format, encode it into that format
         if( addConversionToRadix64 )

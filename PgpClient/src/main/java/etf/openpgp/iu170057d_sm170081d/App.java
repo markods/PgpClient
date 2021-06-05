@@ -927,7 +927,7 @@ public class App extends javax.swing.JFrame
         String senderNameAndKeyID = jSend_FromCombobox.getItemAt( senderKeyComboBoxIndex );
         String senderKeyIdHexString = senderNameAndKeyID.split( "\\|" )[ 1 ];
         long senderKeyID = PGPKeys.hexStringToKeyId( senderKeyIdHexString );
-        
+
         PGPSecretKeyRing senderSecretKeyring = null;
         try
         {
@@ -941,17 +941,16 @@ public class App extends javax.swing.JFrame
         }
 
         char[] passphrase = jSend_PassphrasePasswordbox.getPassword();
-        
-        
-        if( PGPKeys.checkPassphrase(senderSecretKeyring, passphrase ) )
+
+        if( PGPKeys.isValidPassphrase( senderSecretKeyring, passphrase ) )
         {
-            jStatusbar.setText( "Passphrase valid." );
+            jStatusbar.setText( "Valid passphrase." );
         }
         else
         {
-            jStatusbar.setText( "Passphrase invalid." );
+            jStatusbar.setText( "Invalid passphrase." );
         }
-        
+
         // necessary to prevent side channel attacks - memory reads of the passphrase
         for( int i = 0; i < passphrase.length; i++ )
             passphrase[ i ] = '\0';
@@ -983,11 +982,12 @@ public class App extends javax.swing.JFrame
         long receiverKeyID = PGPKeys.hexStringToKeyId( receiverKeyIdHexString );
 
         // Read sender secret key
+        PGPSecretKeyRing senderSecretKeyring = null;
         PGPSecretKey senderSecretKey = null;
         try
         {
-            PGPSecretKeyRing senderKeyRing = PGPKeys.findSecretKeyRing( senderKeyID );
-            Iterator<PGPSecretKey> keyIter = senderKeyRing.getSecretKeys();
+            senderSecretKeyring = PGPKeys.findSecretKeyRing( senderKeyID );
+            Iterator<PGPSecretKey> keyIter = senderSecretKeyring.getSecretKeys();
             senderSecretKey = keyIter.next();
         }
         catch( IOException | PGPException ex )
@@ -1002,6 +1002,7 @@ public class App extends javax.swing.JFrame
         {
             PGPPublicKeyRing receiverKeyRing = PGPKeys.findPublicKeyRing( receiverKeyID );
             Iterator<PGPPublicKey> keyIter = receiverKeyRing.getPublicKeys();
+            keyIter.next();   // skip the DSA signing key, and use the ElGamal encryption key
             receiverPublicKey = keyIter.next();
         }
         catch( IOException | PGPException ex )
@@ -1035,6 +1036,12 @@ public class App extends javax.swing.JFrame
 
         // Read passphrase
         char[] senderPassphrase = jSend_PassphrasePasswordbox.getPassword();
+
+        if( addSignature && !PGPKeys.isValidPassphrase( senderSecretKeyring, senderPassphrase ) )
+        {
+            jStatusbar.setText( "Invalid passphrase." );
+            return;
+        }
 
         // Encryption
         byte[] encryptedMessage = null;
@@ -1125,7 +1132,9 @@ public class App extends javax.swing.JFrame
 
     private void jSend_SignatureCheckboxActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jSend_SignatureCheckboxActionPerformed
     {//GEN-HEADEREND:event_jSend_SignatureCheckboxActionPerformed
+        jSend_PassphrasePasswordbox.setText( "" );
         jSend_PassphrasePasswordbox.setEnabled( jSend_SignatureCheckbox.isSelected() );
+        jSend_TestButton.setEnabled( jSend_SignatureCheckbox.isSelected() );
     }//GEN-LAST:event_jSend_SignatureCheckboxActionPerformed
 
     private void jRecv_SignatureCheckboxActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_SignatureCheckboxActionPerformed
