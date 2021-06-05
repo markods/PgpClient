@@ -54,23 +54,35 @@ public class Encryption
         }
     }
 
-    public static class DecryptedMessage
+    public static class PgpMessage
     {
-        public final byte[] decryptedMessage;
-        public final boolean messageIntegrity;
-        public final boolean messageSigned;
-        public final String messageAuthor;
+        public final byte[] message;
+        public final int senderSecretKeyId;
+        public final int receiverPublicKeyId;
+        public final EncryptionAlgorithm encryptionAlgorithm;
+        public final boolean signed;
+        public final boolean compressed;
+        public final boolean radix64Encoded;
+        public final boolean valid;
 
-        public DecryptedMessage(
-                byte[] decryptedMessage,
-                boolean messageIntegrity,
-                boolean messageSigned,
-                String messageAuthor )
+        public PgpMessage(
+                byte[] message,
+                int senderSecretKeyId,
+                int receiverPublicKeyId,
+                EncryptionAlgorithm encryptionAlgorithm,
+                boolean signed,
+                boolean compressed,
+                boolean radix64Encoded,
+                boolean valid )
         {
-            this.decryptedMessage = decryptedMessage;
-            this.messageIntegrity = messageIntegrity;
-            this.messageSigned = messageSigned;
-            this.messageAuthor = messageAuthor;
+            this.message = message;
+            this.senderSecretKeyId = senderSecretKeyId;
+            this.receiverPublicKeyId = receiverPublicKeyId;
+            this.encryptionAlgorithm = encryptionAlgorithm;
+            this.signed = signed;
+            this.compressed = compressed;
+            this.radix64Encoded = radix64Encoded;
+            this.valid = valid;
         }
     }
 
@@ -161,7 +173,7 @@ public class Encryption
             PGPSignatureGenerator signatureGen = new PGPSignatureGenerator(
                     new JcaPGPContentSignerBuilder(
                             senderSecretKey.getPublicKey().getAlgorithm(),
-                            HashAlgorithmTags.SHA256
+                            HashAlgorithmTags.SHA1
                     ).setProvider( "BC" )
             );
             signatureGen.init( PGPSignature.BINARY_DOCUMENT, senderPrivateKey );
@@ -172,7 +184,7 @@ public class Encryption
             signatureSubpacketGen.setSignatureCreationTime( /*isCritical=*/ false, new Date() );
             signatureSubpacketGen.setPreferredHashAlgorithms( /*isCritical=*/ false, new int[]
                     {
-                        HashAlgorithmTags.SHA256
+                        HashAlgorithmTags.SHA1
                     } );
             signatureSubpacketGen.setPreferredSymmetricAlgorithms( /*isCritical=*/ false, new int[]
                     {
@@ -359,7 +371,7 @@ public class Encryption
             // make an armored output stream using the message stream
             messageStream = new ByteArrayOutputStream();
             armoredStream = new ArmoredOutputStream( messageStream );
-            
+
             // write the radix64 data packet to the message stream and close the armored data stream
             armoredStream.write( message );
             armoredStream.close();
@@ -425,14 +437,11 @@ public class Encryption
         return message;
     }
 
-    public static DecryptedMessage readPgpMessage(
+    public static PgpMessage readPgpMessage(
             byte[] message,
             char[] receiverPassphrase )
     {
-        // TODO(Marko): Implement -- only encrypted files need to be decrypted here
-
-        String stubMessageAuthor = "stub-author";
-        DecryptedMessage dm = new DecryptedMessage( message, false, false, stubMessageAuthor );
+        PgpMessage dm = null; //new PgpMessage( message, false, false, "stub-author" );
         return dm;
     }
 }

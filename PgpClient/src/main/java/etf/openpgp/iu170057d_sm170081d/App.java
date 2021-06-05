@@ -647,7 +647,7 @@ public class App extends javax.swing.JFrame
         jTabs.addTab("Private Keys", jPriv_Tab);
 
         jStatusbar.setEditable(false);
-        jStatusbar.setText("Success");
+        jStatusbar.setText("Status");
         jStatusbar.setFocusable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -868,7 +868,7 @@ public class App extends javax.swing.JFrame
             PGPKeys.removePublicKey( publicKeyringToBeDeleted );
             PGPKeys.savePublicKeysToFile();
             populatePublicKeyRingTable();
-            
+
             jStatusbar.setText( "Deleted public key successfully." );
         }
         catch( IOException | PGPException ex )
@@ -905,14 +905,15 @@ public class App extends javax.swing.JFrame
         // Read passphrase to be used if necessery
         char[] receiverPassphrase = jRecv_PassphrasePasswordbox.getPassword();
 
+        // TODO: finish + decrypt button should be used if this fails
         // Decryption
-        Encryption.DecryptedMessage decryptedMessage = Encryption.readPgpMessage(
+        Encryption.PgpMessage decryptedMessage = Encryption.readPgpMessage(
                 encryptedMessage,
                 receiverPassphrase );
-        String dectryptedMessageString = new String( decryptedMessage.decryptedMessage );
+        String decryptedMessageString = new String( decryptedMessage.message );
 
         // Write output
-        jRecv_BodyTextarea.setText( dectryptedMessageString );
+        jRecv_BodyTextarea.setText( decryptedMessageString );
 
         // Enable various text components
         setEnableReceiveTabComponents( true );
@@ -921,11 +922,45 @@ public class App extends javax.swing.JFrame
 
     private void jSend_TestButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jSend_TestButtonActionPerformed
     {//GEN-HEADEREND:event_jSend_TestButtonActionPerformed
-        // TODO(Uros): implement
+        // Read sender secret key id
+        int senderKeyComboBoxIndex = jSend_FromCombobox.getSelectedIndex();
+        String senderNameAndKeyID = jSend_FromCombobox.getItemAt( senderKeyComboBoxIndex );
+        String senderKeyIdHexString = senderNameAndKeyID.split( "\\|" )[ 1 ];
+        long senderKeyID = PGPKeys.hexStringToKeyId( senderKeyIdHexString );
+        
+        PGPSecretKeyRing senderSecretKeyring = null;
+        try
+        {
+            senderSecretKeyring = PGPKeys.findSecretKeyRing( senderKeyID );
+        }
+        catch( IOException | PGPException ex )
+        {
+            Logger.getLogger( App.class.getName() ).log( Level.SEVERE, "Could not find sender secret key in sender secret key dropdown.", ex );
+            jStatusbar.setText( "Could not find sender secret key." );
+            return;
+        }
+
+        char[] passphrase = jSend_PassphrasePasswordbox.getPassword();
+        
+        
+        if( PGPKeys.checkPassphrase(senderSecretKeyring, passphrase ) )
+        {
+            jStatusbar.setText( "Passphrase valid." );
+        }
+        else
+        {
+            jStatusbar.setText( "Passphrase invalid." );
+        }
+        
+        // necessary to prevent side channel attacks - memory reads of the passphrase
+        for( int i = 0; i < passphrase.length; i++ )
+            passphrase[ i ] = '\0';
     }//GEN-LAST:event_jSend_TestButtonActionPerformed
 
     private void jSend_SendButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jSend_SendButtonActionPerformed
     {//GEN-HEADEREND:event_jSend_SendButtonActionPerformed
+        // TODO(Uros): allow multiple selection in dropdown
+
         // Read original message
         String textMessage = jSend_BodyTextarea.getText();
         byte[] byteMessage = textMessage.getBytes();
@@ -1002,15 +1037,24 @@ public class App extends javax.swing.JFrame
         char[] senderPassphrase = jSend_PassphrasePasswordbox.getPassword();
 
         // Encryption
-        byte[] encryptedMessage = Encryption.createPgpMessage(
-                byteMessage,
-                senderSecretKey,
-                receiverPublicKey,
-                encryptionAlgorithm,
-                senderPassphrase,
-                addSignature,
-                addCompression,
-                addConversionToRadix64 );
+        byte[] encryptedMessage = null;
+        try
+        {
+            encryptedMessage = Encryption.createPgpMessage(
+                    byteMessage,
+                    senderSecretKey,
+                    receiverPublicKey,
+                    encryptionAlgorithm,
+                    senderPassphrase,
+                    addSignature,
+                    addCompression,
+                    addConversionToRadix64 );
+        }
+        catch( IOException ex )
+        {
+            jStatusbar.setText( ex.getMessage() );
+            return;
+        }
 
         String encryptedFilePath = FileUtils.getUserSelectedFilePath( FileUtils.SAVE_DIALOG, FileUtils.PGP_MESSAGE_FILE );
         if( encryptedFilePath == null )
@@ -1219,13 +1263,10 @@ public class App extends javax.swing.JFrame
                         name += " ";
                     }
                 }
-                
+
 //                System.out.println("key.getKeyID() " + key.getKeyID());
 //                System.out.println("PGPKeys.keyIdToHexString( key.getKeyID() ) " + PGPKeys.keyIdToHexString( key.getKeyID() ));
 //                System.out.println("PGPKeys.hexStringToKeyId(PGPKeys.keyIdToHexString( key.getKeyID() )) " + PGPKeys.hexStringToKeyId(PGPKeys.keyIdToHexString( key.getKeyID() )));
-                
-                
-
                 model.addRow( new Object[]
                 {
                     name, email, PGPKeys.keyIdToHexString( key.getKeyID() ), key.getKeyID()

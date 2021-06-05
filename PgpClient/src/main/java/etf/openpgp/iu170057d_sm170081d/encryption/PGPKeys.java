@@ -36,6 +36,7 @@ import org.bouncycastle.openpgp.operator.bc.BcKeyFingerprintCalculator;
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPContentSignerBuilder;
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPDigestCalculatorProviderBuilder;
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPKeyPair;
+import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder;
 import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyEncryptorBuilder;
 
 public class PGPKeys
@@ -187,17 +188,17 @@ public class PGPKeys
     {
         PGPKeyPair dsaPgpKeyPair = new JcaPGPKeyPair( PGPPublicKey.DSA, dsaKeyPair, new Date() );
         PGPKeyPair elGamalPgpKeyPair = new JcaPGPKeyPair( PGPPublicKey.ELGAMAL_ENCRYPT, elGamalKeyPair, new Date() );
-        PGPDigestCalculator sha1Calc = new JcaPGPDigestCalculatorProviderBuilder().build().get( HashAlgorithmTags.SHA1 );
+        PGPDigestCalculator shaCalc = new JcaPGPDigestCalculatorProviderBuilder().build().get( HashAlgorithmTags.SHA1 );
 
         PGPKeyRingGenerator keyRingGen = new PGPKeyRingGenerator(
                 PGPSignature.POSITIVE_CERTIFICATION,
                 dsaPgpKeyPair,
                 identity,
-                sha1Calc,
+                shaCalc,
                 null,
                 null,
                 new JcaPGPContentSignerBuilder( dsaPgpKeyPair.getPublicKey().getAlgorithm(), HashAlgorithmTags.SHA1 ),
-                new JcePBESecretKeyEncryptorBuilder( PGPEncryptedData.AES_256, sha1Calc ).setProvider( "BC" ).build( passphrase ) );
+                new JcePBESecretKeyEncryptorBuilder( PGPEncryptedData.AES_256, shaCalc ).setProvider( "BC" ).build( passphrase ) );
 
         keyRingGen.addSubKey( elGamalPgpKeyPair );
 
@@ -302,15 +303,15 @@ public class PGPKeys
         String userFriendlyHexString = hexString.replaceAll( "....(?!$)", "$0 " );
         return userFriendlyHexString;
     }
-    
+
     public static long hexStringToKeyId( String userFriendlyHexString )
     {
         String hexString = userFriendlyHexString.replaceAll( "\\s", "" );
         try
         {
-            String mostSignificantBits = hexString.substring(0, 8);
-            String leastSignificantBits = hexString.substring(8, 16);
-            long keyId = (Long.parseLong(mostSignificantBits, 16) << 32) | Long.parseLong(leastSignificantBits, 16);            
+            String mostSignificantBits = hexString.substring( 0, 8 );
+            String leastSignificantBits = hexString.substring( 8, 16 );
+            long keyId = (Long.parseLong( mostSignificantBits, 16 ) << 32) | Long.parseLong( leastSignificantBits, 16 );
             return keyId;
         }
         catch( NumberFormatException ex )
@@ -319,14 +320,27 @@ public class PGPKeys
             return 0;
         }
     }
-    
-//    public static void main(String[] args)
-//    {
-//        long longNumber = 12341234;
-//        String longNumberToString = keyIdToHexString(longNumber);
-//        long longNumberBackToLongNumber = hexStringToKeyId(longNumberToString);
-//        
-//        System.out.println(longNumber);
-//        System.out.println(longNumberBackToLongNumber);
-//    }
+
+    public static boolean checkPassphrase( PGPSecretKeyRing pgpSecretKeyRing, char[] passphrase )
+    {
+        if( pgpSecretKeyRing == null || passphrase == null )
+            return false;
+        
+        try
+        {
+            pgpSecretKeyRing.getSecretKey().extractPrivateKey(
+                    new JcePBESecretKeyDecryptorBuilder()
+                            .setProvider( "BC" )
+                            .build( passphrase )
+            );
+            
+            Logger.getLogger( PGPKeys.class.getName() ).log( Level.FINE, "Valid passphrase used to decode secret key." );
+            return true;
+        }
+        catch( PGPException ex )
+        {
+            Logger.getLogger( PGPKeys.class.getName() ).log( Level.FINE, "Invalid passphrase used to decode secret key.", ex );
+            return false;
+        }
+    }
 }
