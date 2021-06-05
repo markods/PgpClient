@@ -321,14 +321,25 @@ public class PGPKeys
         }
     }
 
-    public static boolean isValidPassphrase( PGPSecretKeyRing secretKeyring, char[] passphrase )
+    public static boolean isValidPassphrase( PGPSecretKeyRing secretKeyring, int index, char[] passphrase )
     {
         if( secretKeyring == null || passphrase == null )
             return false;
         
         try
         {
-            secretKeyring.getSecretKey().extractPrivateKey(
+            Iterator secretKeyIter = secretKeyring.getSecretKeys();
+            PGPSecretKey secretKey = null;
+            for( int i = 0; i <= index && secretKeyIter.hasNext(); i++ )
+                secretKey = ( PGPSecretKey )secretKeyIter.next();
+            
+            if( secretKey == null )
+            {
+                Logger.getLogger( PGPKeys.class.getName() ).log( Level.FINE, "Secret key at given index missing - it could not be checked against passphrase." );
+                return false;
+            }
+                        
+            secretKey.extractPrivateKey(
                     new JcePBESecretKeyDecryptorBuilder()
                             .setProvider( "BC" )
                             .build( passphrase )

@@ -942,7 +942,7 @@ public class App extends javax.swing.JFrame
 
         char[] passphrase = jSend_PassphrasePasswordbox.getPassword();
 
-        if( PGPKeys.isValidPassphrase( senderSecretKeyring, passphrase ) )
+        if( PGPKeys.isValidPassphrase( senderSecretKeyring, 0, passphrase ) )
         {
             jStatusbar.setText( "Valid passphrase." );
         }
@@ -1037,7 +1037,7 @@ public class App extends javax.swing.JFrame
         // Read passphrase
         char[] senderPassphrase = jSend_PassphrasePasswordbox.getPassword();
 
-        if( addSignature && !PGPKeys.isValidPassphrase( senderSecretKeyring, senderPassphrase ) )
+        if( addSignature && !PGPKeys.isValidPassphrase( senderSecretKeyring, 0, senderPassphrase ) )
         {
             jStatusbar.setText( "Invalid passphrase." );
             return;
@@ -1096,6 +1096,7 @@ public class App extends javax.swing.JFrame
         jSend_Radix64Checkbox.setSelected( true );
         jSend_SignatureCheckbox.setSelected( true );
 
+        jSend_TestButton.setEnabled( true );
         jSend_PassphrasePasswordbox.setEnabled( jSend_SignatureCheckbox.isSelected() );
     }//GEN-LAST:event_jSend_TabComponentShown
 
@@ -1296,6 +1297,7 @@ public class App extends javax.swing.JFrame
         jRecv_BodyTextarea.setEnabled( enable );
         jRecv_EncryptionTextbox.setEnabled( enable );
         jRecv_PassphrasePasswordbox.setEnabled( enable );
+        jRecv_DecryptButton.setEnabled( enable );
     }
 
 
