@@ -41,6 +41,7 @@ public class FileUtils
             }
             catch( IOException ex )
             {
+                Logger.getLogger( FileUtils.class.getName() ).log( Level.SEVERE, "Could not close file after IOException occured during write.", ex );
             }
         }
     }
@@ -73,6 +74,7 @@ public class FileUtils
             }
             catch( IOException ex )
             {
+                Logger.getLogger( FileUtils.class.getName() ).log( Level.SEVERE, "Could not close file after IOException occured during read.", ex );
             }
         }
 

@@ -906,7 +906,7 @@ public class App extends javax.swing.JFrame
         char[] receiverPassphrase = jRecv_PassphrasePasswordbox.getPassword();
 
         // Decryption
-        Encryption.DecryptedMessage decryptedMessage = Encryption.decrypt(
+        Encryption.DecryptedMessage decryptedMessage = Encryption.readPgpMessage(
                 encryptedMessage,
                 receiverPassphrase );
         String dectryptedMessageString = new String( decryptedMessage.decryptedMessage );
@@ -1002,7 +1002,7 @@ public class App extends javax.swing.JFrame
         char[] senderPassphrase = jSend_PassphrasePasswordbox.getPassword();
 
         // Encryption
-        byte[] encryptedMessage = Encryption.encrypt(
+        byte[] encryptedMessage = Encryption.createPgpMessage(
                 byteMessage,
                 senderSecretKey,
                 receiverPublicKey,
