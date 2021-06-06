@@ -36,6 +36,7 @@ import org.bouncycastle.openpgp.operator.bc.BcKeyFingerprintCalculator;
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPContentSignerBuilder;
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPDigestCalculatorProviderBuilder;
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPKeyPair;
+import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder;
 import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyEncryptorBuilder;
 
 public class PGPKeys
@@ -171,9 +172,9 @@ public class PGPKeys
     public static void importSecretKey( File file ) throws IOException, PGPException
     {
         ArmoredInputStream ais = new ArmoredInputStream( new FileInputStream( file ) );
-        PGPSecretKeyRingCollection pgpPubKeyCol = new PGPSecretKeyRingCollection( ais, new BcKeyFingerprintCalculator() );
+        PGPSecretKeyRingCollection pgpSecKeyCol = new PGPSecretKeyRingCollection( ais, new BcKeyFingerprintCalculator() );
 
-        Iterator<PGPSecretKeyRing> keyRingIter = pgpPubKeyCol.getKeyRings();
+        Iterator<PGPSecretKeyRing> keyRingIter = pgpSecKeyCol.getKeyRings();
         while( keyRingIter.hasNext() )
         {
             PGPSecretKeyRing keyRing = keyRingIter.next();
@@ -189,17 +190,17 @@ public class PGPKeys
     {
         PGPKeyPair dsaPgpKeyPair = new JcaPGPKeyPair( PGPPublicKey.DSA, dsaKeyPair, new Date() );
         PGPKeyPair elGamalPgpKeyPair = new JcaPGPKeyPair( PGPPublicKey.ELGAMAL_ENCRYPT, elGamalKeyPair, new Date() );
-        PGPDigestCalculator sha1Calc = new JcaPGPDigestCalculatorProviderBuilder().build().get( HashAlgorithmTags.SHA1 );
+        PGPDigestCalculator shaCalc = new JcaPGPDigestCalculatorProviderBuilder().build().get( HashAlgorithmTags.SHA1 );
 
         PGPKeyRingGenerator keyRingGen = new PGPKeyRingGenerator(
                 PGPSignature.POSITIVE_CERTIFICATION,
                 dsaPgpKeyPair,
                 identity,
-                sha1Calc,
+                shaCalc,
                 null,
                 null,
                 new JcaPGPContentSignerBuilder( dsaPgpKeyPair.getPublicKey().getAlgorithm(), HashAlgorithmTags.SHA1 ),
-                new JcePBESecretKeyEncryptorBuilder( PGPEncryptedData.AES_256, sha1Calc ).setProvider( "BC" ).build( passphrase ) );
+                new JcePBESecretKeyEncryptorBuilder( PGPEncryptedData.AES_256, shaCalc ).setProvider( "BC" ).build( passphrase ) );
 
         keyRingGen.addSubKey( elGamalPgpKeyPair );
 
@@ -269,22 +270,55 @@ public class PGPKeys
         String userFriendlyHexString = hexString.replaceAll( "....(?!$)", "$0 " );
         return userFriendlyHexString;
     }
-    
+
     public static long hexStringToKeyId( String userFriendlyHexString )
     {
         String hexString = userFriendlyHexString.replaceAll( "\\s", "" );
         try
         {
-            String mostSignificantBits = hexString.substring(0, 8);
-            String leastSignificantBits = hexString.substring(8, 16);
-            long keyId = (Long.parseLong(mostSignificantBits, 16) << 32) | Long.parseLong(leastSignificantBits, 16);            
+            String mostSignificantBits = hexString.substring( 0, 8 );
+            String leastSignificantBits = hexString.substring( 8, 16 );
+            long keyId = (Long.parseLong( mostSignificantBits, 16 ) << 32) | Long.parseLong( leastSignificantBits, 16 );
             return keyId;
         }
         catch( NumberFormatException ex )
         {
-            Logger.getLogger( PGPKeys.class.getName() ).log( Level.SEVERE, "Invalid hex string given for keyId.", ex );
+            Logger.getLogger( PGPKeys.class.getName() ).log( Level.INFO, "Invalid hex string given for keyId.", ex );
             return 0;
         }
     }
-    
+
+    public static boolean isValidPassphrase( PGPSecretKeyRing secretKeyring, int index, char[] passphrase )
+    {
+        if( secretKeyring == null || passphrase == null )
+            return false;
+        
+        try
+        {
+            Iterator secretKeyIter = secretKeyring.getSecretKeys();
+            PGPSecretKey secretKey = null;
+            for( int i = 0; i <= index && secretKeyIter.hasNext(); i++ )
+                secretKey = ( PGPSecretKey )secretKeyIter.next();
+            
+            if( secretKey == null )
+            {
+                Logger.getLogger( PGPKeys.class.getName() ).log( Level.FINE, "Secret key at given index missing - it could not be checked against passphrase." );
+                return false;
+            }
+                        
+            secretKey.extractPrivateKey(
+                    new JcePBESecretKeyDecryptorBuilder()
+                            .setProvider( "BC" )
+                            .build( passphrase )
+            );
+            
+            Logger.getLogger( PGPKeys.class.getName() ).log( Level.FINE, "Valid passphrase used to decode secret key." );
+            return true;
+        }
+        catch( PGPException ex )
+        {
+            Logger.getLogger( PGPKeys.class.getName() ).log( Level.FINE, "Invalid passphrase used to decode secret key.", ex );
+            return false;
+        }
+    }
 }
