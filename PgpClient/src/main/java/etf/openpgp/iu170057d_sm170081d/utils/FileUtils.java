@@ -18,6 +18,13 @@ public class FileUtils
 
     public static void writeToFile( String filePath, byte[] content )
     {
+        File outputFile = new File(filePath);
+        try {
+            outputFile.createNewFile();
+        } catch (IOException ex) {
+            Logger.getLogger(FileUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         FileOutputStream fos = null;
         try
         {

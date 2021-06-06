@@ -101,7 +101,10 @@
                           <Component id="jSend_ToCombobox" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jSend_SendButton" min="-2" pref="81" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jSend_SendButton" max="32767" attributes="0"/>
+                          <Component id="jSend_AddRecipientButton" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="jSend_EncryptionLabel" min="-2" pref="69" max="-2" attributes="0"/>
@@ -110,7 +113,7 @@
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Component id="jSend_PassphraseLabel" min="-2" pref="77" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jSend_PassphrasePasswordbox" pref="251" max="32767" attributes="0"/>
+                      <Component id="jSend_PassphrasePasswordbox" pref="252" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSend_TestButton" min="-2" pref="81" max="-2" attributes="0"/>
                   </Group>
@@ -119,22 +122,21 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jSend_FromLabel" alignment="0" min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Component id="jSend_FromCombobox" min="-2" pref="26" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jSend_ToCombobox" min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Component id="jSend_ToLabel" min="-2" pref="26" max="-2" attributes="0"/>
-                              </Group>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jSend_FromLabel" alignment="0" pref="26" max="32767" attributes="0"/>
+                          <Component id="jSend_FromCombobox" pref="26" max="32767" attributes="0"/>
+                          <Component id="jSend_SendButton" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jSend_ToCombobox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="jSend_AddRecipientButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jSend_SendButton" min="-2" pref="58" max="-2" attributes="0"/>
+                          <Component id="jSend_ToLabel" min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jSend_BodyScrollpane" pref="260" max="32767" attributes="0"/>
+                      <Component id="jSend_BodyScrollpane" pref="262" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jSend_TestButton" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
@@ -270,6 +272,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jSend_SignatureCheckboxActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jSend_AddRecipientButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Select Recipient"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jSend_AddRecipientButtonActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
