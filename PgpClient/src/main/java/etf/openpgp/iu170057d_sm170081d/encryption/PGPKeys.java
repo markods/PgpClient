@@ -41,12 +41,13 @@ import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyEncryptorBuilder;
 public class PGPKeys
 {
 
-    private static final File publicKeyFile = new File( "./settings/public.asc" );
-    private static final File privateKeyFile = new File( "./settings/secret.asc" );
+    private static final File PUBLIC_KEY_RING_COLLECTION_FILE_PATH = new File( "./settings/public.asc" );
+    private static final File SECRET_KEY_RING_COLLECTION_FILE_PATH = new File( "./settings/secret.asc" );
 
     private static PGPPublicKeyRingCollection publicKeyRingCollection;
     private static PGPSecretKeyRingCollection secretKeyRingCollection;
-
+    
+    // Set up security provider and load public and secret key ring files
     static
     {
         if( Security.getProvider( "BC" ) == null )
@@ -56,33 +57,34 @@ public class PGPKeys
 
         try
         {
-            FileUtils.ensureFileExists( publicKeyFile );
+            FileUtils.ensureFileExists( PUBLIC_KEY_RING_COLLECTION_FILE_PATH );
             publicKeyRingCollection = new PGPPublicKeyRingCollection(
                     new ArmoredInputStream(
-                            new FileInputStream( publicKeyFile ) ),
+                            new FileInputStream( PUBLIC_KEY_RING_COLLECTION_FILE_PATH ) ),
                     new BcKeyFingerprintCalculator() );
         }
         catch( IOException | PGPException ex )
         {
-            java.util.logging.Logger.getLogger( PGPKeys.class.getName() ).log( Level.INFO, "Public keyring file missing from settings and could not be recreated; exiting.", ex );
+            java.util.logging.Logger.getLogger( PGPKeys.class.getName() ).log( Level.SEVERE, "Public key ring file missing from settings.", ex );
             System.exit( 1 );
         }
 
         try
         {
-            FileUtils.ensureFileExists( privateKeyFile );
+            FileUtils.ensureFileExists( SECRET_KEY_RING_COLLECTION_FILE_PATH );
             secretKeyRingCollection = new PGPSecretKeyRingCollection(
                     new ArmoredInputStream(
-                            new FileInputStream( privateKeyFile ) ),
+                            new FileInputStream( SECRET_KEY_RING_COLLECTION_FILE_PATH ) ),
                     new BcKeyFingerprintCalculator() );
         }
         catch( IOException | PGPException ex )
         {
-            java.util.logging.Logger.getLogger( PGPKeys.class.getName() ).log( Level.INFO, "Secret keyring file missing from settings and could not be recreated; exiting.", ex );
+            java.util.logging.Logger.getLogger( PGPKeys.class.getName() ).log( Level.SEVERE, "Secret keyring file missing.", ex );
             System.exit( 1 );
         }
     }
 
+    // This is a static class and should never be instantiated
     private PGPKeys()
     {
     }
@@ -99,16 +101,16 @@ public class PGPKeys
         return publicKeyRingCollection;
     }
 
-    public static final void addSecretKey( PGPKeyRingGenerator pgpKeyRingGen ) throws IOException
+    public static final void addSecretKey( PGPKeyRingGenerator keyRingGenerator ) throws IOException
     {
-        PGPSecretKeyRing pgpSecKeyRing = pgpKeyRingGen.generateSecretKeyRing();
-        secretKeyRingCollection = PGPSecretKeyRingCollection.addSecretKeyRing( secretKeyRingCollection, pgpSecKeyRing );
+        PGPSecretKeyRing secretKeyRing = keyRingGenerator.generateSecretKeyRing();
+        secretKeyRingCollection = PGPSecretKeyRingCollection.addSecretKeyRing( secretKeyRingCollection, secretKeyRing );
     }
 
-    public static final void addPublicKey( PGPKeyRingGenerator pgpKeyRingGen ) throws IOException
+    public static final void addPublicKey( PGPKeyRingGenerator keyRingGenerator ) throws IOException
     {
-        PGPPublicKeyRing pgpPubKeyRing = pgpKeyRingGen.generatePublicKeyRing();
-        publicKeyRingCollection = PGPPublicKeyRingCollection.addPublicKeyRing( publicKeyRingCollection, pgpPubKeyRing );
+        PGPPublicKeyRing publicKeyRing = keyRingGenerator.generatePublicKeyRing();
+        publicKeyRingCollection = PGPPublicKeyRingCollection.addPublicKeyRing( publicKeyRingCollection, publicKeyRing );
     }
 
     public static final void removePublicKey( PGPPublicKeyRing publicKeyRing ) throws IOException
@@ -123,7 +125,7 @@ public class PGPKeys
 
     public static void saveSecretKeysToFile() throws IOException
     {
-        try( ArmoredOutputStream aos = new ArmoredOutputStream( new FileOutputStream( privateKeyFile ) ) )
+        try( ArmoredOutputStream aos = new ArmoredOutputStream( new FileOutputStream( SECRET_KEY_RING_COLLECTION_FILE_PATH ) ) )
         {
             secretKeyRingCollection.encode( aos );
         }
@@ -131,7 +133,7 @@ public class PGPKeys
 
     public static void savePublicKeysToFile() throws IOException
     {
-        try( ArmoredOutputStream aos = new ArmoredOutputStream( new FileOutputStream( publicKeyFile ) ) )
+        try( ArmoredOutputStream aos = new ArmoredOutputStream( new FileOutputStream( PUBLIC_KEY_RING_COLLECTION_FILE_PATH ) ) )
         {
             publicKeyRingCollection.encode( aos );
         }
@@ -209,36 +211,22 @@ public class PGPKeys
     {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance( "DSA", "BC" );
         keyPairGenerator.initialize( keySize );
-        KeyPair keyPair = keyPairGenerator.generateKeyPair();
-        return keyPair;
+        return keyPairGenerator.generateKeyPair();
     }
 
     public static final KeyPair generateElGamalKeyPair( int keySize ) throws Exception
     {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance( "ELGAMAL", "BC" );
         keyPairGenerator.initialize( keySize );
-        KeyPair keyPair = keyPairGenerator.generateKeyPair();
-        return keyPair;
+        return keyPairGenerator.generateKeyPair();
     }
 
-    public static final KeyPair generateElGamalKeyPair( ElGamalParameterSpec paramSpecs ) throws Exception
+    public static final PGPPublicKeyRing getPublicKeyRing( long id ) throws IOException, PGPException
     {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance( "ELGAMAL", "BC" );
-        keyPairGenerator.initialize( paramSpecs );
-        KeyPair keyPair = keyPairGenerator.generateKeyPair();
-        return keyPair;
-    }
-
-    public static final PGPPublicKeyRing findPublicKeyRing( long id ) throws IOException, PGPException
-    {
-        PGPPublicKeyRingCollection pgpPub = PGPKeys.getPublicKeysCollection();
-        PGPPublicKey pubKey = null;
-
-        Iterator<PGPPublicKeyRing> keyRingIter = pgpPub.getKeyRings();
-        PGPPublicKeyRing keyRing = null;
-        while( keyRingIter.hasNext() && pubKey == null )
+        Iterator<PGPPublicKeyRing> keyRingIter = PGPKeys.getPublicKeysCollection().getKeyRings();
+        while( keyRingIter.hasNext() )
         {
-            keyRing = keyRingIter.next();
+            PGPPublicKeyRing keyRing = keyRingIter.next();
 
             Iterator<PGPPublicKey> keyIter = keyRing.getPublicKeys();
             while( keyIter.hasNext() )
@@ -246,54 +234,33 @@ public class PGPKeys
                 PGPPublicKey key = keyIter.next();
                 if( (key.getKeyID() == id) )
                 {
-                    pubKey = key;
-                    break;
+                    return keyRing;
                 }
             }
         }
-
-        if( pubKey != null )
-        {
-            return keyRing;
-        }
-        else
-        {
-            throw new IllegalArgumentException( "Invalid key index" );
-        }
+        
+        throw new IllegalArgumentException( "Invalid public key index." );
     }
 
-    public static PGPSecretKeyRing findSecretKeyRing( long id ) throws IOException, PGPException
+    public static PGPSecretKeyRing getSecretKeyRing( long keyID ) throws IOException, PGPException
     {
-        PGPSecretKeyRingCollection pgpSec = PGPKeys.getSecretKeysCollection();
-        PGPSecretKey secKey = null;
-
-        Iterator<PGPSecretKeyRing> iter = pgpSec.getKeyRings();
-        PGPSecretKeyRing keyRing = null;
-        while( iter.hasNext() && secKey == null )
+        Iterator<PGPSecretKeyRing> iter = PGPKeys.getSecretKeysCollection().getKeyRings();
+        while( iter.hasNext())
         {
-            keyRing = iter.next();
-
+            PGPSecretKeyRing keyRing = iter.next();
             Iterator<PGPSecretKey> keyIter = keyRing.getSecretKeys();
+            
             while( keyIter.hasNext() )
             {
                 PGPSecretKey key = keyIter.next();
-                System.out.println("key.getKeyID(): " + key.getKeyID());
-                if( (key.getKeyID() == id) )
+                if( key.getKeyID() == keyID )
                 {
-                    secKey = key;
-                    break;
+                    return keyRing;
                 }
             }
         }
-
-        if( secKey != null )
-        {
-            return keyRing;
-        }
-        else
-        {
-            throw new IllegalArgumentException( "Can't find signing key in key ring." );
-        }
+        
+        throw new IllegalArgumentException( "Invalid secret key index." );
     }
 
     public static String keyIdToHexString( long keyId )
@@ -320,13 +287,4 @@ public class PGPKeys
         }
     }
     
-    public static void main(String[] args)
-    {
-        long longNumber = 12341234;
-        String longNumberToString = keyIdToHexString(longNumber);
-        long longNumberBackToLongNumber = hexStringToKeyId(longNumberToString);
-        
-        System.out.println(longNumber);
-        System.out.println(longNumberBackToLongNumber);
-    }
 }

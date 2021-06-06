@@ -7,7 +7,6 @@ import etf.openpgp.iu170057d_sm170081d.utils.FileUtils;
 import etf.openpgp.iu170057d_sm170081d.encryption.Encryption;
 import etf.openpgp.iu170057d_sm170081d.encryption.PGPKeys;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -684,7 +683,7 @@ public class App extends javax.swing.JFrame
         long keyID = ( long )jPriv_PrivateKeyringsTable.getValueAt( rowIdx, 3 );
         try
         {
-            PGPSecretKeyRing keyRingToBeDeleted = PGPKeys.findSecretKeyRing( keyID );
+            PGPSecretKeyRing keyRingToBeDeleted = PGPKeys.getSecretKeyRing( keyID );
             PGPKeys.removeSecretKey( keyRingToBeDeleted );
             PGPKeys.saveSecretKeysToFile();
             populatePrivateKeyRingTable();
@@ -717,7 +716,7 @@ public class App extends javax.swing.JFrame
         long keyID = ( long )jPriv_PrivateKeyringsTable.getValueAt( rowIdx, 3 );
         try
         {
-            PGPSecretKeyRing keyRingToBeExported = PGPKeys.findSecretKeyRing( keyID );
+            PGPSecretKeyRing keyRingToBeExported = PGPKeys.getSecretKeyRing( keyID );
             PGPKeys.exportSecretKey( keyRingToBeExported, new File( exportSecretKeyFilePath ) );
             jStatusbar.setText( "Exported private key successfully." );
         }
@@ -818,7 +817,7 @@ public class App extends javax.swing.JFrame
         long keyID = ( long )jPubl_PublicKeyringsTable.getValueAt( rowIdx, 2 );
         try
         {
-            PGPPublicKeyRing keyRingToBeExported = PGPKeys.findPublicKeyRing( keyID );
+            PGPPublicKeyRing keyRingToBeExported = PGPKeys.getPublicKeyRing( keyID );
             PGPKeys.exportPublicKey( keyRingToBeExported, new File( exportPublicKeyFilePath ) );
             jStatusbar.setText( "Exported public key successfully." );
         }
@@ -864,7 +863,7 @@ public class App extends javax.swing.JFrame
         long keyID = ( long )jPubl_PublicKeyringsTable.getValueAt( rowIdx, 2 );
         try
         {
-            PGPPublicKeyRing keyRingToBeDeleted = PGPKeys.findPublicKeyRing( keyID );
+            PGPPublicKeyRing keyRingToBeDeleted = PGPKeys.getPublicKeyRing( keyID );
             PGPKeys.removePublicKey( keyRingToBeDeleted );
             PGPKeys.savePublicKeysToFile();
             populatePublicKeyRingTable();
@@ -883,7 +882,6 @@ public class App extends javax.swing.JFrame
         if( encryptedFilePath == null )
         {
             jStatusbar.setText( "No file selected." );
-            return;
         }
 
         // TODO(Uros): Implement
@@ -945,10 +943,10 @@ public class App extends javax.swing.JFrame
 
         
         // Read sender secret key
-        PGPSecretKey senderSecretKey = null;
+        PGPSecretKey senderSecretKey;
         try
         {
-            PGPSecretKeyRing senderKeyRing = PGPKeys.findSecretKeyRing( senderKeyID );
+            PGPSecretKeyRing senderKeyRing = PGPKeys.getSecretKeyRing( senderKeyID );
             Iterator<PGPSecretKey> keyIter = senderKeyRing.getSecretKeys();
             senderSecretKey = keyIter.next();
         }
@@ -959,10 +957,10 @@ public class App extends javax.swing.JFrame
         }
 
         // Read receiver public key
-        PGPPublicKey receiverPublicKey = null;
+        PGPPublicKey receiverPublicKey;
         try
         {
-            PGPPublicKeyRing receiverKeyRing = PGPKeys.findPublicKeyRing( receiverKeyID );
+            PGPPublicKeyRing receiverKeyRing = PGPKeys.getPublicKeyRing( receiverKeyID );
             Iterator<PGPPublicKey> keyIter = receiverKeyRing.getPublicKeys();
             receiverPublicKey = keyIter.next();
         }
@@ -1144,7 +1142,6 @@ public class App extends javax.swing.JFrame
         catch( IOException | PGPException ex )
         {
             Logger.getLogger( App.class.getName() ).log( Level.SEVERE, "Could not populate <send to> combo box", ex );
-            return;
         }
     }
 
@@ -1177,7 +1174,6 @@ public class App extends javax.swing.JFrame
         catch( IOException | PGPException ex )
         {
             Logger.getLogger( App.class.getName() ).log( Level.SEVERE, "Could not populate <public key ring table>", ex );
-            return;
         }
     }
 
@@ -1229,7 +1225,6 @@ public class App extends javax.swing.JFrame
         catch( IOException | PGPException ex )
         {
             Logger.getLogger( App.class.getName() ).log( Level.SEVERE, "Could not populate <private key ring table>", ex );
-            return;
         }
     }
 
