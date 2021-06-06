@@ -164,8 +164,9 @@ public class Encryption
         throw new IOException( "Could not create a literal data packet." );
     }
 
-    // append a signature packet to the message
-    private static byte[] appendSignaturePacket(
+    // surround the message with a one pass signature packet and a signature packet
+    // ! the given message should not already be a literal data packet (this function wraps the message in a literal data packet)
+    private static byte[] createSignaturePackets(
             byte[] message,
             PGPSecretKey senderSecretKey,
             char[] senderPassphrase ) throws IOException
@@ -192,7 +193,7 @@ public class Encryption
             PGPSignatureGenerator signatureGen = new PGPSignatureGenerator(
                     new JcaPGPContentSignerBuilder(
                             senderSecretKey.getPublicKey().getAlgorithm(),
-                            HashAlgorithmTags.SHA1
+                            HashAlgorithmTags.SHA256
                     ).setProvider( "BC" )
             );
             signatureGen.init( PGPSignature.BINARY_DOCUMENT, senderPrivateKey );
@@ -203,7 +204,7 @@ public class Encryption
             signatureSubpacketGen.setSignatureCreationTime( /*isCritical=*/ false, new Date() );
             signatureSubpacketGen.setPreferredHashAlgorithms( /*isCritical=*/ false, new int[]
                     {
-                        HashAlgorithmTags.SHA1
+                        HashAlgorithmTags.SHA256
                     } );
             signatureSubpacketGen.setPreferredSymmetricAlgorithms( /*isCritical=*/ false, new int[]
                     {
@@ -216,15 +217,23 @@ public class Encryption
 
             // set the hashed subpackets in the signature
             signatureGen.setHashedSubpackets( signatureSubpacketGen.generate() );
-            // create the message digest by hashing the message body
-            signatureGen.update( message );
-            // create a one pass signature by signing the message digest with the sender's private key
-            PGPOnePassSignature signature = signatureGen.generateOnePassVersion( /*isNested=*/ false );
 
-            // append the signature packet to the message data packet
+            // create a one-pass signature header (parameter header in front of the message used for calculating the message signature in one pass)
+            PGPOnePassSignature signatureHeader = signatureGen.generateOnePassVersion( /*isNested=*/ false );
+            // create a literal packet from the message body
+            byte[] literalPacket = createLiteralPacket( message );
+            // update the message digest by hashing the message body
+            signatureGen.update( message );
+            // create a signature by signing the message digest with the sender's private key
+            PGPSignature signature = signatureGen.generate();
+
             messageStream = new ByteArrayOutputStream();
+            // prepend the signature one-pass header
+            signatureHeader.encode( messageStream );
+            // write the literal data packet
+            messageStream.write( literalPacket );
+            // append the signature packet
             signature.encode( messageStream );
-            messageStream.write( message );
 
             // overwrite the message buffer and close the message stream
             message = messageStream.toByteArray();
@@ -435,11 +444,13 @@ public class Encryption
             boolean addConversionToRadix64 ) throws IOException
     {
         // create a literal data packet from the message body
-        message = createLiteralPacket( message );
+        // ! only if the message is not going to be signed
+        if( !addSignature )
+            message = createLiteralPacket( message );
 
         // if the message should be signed, append a signature packet
         if( addSignature )
-            message = appendSignaturePacket( message, senderDsaSecretKey, senderPassphrase );
+            message = createSignaturePackets( message, senderDsaSecretKey, senderPassphrase );
 
         // if the message should be compressed, turn it into a compressed packet
         if( addCompression )
