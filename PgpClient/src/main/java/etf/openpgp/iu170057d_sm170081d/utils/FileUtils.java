@@ -45,6 +45,15 @@ public class FileUtils
             }
         }
     }
+    
+    public static void writeToFile( String filePath, String content )
+    {
+        try (PrintWriter out = new PrintWriter(filePath)) {
+            out.println(content);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public static byte[] readFromFile( String filePath )
     {
@@ -105,6 +114,7 @@ public class FileUtils
     public static final int ANY_FILE = 0;
     public static final int PGP_MESSAGE_FILE = 1;
     public static final int PGP_KEY_FILE = 2;
+    public static final int TXT_FILE = 3;
 
     public static String getUserSelectedFilePath( int dialogType, int allowedFileType )
     {
@@ -127,6 +137,11 @@ public class FileUtils
             case PGP_KEY_FILE:
             {
                 jFileChooser.setFileFilter( new FileNameExtensionFilter( "PGP key file (*.asc)", "asc" ) );
+                break;
+            }
+            case TXT_FILE:
+            {
+                jFileChooser.setFileFilter( new FileNameExtensionFilter( "Text file (*.txt)", "txt" ) );
                 break;
             }
             default:

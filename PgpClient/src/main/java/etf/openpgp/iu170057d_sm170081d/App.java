@@ -884,13 +884,26 @@ public class App extends javax.swing.JFrame
 
     private void jRecv_SaveButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_SaveButtonActionPerformed
     {//GEN-HEADEREND:event_jRecv_SaveButtonActionPerformed
-        String encryptedFilePath = FileUtils.getUserSelectedFilePath( FileUtils.SAVE_DIALOG, FileUtils.PGP_MESSAGE_FILE );
-        if( encryptedFilePath == null )
+        String from = jRecv_FromTextbox.getText();
+        String message = jRecv_BodyTextarea.getText();
+        
+        if ("".equals(from))
+        {
+            jStatusbar.setText( "A message must be opened first." );
+            return;
+        }
+        
+        String saveMessageFilePath = FileUtils.getUserSelectedFilePath( FileUtils.SAVE_DIALOG, FileUtils.TXT_FILE );
+        if( saveMessageFilePath == null )
         {
             jStatusbar.setText( "No file selected." );
+            return;
         }
-
-        // TODO(Uros): Implement
+        
+        String completeMessage = "From: " + from + "\n\n";
+        completeMessage += "Text: \n";
+        completeMessage += message;
+        FileUtils.writeToFile(saveMessageFilePath, completeMessage);
     }//GEN-LAST:event_jRecv_SaveButtonActionPerformed
 
     private void jRecv_OpenButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_OpenButtonActionPerformed
