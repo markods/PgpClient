@@ -503,7 +503,6 @@ public class Encryption
                 isEncrypted = true;
             }
         }
-        
         System.out.println("isEncrypted: " + isEncrypted);
 
         // If the message is encrpted, try to decrypt it
@@ -532,7 +531,7 @@ public class Encryption
                 }
             }
             
-            // Secret key not found in private key ring collection
+            // Secret key not found in private key ring collection - not possible to decrypt
             if (secretKey == null)
             {
                 throw new IllegalArgumentException("Secret key for message not found.");
@@ -547,23 +546,22 @@ public class Encryption
                     new JcePublicKeyDataDecryptorFactoryBuilder()
                             .setProvider("BC")
                             .build(secretKey)); 
-            PGPObjectFactory plainFact = new PGPObjectFactory(clear, null);
-            message = plainFact.nextObject();
+            pgpObjectFactory = new PGPObjectFactory(clear, null);
+            message = pgpObjectFactory.nextObject();
         }
         // Message is not encrypted
         else
         {
             message = pgpObject;
         }
-        PGPObjectFactory pgpFact = null;
         
         // Decompress
         if (message instanceof PGPCompressedData)
         {
             System.out.println("Decompressing...");
             PGPCompressedData compressedData = (PGPCompressedData) message;
-            pgpFact = new PGPObjectFactory(new BufferedInputStream(compressedData.getDataStream()), null);
-            message = pgpFact.nextObject();
+            pgpObjectFactory = new PGPObjectFactory(new BufferedInputStream(compressedData.getDataStream()), null);
+            message = pgpObjectFactory.nextObject();
         }
 
         // Determined if the message is signed
@@ -582,7 +580,7 @@ public class Encryption
 
             ops.init(new JcaPGPContentVerifierBuilderProvider().setProvider("BC"), signerPublicKey);
 
-            message = pgpFact.nextObject();
+            message = pgpObjectFactory.nextObject();
         }
         
         System.out.println("isSigned: " + isSigned);
@@ -615,7 +613,7 @@ public class Encryption
             if (isSigned)
             {
                 ops.update(bytes);
-                PGPSignatureList p3 = (PGPSignatureList) pgpFact.nextObject();
+                PGPSignatureList p3 = (PGPSignatureList) pgpObjectFactory.nextObject();
                 if (ops.verify(p3.get(0)))
                 {
                     String str = new String((byte[]) signerPublicKey.getRawUserIDs().next(),StandardCharsets.UTF_8);
