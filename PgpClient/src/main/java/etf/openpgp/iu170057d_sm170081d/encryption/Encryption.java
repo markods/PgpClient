@@ -507,7 +507,7 @@ public class Encryption
 
         // If the message is encrpted, try to decrypt it
         PGPPrivateKey secretKey = null;
-        PGPPublicKeyEncryptedData pbe = null;
+        PGPPublicKeyEncryptedData publicKeyEncryptedData = null;
         if (isEncrypted) 
         {
             Iterator<PGPEncryptedData> it = encryptedDataList.getEncryptedDataObjects();
@@ -515,8 +515,8 @@ public class Encryption
             PGPSecretKeyRingCollection pgpSecretKeyRingCollection = PGPKeys.getSecretKeysCollection();
             while (secretKey == null && it.hasNext())
             {
-                pbe = (PGPPublicKeyEncryptedData) it.next();
-                PGPSecretKey pgpSecKey = pgpSecretKeyRingCollection.getSecretKey(pbe.getKeyID());
+                publicKeyEncryptedData = (PGPPublicKeyEncryptedData) it.next();
+                PGPSecretKey pgpSecKey = pgpSecretKeyRingCollection.getSecretKey(publicKeyEncryptedData.getKeyID());
 
                 if (pgpSecKey != null)
                 {
@@ -542,7 +542,7 @@ public class Encryption
                 System.out.println("Decryption successful!");
             }
             
-            InputStream clear = pbe.getDataStream(
+            InputStream clear = publicKeyEncryptedData.getDataStream(
                     new JcePublicKeyDataDecryptorFactoryBuilder()
                             .setProvider("BC")
                             .build(secretKey)); 
@@ -574,9 +574,9 @@ public class Encryption
             ops = p1.get(0);
             long keyId = ops.getKeyID();
             isSigned = true;
-
-            PGPPublicKeyRingCollection pgpRing = PGPKeys.getPublicKeysCollection();   			   
-            signerPublicKey = pgpRing.getPublicKey(keyId);
+            
+            // Get signer public key
+            signerPublicKey = PGPKeys.getPublicKeysCollection().getPublicKey(keyId);
 
             ops.init(new JcaPGPContentVerifierBuilderProvider().setProvider("BC"), signerPublicKey);
 
@@ -590,15 +590,17 @@ public class Encryption
             PGPLiteralData ld = (PGPLiteralData) message;
 
             InputStream is = ld.getInputStream();
-            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
-            bytes = IOUtils.toByteArray(is);
-            bufferedOutputStream.write(bytes);
-            bufferedOutputStream.close();
-            if(pbe != null)
+            try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream))
             {
-                if (pbe.isIntegrityProtected())
+                bytes = IOUtils.toByteArray(is);
+                bufferedOutputStream.write(bytes);
+            }
+            
+            if(publicKeyEncryptedData != null)
+            {
+                if (publicKeyEncryptedData.isIntegrityProtected())
                 {
-                    if (!pbe.verify())
+                    if (!publicKeyEncryptedData.verify())
                     {
                         throw new PGPException("message failed integrity check");
                     }
