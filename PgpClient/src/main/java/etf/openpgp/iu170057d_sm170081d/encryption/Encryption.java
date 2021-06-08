@@ -4,6 +4,9 @@ import org.apache.commons.io.IOUtils;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -489,7 +492,8 @@ public class Encryption
         {
             enc = (PGPEncryptedDataList) o;
             decrypted = true;
-        } else if (o instanceof PGPMarker)
+        } 
+        else if (o instanceof PGPMarker)
         {
             o = pgpF.nextObject();
             if (o instanceof PGPEncryptedDataList)
@@ -595,7 +599,7 @@ public class Encryption
                 PGPSignatureList p3 = (PGPSignatureList) pgpFact.nextObject();
                 if (!ops.verify(p3.get(0)))
                 {
-                        throw new PGPException("Signature verification failed!");
+                    throw new PGPException("Signature verification failed!");
                 }
                 else
                 {
@@ -620,5 +624,25 @@ public class Encryption
 
         PgpMessage dm = null; //new PgpMessage( msg, false, false, "stub-author" );
         return dm;
+    }
+    
+    static public void decryptAndVerify(
+            File inputFile,
+            File outputFile, 
+            char[] passwd) throws Exception 
+    {
+        decryptAndVerifyFile(new FileInputStream(inputFile), new FileOutputStream(outputFile),  passwd);
+    }
+    
+    public static void main(String[] args)
+    {
+        File inputFile = new File("C:\\Users\\User\\Desktop\\UrosIsakovi-test.gpg");
+        File outputFile = new File("C:\\Users\\User\\Desktop\\output.txt");
+        char[] password = {'u', 'r', 'o', 's', '1', '2', '3', '4'};
+        try {
+            decryptAndVerify(inputFile, outputFile, password);
+        } catch (Exception ex) {
+            Logger.getLogger(Encryption.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
