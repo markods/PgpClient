@@ -189,7 +189,7 @@ public class PGPKeys
     {
         PGPKeyPair dsaPgpKeyPair = new JcaPGPKeyPair( PGPPublicKey.DSA, dsaKeyPair, new Date() );
         PGPKeyPair elGamalPgpKeyPair = new JcaPGPKeyPair( PGPPublicKey.ELGAMAL_ENCRYPT, elGamalKeyPair, new Date() );
-        PGPDigestCalculator shaCalc = new JcaPGPDigestCalculatorProviderBuilder().build().get( HashAlgorithmTags.SHA1 );
+        PGPDigestCalculator shaCalc = new JcaPGPDigestCalculatorProviderBuilder().build().get( HashAlgorithmTags.SHA256 );
 
         PGPKeyRingGenerator keyRingGen = new PGPKeyRingGenerator(
                 PGPSignature.POSITIVE_CERTIFICATION,
@@ -198,7 +198,7 @@ public class PGPKeys
                 shaCalc,
                 null,
                 null,
-                new JcaPGPContentSignerBuilder( dsaPgpKeyPair.getPublicKey().getAlgorithm(), HashAlgorithmTags.SHA1 ),
+                new JcaPGPContentSignerBuilder( dsaPgpKeyPair.getPublicKey().getAlgorithm(), HashAlgorithmTags.SHA256 ),
                 new JcePBESecretKeyEncryptorBuilder( PGPEncryptedData.AES_256, shaCalc ).setProvider( "BC" ).build( passphrase ) );
 
         keyRingGen.addSubKey( elGamalPgpKeyPair );
