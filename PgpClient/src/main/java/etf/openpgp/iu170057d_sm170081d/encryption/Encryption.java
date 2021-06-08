@@ -476,41 +476,45 @@ public class Encryption
             OutputStream outputStream, 
             char[] passwd) throws Exception 
     {
-        InputStream is = null;
         byte[] bytes = null;
         Object message = null;
 
         PGPEncryptedDataList encryptedDataList = null;
         
+        // This decoder stream removed radix-64 formatting?
         inputStream = PGPUtil.getDecoderStream(new BufferedInputStream(inputStream));
         PGPObjectFactory pgpObjectFactory = new PGPObjectFactory(inputStream, new BcKeyFingerprintCalculator());
         // PGP object which gradually goes through decoding stages
         Object pgpObject = pgpObjectFactory.nextObject();
         
-        boolean decrypted = false;
+        // Determine if the message is encrypted
+        boolean isEncrypted = false;
         if (pgpObject instanceof PGPEncryptedDataList)
         {
             encryptedDataList = (PGPEncryptedDataList) pgpObject;
-            decrypted = true;
-        } 
+            isEncrypted = true;
+        }
         else if (pgpObject instanceof PGPMarker)
         {
             pgpObject = pgpObjectFactory.nextObject();
             if (pgpObject instanceof PGPEncryptedDataList)
             {
                 encryptedDataList = (PGPEncryptedDataList) pgpObject;
-                decrypted = true;
+                isEncrypted = true;
             }
         }
+        
+        System.out.println("isEncrypted: " + isEncrypted);
 
-        PGPPrivateKey sKey = null;
+        // If the message is encrpted, try to decrypt it
+        PGPPrivateKey secretKey = null;
         PGPPublicKeyEncryptedData pbe = null;
-        if(decrypted) 
+        if (isEncrypted) 
         {
             Iterator<PGPEncryptedData> it = encryptedDataList.getEncryptedDataObjects();
 
             PGPSecretKeyRingCollection pgpSecretKeyRingCollection = PGPKeys.getSecretKeysCollection();
-            while (sKey == null && it.hasNext())
+            while (secretKey == null && it.hasNext())
             {
                 pbe = (PGPPublicKeyEncryptedData) it.next();
                 PGPSecretKey pgpSecKey = pgpSecretKeyRingCollection.getSecretKey(pbe.getKeyID());
@@ -518,23 +522,35 @@ public class Encryption
                 if (pgpSecKey != null)
                 {
                     Provider provider = Security.getProvider("BC");  
-                    sKey = pgpSecKey.extractPrivateKey(new JcePBESecretKeyDecryptorBuilder(new JcaPGPDigestCalculatorProviderBuilder().setProvider(provider).build()).setProvider(provider).build(passwd));
+                    secretKey = pgpSecKey.extractPrivateKey(
+                            new JcePBESecretKeyDecryptorBuilder(
+                                    new JcaPGPDigestCalculatorProviderBuilder()
+                                            .setProvider(provider)
+                                            .build())
+                                    .setProvider(provider)
+                                    .build(passwd));
                 }
             }
-
-            if (sKey == null)
+            
+            // Secret key not found in private key ring collection
+            if (secretKey == null)
             {
-                throw new IllegalArgumentException("secret key for message not found.");
+                throw new IllegalArgumentException("Secret key for message not found.");
             }
+            // Secret key found and message is decrypted
             else
             {
                 System.out.println("Decryption successful!");
             }
             
-            InputStream clear = pbe.getDataStream(new JcePublicKeyDataDecryptorFactoryBuilder().setProvider("BC").build(sKey)); 
+            InputStream clear = pbe.getDataStream(
+                    new JcePublicKeyDataDecryptorFactoryBuilder()
+                            .setProvider("BC")
+                            .build(secretKey)); 
             PGPObjectFactory plainFact = new PGPObjectFactory(clear, null);
             message = plainFact.nextObject();
         }
+        // Message is not encrypted
         else
         {
             message = pgpObject;
@@ -544,15 +560,13 @@ public class Encryption
         // Decompress
         if (message instanceof PGPCompressedData)
         {
-            PGPCompressedData cData = (PGPCompressedData) message;
-            pgpFact = new PGPObjectFactory(new BufferedInputStream(cData.getDataStream()), null);
+            System.out.println("Decompressing...");
+            PGPCompressedData compressedData = (PGPCompressedData) message;
+            pgpFact = new PGPObjectFactory(new BufferedInputStream(compressedData.getDataStream()), null);
             message = pgpFact.nextObject();
-            if(cData.getAlgorithm() != PGPCompressedData.UNCOMPRESSED)
-            {
-                System.out.println("Decompression successful!");
-            }
         }
 
+        // Determined if the message is signed
         boolean isSigned = false;
         PGPOnePassSignature ops = null;
         PGPPublicKey signerPublicKey = null;
@@ -570,16 +584,18 @@ public class Encryption
 
             message = pgpFact.nextObject();
         }
+        
+        System.out.println("isSigned: " + isSigned);
 
         if (message instanceof PGPLiteralData)
         {
             PGPLiteralData ld = (PGPLiteralData) message;
 
-            is = ld.getInputStream();
-            outputStream = new BufferedOutputStream(outputStream);
+            InputStream is = ld.getInputStream();
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
             bytes = IOUtils.toByteArray(is);
-            outputStream.write(bytes);
-            
+            bufferedOutputStream.write(bytes);
+            bufferedOutputStream.close();
             if(pbe != null)
             {
                 if (pbe.isIntegrityProtected())
