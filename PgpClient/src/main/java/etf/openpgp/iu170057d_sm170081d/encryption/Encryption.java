@@ -472,33 +472,33 @@ public class Encryption
     }
     
     static private void decryptAndVerifyFile(
-            InputStream in,
-            OutputStream bOut, 
+            InputStream inputStream,
+            OutputStream outputStream, 
             char[] passwd) throws Exception 
     {
         InputStream is = null;
-        byte[] bytes = null; 
-
-        in = PGPUtil.getDecoderStream(new BufferedInputStream(in));
-
-        PGPObjectFactory pgpF = new PGPObjectFactory(in, new BcKeyFingerprintCalculator());
-        PGPEncryptedDataList enc = null;
-        Object o = pgpF.nextObject();
+        byte[] bytes = null;
         Object message = null;
 
+        PGPEncryptedDataList encryptedDataList = null;
+        
+        inputStream = PGPUtil.getDecoderStream(new BufferedInputStream(inputStream));
+        PGPObjectFactory pgpObjectFactory = new PGPObjectFactory(inputStream, new BcKeyFingerprintCalculator());
+        // PGP object which gradually goes through decoding stages
+        Object pgpObject = pgpObjectFactory.nextObject();
+        
         boolean decrypted = false;
-        InputStream clear = null;
-        if (o instanceof PGPEncryptedDataList)
+        if (pgpObject instanceof PGPEncryptedDataList)
         {
-            enc = (PGPEncryptedDataList) o;
+            encryptedDataList = (PGPEncryptedDataList) pgpObject;
             decrypted = true;
         } 
-        else if (o instanceof PGPMarker)
+        else if (pgpObject instanceof PGPMarker)
         {
-            o = pgpF.nextObject();
-            if (o instanceof PGPEncryptedDataList)
+            pgpObject = pgpObjectFactory.nextObject();
+            if (pgpObject instanceof PGPEncryptedDataList)
             {
-                enc = (PGPEncryptedDataList) o;
+                encryptedDataList = (PGPEncryptedDataList) pgpObject;
                 decrypted = true;
             }
         }
@@ -507,7 +507,7 @@ public class Encryption
         PGPPublicKeyEncryptedData pbe = null;
         if(decrypted) 
         {
-            Iterator<PGPEncryptedData> it = enc.getEncryptedDataObjects();
+            Iterator<PGPEncryptedData> it = encryptedDataList.getEncryptedDataObjects();
 
             PGPSecretKeyRingCollection pgpSecretKeyRingCollection = PGPKeys.getSecretKeysCollection();
             while (sKey == null && it.hasNext())
@@ -530,16 +530,18 @@ public class Encryption
             {
                 System.out.println("Decryption successful!");
             }
-
-            clear = pbe.getDataStream(new JcePublicKeyDataDecryptorFactoryBuilder().setProvider("BC").build(sKey)); 
+            
+            InputStream clear = pbe.getDataStream(new JcePublicKeyDataDecryptorFactoryBuilder().setProvider("BC").build(sKey)); 
             PGPObjectFactory plainFact = new PGPObjectFactory(clear, null);
             message = plainFact.nextObject();
         }
         else
         {
-            message = o;
+            message = pgpObject;
         }
         PGPObjectFactory pgpFact = null;
+        
+        // Decompress
         if (message instanceof PGPCompressedData)
         {
             PGPCompressedData cData = (PGPCompressedData) message;
@@ -574,10 +576,10 @@ public class Encryption
             PGPLiteralData ld = (PGPLiteralData) message;
 
             is = ld.getInputStream();
-            OutputStream out = new BufferedOutputStream(bOut);
+            outputStream = new BufferedOutputStream(outputStream);
             bytes = IOUtils.toByteArray(is);
-            out.write(bytes);
-            out.close();
+            outputStream.write(bytes);
+            
             if(pbe != null)
             {
                 if (pbe.isIntegrityProtected())
@@ -593,27 +595,22 @@ public class Encryption
                 }
             }
             
+            // Read signature
             if (isSigned)
             {
                 ops.update(bytes);
                 PGPSignatureList p3 = (PGPSignatureList) pgpFact.nextObject();
-                if (!ops.verify(p3.get(0)))
-                {
-                    throw new PGPException("Signature verification failed!");
-                }
-                else
+                if (ops.verify(p3.get(0)))
                 {
                     String str = new String((byte[]) signerPublicKey.getRawUserIDs().next(),StandardCharsets.UTF_8);
                     System.out.println("Signature verified: " + str);
                 }
+                else
+                {
+                    throw new PGPException("Signature verification failed!");
+                }
             }
         }
-        else
-        {
-            throw new PGPException("message is not a simple encrypted file - type unknown.");
-        }
-
-        bOut.close();
     }
 
     public static PgpMessage readPgpMessage(
@@ -631,7 +628,13 @@ public class Encryption
             File outputFile, 
             char[] passwd) throws Exception 
     {
-        decryptAndVerifyFile(new FileInputStream(inputFile), new FileOutputStream(outputFile),  passwd);
+        FileInputStream inputFileStream = new FileInputStream(inputFile);
+        FileOutputStream outputFileStream = new FileOutputStream(outputFile);
+        
+        decryptAndVerifyFile(inputFileStream, outputFileStream,  passwd);
+        
+        inputFileStream.close();
+        outputFileStream.close();
     }
     
     public static void main(String[] args)
