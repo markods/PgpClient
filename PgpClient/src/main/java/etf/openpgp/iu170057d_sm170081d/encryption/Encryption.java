@@ -558,10 +558,12 @@ public class Encryption
         // Decompress
         if (message instanceof PGPCompressedData)
         {
+            System.out.println("message0: " + message);
             System.out.println("Decompressing...");
             PGPCompressedData compressedData = (PGPCompressedData) message;
             pgpObjectFactory = new PGPObjectFactory(new BufferedInputStream(compressedData.getDataStream()), null);
             message = pgpObjectFactory.nextObject();
+            System.out.println("message1: " + message);
         }
 
         // Determined if the message is signed
@@ -581,6 +583,7 @@ public class Encryption
             ops.init(new JcaPGPContentVerifierBuilderProvider().setProvider("BC"), signerPublicKey);
 
             message = pgpObjectFactory.nextObject();
+            System.out.println("message2: " + message);
         }
         
         System.out.println("isSigned: " + isSigned);
@@ -590,9 +593,9 @@ public class Encryption
             PGPLiteralData ld = (PGPLiteralData) message;
 
             InputStream is = ld.getInputStream();
+            bytes = IOUtils.toByteArray(is);
             try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream))
             {
-                bytes = IOUtils.toByteArray(is);
                 bufferedOutputStream.write(bytes);
             }
             
@@ -616,6 +619,7 @@ public class Encryption
             {
                 ops.update(bytes);
                 PGPSignatureList p3 = (PGPSignatureList) pgpObjectFactory.nextObject();
+                System.out.println("message3: " + p3);
                 if (ops.verify(p3.get(0)))
                 {
                     String str = new String((byte[]) signerPublicKey.getRawUserIDs().next(),StandardCharsets.UTF_8);
@@ -655,9 +659,9 @@ public class Encryption
     
     public static void main(String[] args)
     {
-        File inputFile = new File("C:\\Users\\User\\Desktop\\UrosIsakovi-test.gpg");
+        File inputFile = new File("C:\\Users\\User\\Desktop\\ciphertext-signed.gpg");
         File outputFile = new File("C:\\Users\\User\\Desktop\\output.txt");
-        char[] password = {'u', 'r', 'o', 's', '1', '2', '3', '4'};
+        char[] password = {'u', 'r', 'o', 's'};
         try {
             decryptAndVerify(inputFile, outputFile, password);
         } catch (Exception ex) {
