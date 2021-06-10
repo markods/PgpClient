@@ -1095,7 +1095,34 @@ public class App extends javax.swing.JFrame
 
     private void jRecv_DecryptButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_DecryptButtonActionPerformed
     {//GEN-HEADEREND:event_jRecv_DecryptButtonActionPerformed
-        // TODO(Uros): implement
+        char[] passphrase = jRecv_PassphrasePasswordbox.getPassword();
+        
+        // TODO(uros): Check if the passphrase is valid
+        
+        try {
+            Encryption.decryptPgpMessage(passphrase, pgpMessage);
+            
+            jRecv_BodyTextarea.setText(new String(pgpMessage.decryptedMessage));
+            
+            // TODO(uros): Make selected boxes black instea of grey
+            if (pgpMessage.isCompressed)
+            {
+                jRecv_CompressionCheckbox.setSelected(true);
+            }
+            
+            if (pgpMessage.isRadix64Encoded)
+            {
+                jRecv_Radix64Checkbox.setSelected(true);
+            }
+            
+            if (pgpMessage.isSigned)
+            {
+                jRecv_SignatureCheckbox.setSelected(true);
+            }
+            
+        } catch (Exception ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jRecv_DecryptButtonActionPerformed
 
 

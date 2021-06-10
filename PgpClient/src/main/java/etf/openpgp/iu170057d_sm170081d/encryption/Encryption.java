@@ -620,11 +620,13 @@ public class Encryption
         pgpMessage.isEncrypted = true;
     }
     
-    public static PgpMessage decryptPgpMessage(
-            byte[] message,
+    public static void decryptPgpMessage(
             char[] passphrase,
-            PgpMessage decryptedMessage) throws Exception
+            PgpMessage pgpMessage) throws Exception
     {
-        return decryptedMessage;
+        pgpMessage.decryptedMessage = new String("lalalal").getBytes();
+        pgpMessage.isCompressed = true;
+        pgpMessage.isRadix64Encoded = true;
+        pgpMessage.isSigned = true;
     }
 }
