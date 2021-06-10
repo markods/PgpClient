@@ -3,6 +3,7 @@ package etf.openpgp.iu170057d_sm170081d.encryption;
 import org.apache.commons.io.IOUtils;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -79,34 +80,16 @@ public class Encryption
 
     public static class PgpMessage
     {
-        public final byte[] message;
-        public final int senderSecretKeyId;
-        public final int receiverPublicKeyId;
-        public final EncryptionAlgorithm encryptionAlgorithm;
-        public final boolean signed;
-        public final boolean compressed;
-        public final boolean radix64Encoded;
-        public final boolean valid;
-
-        public PgpMessage(
-                byte[] message,
-                int senderSecretKeyId,
-                int receiverPublicKeyId,
-                EncryptionAlgorithm encryptionAlgorithm,
-                boolean signed,
-                boolean compressed,
-                boolean radix64Encoded,
-                boolean valid )
-        {
-            this.message = message;
-            this.senderSecretKeyId = senderSecretKeyId;
-            this.receiverPublicKeyId = receiverPublicKeyId;
-            this.encryptionAlgorithm = encryptionAlgorithm;
-            this.signed = signed;
-            this.compressed = compressed;
-            this.radix64Encoded = radix64Encoded;
-            this.valid = valid;
-        }
+        public byte[] encryptedMessage = null;
+        public byte[] decryptedMessage = null;
+        public long senderSecretKeyId = 0;
+        public long receiverPublicKeyId = 0;
+        public EncryptionAlgorithm encryptionAlgorithm;
+        public boolean isEncrypted = false;
+        public boolean isSigned = false;
+        public boolean isCompressed = false;
+        public boolean isRadix64Encoded = false;
+        public boolean isValid = true;
     }
 
     // create a literal data packet from the given message
@@ -472,11 +455,10 @@ public class Encryption
     }
     
     static private void decryptAndVerifyFile(
-            InputStream inputStream,
-            OutputStream outputStream, 
-            char[] passwd) throws Exception 
+            InputStream inputStream, 
+            char[] passwd,
+            PgpMessage decryptedMessage) throws Exception 
     {
-        byte[] bytes = null;
         Object message = null;
 
         PGPEncryptedDataList encryptedDataList = null;
@@ -593,11 +575,7 @@ public class Encryption
             PGPLiteralData ld = (PGPLiteralData) message;
 
             InputStream is = ld.getInputStream();
-            bytes = IOUtils.toByteArray(is);
-            try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream))
-            {
-                bufferedOutputStream.write(bytes);
-            }
+            decryptedMessage.decryptedMessage = IOUtils.toByteArray(is);
             
             if(publicKeyEncryptedData != null)
             {
@@ -617,7 +595,7 @@ public class Encryption
             // Read signature
             if (isSigned)
             {
-                ops.update(bytes);
+                ops.update(decryptedMessage.decryptedMessage);
                 PGPSignatureList p3 = (PGPSignatureList) pgpObjectFactory.nextObject();
                 System.out.println("message3: " + p3);
                 if (ops.verify(p3.get(0)))
@@ -633,39 +611,20 @@ public class Encryption
         }
     }
 
-    public static PgpMessage readPgpMessage(
+    public static void readPgpMessage(PgpMessage pgpMessage) throws Exception
+    {
+        /*InputStream inputStream = new ByteArrayInputStream(message);
+        PgpMessage decryptedMessage = new PgpMessage();
+        decryptAndVerifyFile(inputStream, receiverPassphrase, decryptedMessage);*/
+        
+        pgpMessage.isEncrypted = true;
+    }
+    
+    public static PgpMessage decryptPgpMessage(
             byte[] message,
-            char[] receiverPassphrase )
+            char[] passphrase,
+            PgpMessage decryptedMessage) throws Exception
     {
-
-
-        PgpMessage dm = null; //new PgpMessage( msg, false, false, "stub-author" );
-        return dm;
-    }
-    
-    static public void decryptAndVerify(
-            File inputFile,
-            File outputFile, 
-            char[] passwd) throws Exception 
-    {
-        FileInputStream inputFileStream = new FileInputStream(inputFile);
-        FileOutputStream outputFileStream = new FileOutputStream(outputFile);
-        
-        decryptAndVerifyFile(inputFileStream, outputFileStream,  passwd);
-        
-        inputFileStream.close();
-        outputFileStream.close();
-    }
-    
-    public static void main(String[] args)
-    {
-        File inputFile = new File("C:\\Users\\User\\Desktop\\ciphertext-signed.gpg");
-        File outputFile = new File("C:\\Users\\User\\Desktop\\output.txt");
-        char[] password = {'u', 'r', 'o', 's'};
-        try {
-            decryptAndVerify(inputFile, outputFile, password);
-        } catch (Exception ex) {
-            Logger.getLogger(Encryption.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        return decryptedMessage;
     }
 }

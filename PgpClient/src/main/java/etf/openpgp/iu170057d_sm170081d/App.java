@@ -20,6 +20,8 @@ import org.bouncycastle.openpgp.PGPSecretKey;
 
 public class App extends javax.swing.JFrame
 {
+    
+    Encryption.PgpMessage pgpMessage;
 
     /**
      * Creates new form App
@@ -874,25 +876,31 @@ public class App extends javax.swing.JFrame
             return;
         }
 
+        pgpMessage = new Encryption.PgpMessage();
+        
         // Read encrypted message
-        byte[] encryptedMessage = FileUtils.readFromFile( encryptedFilePath );
+        pgpMessage.encryptedMessage = FileUtils.readFromFile( encryptedFilePath );
 
-        // Read passphrase to be used if necessery
-        char[] receiverPassphrase = jRecv_PassphrasePasswordbox.getPassword();
 
-        // TODO: finish + decrypt button should be used if this fails
-        // Decryption
-        Encryption.PgpMessage decryptedMessage = Encryption.readPgpMessage(
-                encryptedMessage,
-                receiverPassphrase );
-        String decryptedMessageString = new String( decryptedMessage.message );
+        // Read PGP message (without decrypting it)
+        try
+        {
+            
+            Encryption.readPgpMessage(pgpMessage);
 
-        // Write output
-        jRecv_BodyTextarea.setText( decryptedMessageString );
+            if (pgpMessage.isEncrypted)
+            {
+                // Enable various text components
+                setEnableReceiveTabComponents( true );
+                jStatusbar.setText( "Enter passphrase and decrypt the message." );
+            }
 
-        // Enable various text components
-        setEnableReceiveTabComponents( true );
-        jStatusbar.setText( "Opened message." );
+        }
+        catch (Exception ex)
+        {
+            jStatusbar.setText( "Error. Unable to open message." );
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jRecv_OpenButtonActionPerformed
 
     private void jSend_TestButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jSend_TestButtonActionPerformed
