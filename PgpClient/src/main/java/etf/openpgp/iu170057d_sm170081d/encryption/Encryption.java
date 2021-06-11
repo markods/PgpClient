@@ -454,20 +454,52 @@ public class Encryption
         return message;
     }
     
-    public static void checkIfEncrypted(PgpMessage pgpMessage) throws IOException
+    public static InputStream removeRadix64Encoding(InputStream inputStream) throws IOException
     {
-        InputStream inputStream = new ByteArrayInputStream(pgpMessage.encryptedMessage);
-        
-        // This decoder stream removed radix-64 formatting?
-        inputStream = PGPUtil.getDecoderStream(new BufferedInputStream(inputStream));
+        return PGPUtil.getDecoderStream(new BufferedInputStream(inputStream));
+    }
+    
+    public static void decrypt(PgpMessage pgpMessage)
+    {
+    }
+    
+    public static void decompress(PgpMessage pgpMessage)
+    {
+    }
+    
+    public static void unpackLiteral(PgpMessage pgpMessage)
+    {
+    }
+    
+    public static void verifyIntegrity(PgpMessage pgpMessage)
+    {
+    }
+    
+    public static void verifySignature(PgpMessage pgpMessage)
+    {
+    }
+    
+    public static void getSignature(PgpMessage pgpMessage)
+    {
+    }
+    
+    public static void checkIfEncrypted(
+            InputStream inputStream,
+            PgpMessage pgpMessage,
+            PGPEncryptedDataList encryptedDataList,
+            Object pgpObject) throws IOException
+    {        
         PGPObjectFactory pgpObjectFactory = new PGPObjectFactory(inputStream, new BcKeyFingerprintCalculator());
-        // PGP object which gradually goes through decoding stages
-        Object pgpObject = pgpObjectFactory.nextObject();
+        pgpObject = pgpObjectFactory.nextObject();
         
         // Determine if the message is encrypted
         pgpMessage.isEncrypted = false;
         if (pgpObject instanceof PGPEncryptedDataList)
         {
+            if (encryptedDataList != null)
+            {
+                encryptedDataList = (PGPEncryptedDataList) pgpObject;
+            }
             pgpMessage.isEncrypted = true;
         }
         else if (pgpObject instanceof PGPMarker)
@@ -475,6 +507,10 @@ public class Encryption
             pgpObject = pgpObjectFactory.nextObject();
             if (pgpObject instanceof PGPEncryptedDataList)
             {
+                if (encryptedDataList != null)
+                {
+                    encryptedDataList = (PGPEncryptedDataList) pgpObject;
+                }
                 pgpMessage.isEncrypted = true;
             }
         }
@@ -482,7 +518,10 @@ public class Encryption
     
     public static void readPgpMessage(PgpMessage pgpMessage) throws Exception
     {
-        checkIfEncrypted(pgpMessage);
+        InputStream inputStream = new ByteArrayInputStream(pgpMessage.encryptedMessage);
+        inputStream = removeRadix64Encoding(inputStream);
+        
+        checkIfEncrypted(inputStream, pgpMessage, null, new Object());
 
         // If the message is not encrpyted, decoode it to extract all the data
         // without a passphrase
@@ -498,39 +537,19 @@ public class Encryption
             PgpMessage pgpMessage) throws Exception
     {
         Object message = null;
-
-        PGPEncryptedDataList encryptedDataList = null;
+        PGPObjectFactory pgpObjectFactory = null;
         
         InputStream inputStream = new ByteArrayInputStream(pgpMessage.encryptedMessage);
+        inputStream = removeRadix64Encoding(inputStream);
         
-        // This decoder stream removed radix-64 formatting?
-        inputStream = PGPUtil.getDecoderStream(new BufferedInputStream(inputStream));
-        PGPObjectFactory pgpObjectFactory = new PGPObjectFactory(inputStream, new BcKeyFingerprintCalculator());
-        // PGP object which gradually goes through decoding stages
-        Object pgpObject = pgpObjectFactory.nextObject();
-        
-        // Determine if the message is encrypted
-        boolean isEncrypted = false;
-        if (pgpObject instanceof PGPEncryptedDataList)
-        {
-            encryptedDataList = (PGPEncryptedDataList) pgpObject;
-            isEncrypted = true;
-        }
-        else if (pgpObject instanceof PGPMarker)
-        {
-            pgpObject = pgpObjectFactory.nextObject();
-            if (pgpObject instanceof PGPEncryptedDataList)
-            {
-                encryptedDataList = (PGPEncryptedDataList) pgpObject;
-                isEncrypted = true;
-            }
-        }
-        System.out.println("isEncrypted: " + isEncrypted);
+        PGPEncryptedDataList encryptedDataList = null;
+        Object pgpObject = null;
+        checkIfEncrypted(inputStream, pgpMessage, encryptedDataList, pgpObject);
 
-        // If the message is encrpted, try to decrypt it
+        // If the message is encrypted, try to decrypt it
         PGPPrivateKey secretKey = null;
         PGPPublicKeyEncryptedData publicKeyEncryptedData = null;
-        if (isEncrypted) 
+        if (pgpMessage.isEncrypted) 
         {
             Iterator<PGPEncryptedData> it = encryptedDataList.getEncryptedDataObjects();
 
@@ -580,16 +599,14 @@ public class Encryption
         // Decompress
         if (message instanceof PGPCompressedData)
         {
-            System.out.println("message0: " + message);
-            System.out.println("Decompressing...");
+            pgpMessage.isCompressed = true;
             PGPCompressedData compressedData = (PGPCompressedData) message;
             pgpObjectFactory = new PGPObjectFactory(new BufferedInputStream(compressedData.getDataStream()), null);
             message = pgpObjectFactory.nextObject();
-            System.out.println("message1: " + message);
         }
 
         // Determined if the message is signed
-        boolean isSigned = false;
+        pgpMessage.isSigned = false;
         PGPOnePassSignature ops = null;
         PGPPublicKey signerPublicKey = null;
         if (message instanceof PGPOnePassSignatureList)
@@ -597,7 +614,7 @@ public class Encryption
             PGPOnePassSignatureList p1 = (PGPOnePassSignatureList) message;
             ops = p1.get(0);
             long keyId = ops.getKeyID();
-            isSigned = true;
+            pgpMessage.isSigned = true;
             
             // Get signer public key
             signerPublicKey = PGPKeys.getPublicKeysCollection().getPublicKey(keyId);
@@ -608,8 +625,6 @@ public class Encryption
             System.out.println("message2: " + message);
         }
         
-        System.out.println("isSigned: " + isSigned);
-
         if (message instanceof PGPLiteralData)
         {
             PGPLiteralData ld = (PGPLiteralData) message;
@@ -633,11 +648,10 @@ public class Encryption
             }
             
             // Read signature
-            if (isSigned)
+            if (pgpMessage.isSigned)
             {
                 ops.update(pgpMessage.decryptedMessage);
                 PGPSignatureList p3 = (PGPSignatureList) pgpObjectFactory.nextObject();
-                System.out.println("message3: " + p3);
                 if (ops.verify(p3.get(0)))
                 {
                     String str = new String((byte[]) signerPublicKey.getRawUserIDs().next(),StandardCharsets.UTF_8);
@@ -650,11 +664,7 @@ public class Encryption
             }
         }
         
-        
-        pgpMessage.decryptedMessage = new String("lalalal").getBytes();
-        pgpMessage.isEncrypted = false;
-        pgpMessage.isCompressed = true;
+        // TODO(urosisakovic): Determine this
         pgpMessage.isRadix64Encoded = true;
-        pgpMessage.isSigned = true;
     }
 }
