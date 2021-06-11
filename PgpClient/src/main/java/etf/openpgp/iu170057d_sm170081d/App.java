@@ -881,7 +881,6 @@ public class App extends javax.swing.JFrame
         // Read encrypted message
         pgpMessage.encryptedMessage = FileUtils.readFromFile( encryptedFilePath );
 
-
         // Read PGP message (without decrypting it)
         try
         {
@@ -894,7 +893,31 @@ public class App extends javax.swing.JFrame
                 setEnableReceiveTabComponents( true );
                 jStatusbar.setText( "Enter passphrase and decrypt the message." );
             }
+            else
+            {
+                // TODO (urosisakovic): Fill From and To fields
 
+                jRecv_BodyTextarea.setText(new String(pgpMessage.decryptedMessage));
+                
+                jRecv_EncryptionTextbox.setText("None");
+                
+                if (pgpMessage.isCompressed)
+                {
+                    jRecv_CompressionCheckbox.setSelected(true);
+                }
+
+                if (pgpMessage.isRadix64Encoded)
+                {
+                    jRecv_Radix64Checkbox.setSelected(true);
+                }
+
+                if (pgpMessage.isSigned)
+                {
+                    jRecv_SignatureCheckbox.setSelected(true);
+                }
+                
+                jStatusbar.setText( "Message shown. It was not encrypted." );
+            }
         }
         catch (Exception ex)
         {
@@ -1104,7 +1127,6 @@ public class App extends javax.swing.JFrame
             
             jRecv_BodyTextarea.setText(new String(pgpMessage.decryptedMessage));
             
-            // TODO(uros): Make selected boxes black instea of grey
             if (pgpMessage.isCompressed)
             {
                 jRecv_CompressionCheckbox.setSelected(true);

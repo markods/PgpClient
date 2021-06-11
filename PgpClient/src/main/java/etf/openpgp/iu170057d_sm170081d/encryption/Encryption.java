@@ -84,7 +84,7 @@ public class Encryption
         public byte[] decryptedMessage = null;
         public long senderSecretKeyId = 0;
         public long receiverPublicKeyId = 0;
-        public EncryptionAlgorithm encryptionAlgorithm;
+        public String encryptionAlgorithm = "";
         public boolean isEncrypted = false;
         public boolean isSigned = false;
         public boolean isCompressed = false;
@@ -613,9 +613,35 @@ public class Encryption
 
     public static void readPgpMessage(PgpMessage pgpMessage) throws Exception
     {
-        /*InputStream inputStream = new ByteArrayInputStream(message);
-        PgpMessage decryptedMessage = new PgpMessage();
-        decryptAndVerifyFile(inputStream, receiverPassphrase, decryptedMessage);*/
+        InputStream inputStream = new ByteArrayInputStream(pgpMessage.encryptedMessage);
+        Object message = null;
+
+        PGPEncryptedDataList encryptedDataList = null;
+        
+        // This decoder stream removed radix-64 formatting?
+        inputStream = PGPUtil.getDecoderStream(new BufferedInputStream(inputStream));
+        PGPObjectFactory pgpObjectFactory = new PGPObjectFactory(inputStream, new BcKeyFingerprintCalculator());
+        // PGP object which gradually goes through decoding stages
+        Object pgpObject = pgpObjectFactory.nextObject();
+        
+        // Determine if the message is encrypted
+        if (pgpObject instanceof PGPEncryptedDataList)
+        {
+            encryptedDataList = (PGPEncryptedDataList) pgpObject;
+            pgpMessage.isEncrypted = true;
+        }
+        else if (pgpObject instanceof PGPMarker)
+        {
+            pgpObject = pgpObjectFactory.nextObject();
+            if (pgpObject instanceof PGPEncryptedDataList)
+            {
+                encryptedDataList = (PGPEncryptedDataList) pgpObject;
+                pgpMessage.isEncrypted = true;
+            }
+        }
+        
+        //PgpMessage decryptedMessage = new PgpMessage();
+        //decryptAndVerifyFile(inputStream, receiverPassphrase, decryptedMessage);*/
         
         pgpMessage.isEncrypted = true;
     }
