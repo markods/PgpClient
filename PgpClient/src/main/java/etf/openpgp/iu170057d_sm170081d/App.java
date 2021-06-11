@@ -1127,6 +1127,8 @@ public class App extends javax.swing.JFrame
             
             jRecv_BodyTextarea.setText(new String(pgpMessage.decryptedMessage));
             
+            jRecv_EncryptionTextbox.setText(pgpMessage.encryptionAlgorithm);
+            
             if (pgpMessage.isCompressed)
             {
                 jRecv_CompressionCheckbox.setSelected(true);
