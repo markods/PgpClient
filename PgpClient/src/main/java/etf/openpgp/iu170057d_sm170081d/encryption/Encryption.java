@@ -486,34 +486,33 @@ public class Encryption
     public static void checkIfEncrypted(
             InputStream inputStream,
             PgpMessage pgpMessage,
-            PGPEncryptedDataList encryptedDataList,
-            Object pgpObject) throws IOException
+            PgpDecryptionState pgpDecryptionState) throws IOException
     {        
         PGPObjectFactory pgpObjectFactory = new PGPObjectFactory(inputStream, new BcKeyFingerprintCalculator());
-        pgpObject = pgpObjectFactory.nextObject();
-        
+        pgpDecryptionState.pgpObject = pgpObjectFactory.nextObject();
+                
         // Determine if the message is encrypted
         pgpMessage.isEncrypted = false;
-        if (pgpObject instanceof PGPEncryptedDataList)
+        if (pgpDecryptionState.pgpObject instanceof PGPEncryptedDataList)
         {
-            if (encryptedDataList != null)
-            {
-                encryptedDataList = (PGPEncryptedDataList) pgpObject;
-            }
+            pgpDecryptionState.encryptedDataList = (PGPEncryptedDataList) pgpDecryptionState.pgpObject;
             pgpMessage.isEncrypted = true;
         }
-        else if (pgpObject instanceof PGPMarker)
+        else if (pgpDecryptionState.pgpObject instanceof PGPMarker)
         {
-            pgpObject = pgpObjectFactory.nextObject();
-            if (pgpObject instanceof PGPEncryptedDataList)
+            pgpDecryptionState.pgpObject = pgpObjectFactory.nextObject();
+            if (pgpDecryptionState.pgpObject instanceof PGPEncryptedDataList)
             {
-                if (encryptedDataList != null)
-                {
-                    encryptedDataList = (PGPEncryptedDataList) pgpObject;
-                }
+                pgpDecryptionState.encryptedDataList = (PGPEncryptedDataList) pgpDecryptionState.pgpObject;
                 pgpMessage.isEncrypted = true;
             }
         }
+    }
+    
+    public static class PgpDecryptionState
+    {
+        PGPEncryptedDataList encryptedDataList = null;
+        Object pgpObject = null;
     }
     
     public static void readPgpMessage(PgpMessage pgpMessage) throws Exception
@@ -521,7 +520,8 @@ public class Encryption
         InputStream inputStream = new ByteArrayInputStream(pgpMessage.encryptedMessage);
         inputStream = removeRadix64Encoding(inputStream);
         
-        checkIfEncrypted(inputStream, pgpMessage, null, new Object());
+        PgpDecryptionState dummyPds = new PgpDecryptionState();
+        checkIfEncrypted(inputStream, pgpMessage, dummyPds);
 
         // If the message is not encrpyted, decoode it to extract all the data
         // without a passphrase
@@ -542,16 +542,17 @@ public class Encryption
         InputStream inputStream = new ByteArrayInputStream(pgpMessage.encryptedMessage);
         inputStream = removeRadix64Encoding(inputStream);
         
-        PGPEncryptedDataList encryptedDataList = null;
-        Object pgpObject = null;
-        checkIfEncrypted(inputStream, pgpMessage, encryptedDataList, pgpObject);
+        PgpDecryptionState pds = new PgpDecryptionState();
+        checkIfEncrypted(inputStream, pgpMessage, pds);
+        System.out.println("encryptedDataList: " + pds.encryptedDataList);
+        System.out.println("pgpObject: " + pds.pgpObject);
 
         // If the message is encrypted, try to decrypt it
         PGPPrivateKey secretKey = null;
         PGPPublicKeyEncryptedData publicKeyEncryptedData = null;
         if (pgpMessage.isEncrypted) 
         {
-            Iterator<PGPEncryptedData> it = encryptedDataList.getEncryptedDataObjects();
+            Iterator<PGPEncryptedData> it = pds.encryptedDataList.getEncryptedDataObjects();
 
             PGPSecretKeyRingCollection pgpSecretKeyRingCollection = PGPKeys.getSecretKeysCollection();
             while (secretKey == null && it.hasNext())
@@ -593,7 +594,7 @@ public class Encryption
         // Message is not encrypted
         else
         {
-            message = pgpObject;
+            message = pds.pgpObject;
         }
         
         // Decompress
