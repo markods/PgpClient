@@ -38,7 +38,6 @@ import org.bouncycastle.openpgp.PGPOnePassSignatureList;
 import org.bouncycastle.openpgp.PGPPrivateKey;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyEncryptedData;
-import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPSecretKey;
 import org.bouncycastle.openpgp.PGPSecretKeyRingCollection;
 import org.bouncycastle.openpgp.PGPSignature;
@@ -678,6 +677,10 @@ public class Encryption
     {
         pds.onePassSignature.update(pgpMessage.decryptedMessage);
         PGPSignatureList p3 = (PGPSignatureList) pds.pgpObjectFactory.nextObject();
+        System.out.println(pds);
+        System.out.println(pds.onePassSignature);
+        System.out.println(p3);
+        System.out.println(p3.get(0));
         if (pds.onePassSignature.verify(p3.get(0)))
         {
             String str = new String((byte[]) pds.signerPublicKey.getRawUserIDs().next(), StandardCharsets.UTF_8);

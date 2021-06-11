@@ -899,10 +899,10 @@ public class App extends javax.swing.JFrame
                         .getPublicKey()
                         .getUserIDs()
                         .next());
-                
-                // Enable various text components
-                // setEnableReceiveTabComponents( true );
                 jStatusbar.setText( "Enter passphrase and decrypt the message." );
+                
+                jRecv_PassphrasePasswordbox.setEditable(true);
+                jRecv_PassphrasePasswordbox.setEnabled(true);
             }
             else
             {
@@ -929,9 +929,6 @@ public class App extends javax.swing.JFrame
                 
                 jStatusbar.setText( "Message shown. It was not encrypted." );
             }
-            
-            jRecv_PassphrasePasswordbox.setEditable(true);
-            jRecv_PassphrasePasswordbox.setEnabled(true);
         }
         catch (Exception ex)
         {
@@ -1141,11 +1138,16 @@ public class App extends javax.swing.JFrame
         try {
             Encryption.decryptPgpMessage(passphrase, pgpMessage);
             
-            jRecv_FromTextbox.setText((String) PGPKeys
+            System.out.println("pgpMessage.senderSecretKeyId: " + pgpMessage.senderSecretKeyId);
+            
+            if (pgpMessage.senderSecretKeyId != 0)
+            {
+                jRecv_FromTextbox.setText((String) PGPKeys
                         .getPublicKeyRing(pgpMessage.senderSecretKeyId)
                         .getPublicKey()
                         .getUserIDs()
                         .next());
+            }
             
             jRecv_BodyTextarea.setText(new String(pgpMessage.decryptedMessage));
             
