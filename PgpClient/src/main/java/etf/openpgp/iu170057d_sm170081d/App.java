@@ -884,11 +884,16 @@ public class App extends javax.swing.JFrame
         // Read PGP message (without decrypting it)
         try
         {
-            
             Encryption.readPgpMessage(pgpMessage);
 
             if (pgpMessage.isEncrypted)
-            {
+            {                
+                jRecv_ToTextbox.setText((String) PGPKeys
+                        .getPublicKeyRing(pgpMessage.receiverPublicKeyId)
+                        .getPublicKey()
+                        .getUserIDs()
+                        .next());
+                
                 // Enable various text components
                 setEnableReceiveTabComponents( true );
                 jStatusbar.setText( "Enter passphrase and decrypt the message." );

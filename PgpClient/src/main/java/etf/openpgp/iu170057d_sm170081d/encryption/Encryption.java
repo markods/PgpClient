@@ -689,13 +689,40 @@ public class Encryption
         }
     }
     
+    private static void getPublicKeyId(
+            PgpMessage pgpMessage,
+            PgpDecryptionState pds) throws IOException, PGPException
+    {
+         if (!pgpMessage.isEncrypted)
+        {
+            return;
+        }
+        
+        PGPPrivateKey secretKey = null;
+        
+        Iterator<PGPEncryptedData> it = pds.encryptedDataList.getEncryptedDataObjects();
+
+        PGPSecretKeyRingCollection pgpSecretKeyRingCollection = PGPKeys.getSecretKeysCollection();
+        while (secretKey == null && it.hasNext())
+        {
+            pds.publicKeyEncryptedData = (PGPPublicKeyEncryptedData) it.next();
+            PGPSecretKey pgpSecKey = pgpSecretKeyRingCollection.getSecretKey(pds.publicKeyEncryptedData.getKeyID());
+
+            if (pgpSecKey != null)
+            {
+                pgpMessage.receiverPublicKeyId = pds.publicKeyEncryptedData.getKeyID();
+                return;
+            }
+        }       
+    }
+    
     public static void readPgpMessage(PgpMessage pgpMessage) throws Exception
     {
         InputStream inputStream = new ByteArrayInputStream(pgpMessage.encryptedMessage);
         inputStream = removeRadix64Encoding(inputStream);
         
-        PgpDecryptionState dummyPds = new PgpDecryptionState();
-        checkIfEncrypted(inputStream, pgpMessage, dummyPds);
+        PgpDecryptionState pds = new PgpDecryptionState();
+        checkIfEncrypted(inputStream, pgpMessage, pds);
 
         // If the message is not encrpyted, decoode it to extract all the data
         // without a passphrase
@@ -703,6 +730,12 @@ public class Encryption
         {
             pgpMessage.decryptedMessage = pgpMessage.encryptedMessage;
             decryptPgpMessage(null, pgpMessage);
+        }
+        // If the message is encrypted, get the `To` information so that user
+        // know which passphrase to enter
+        else
+        {
+            getPublicKeyId(pgpMessage, pds);
         }
     }
     
