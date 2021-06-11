@@ -450,7 +450,7 @@
             </Component>
             <Component class="javax.swing.JPasswordField" name="jRecv_PassphrasePasswordbox">
               <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="editable" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="jRecv_SignatureCheckbox">

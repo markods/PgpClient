@@ -285,7 +285,7 @@ public class App extends javax.swing.JFrame
             }
         });
 
-        jRecv_PassphrasePasswordbox.setEnabled(false);
+        jRecv_PassphrasePasswordbox.setEditable(false);
 
         jRecv_SignatureCheckbox.setText("Signature");
         jRecv_SignatureCheckbox.setEnabled(false);
@@ -846,6 +846,7 @@ public class App extends javax.swing.JFrame
     private void jRecv_SaveButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_SaveButtonActionPerformed
     {//GEN-HEADEREND:event_jRecv_SaveButtonActionPerformed
         jStatusbar.setText("");
+        String to = jRecv_ToTextbox.getText();
         String from = jRecv_FromTextbox.getText();
         String message = jRecv_BodyTextarea.getText();
         
@@ -862,10 +863,13 @@ public class App extends javax.swing.JFrame
             return;
         }
         
-        String completeMessage = "From: " + from + "\n\n";
+        String completeMessage = "From: " + from + "\n";
+        completeMessage += "To: " + to + "\n\n";
         completeMessage += "Text: \n";
         completeMessage += message;
         FileUtils.writeToFile(saveMessageFilePath, completeMessage);
+        
+        jStatusbar.setText("Saved message.");
     }//GEN-LAST:event_jRecv_SaveButtonActionPerformed
 
     private void jRecv_OpenButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_OpenButtonActionPerformed
@@ -897,7 +901,7 @@ public class App extends javax.swing.JFrame
                         .next());
                 
                 // Enable various text components
-                setEnableReceiveTabComponents( true );
+                // setEnableReceiveTabComponents( true );
                 jStatusbar.setText( "Enter passphrase and decrypt the message." );
             }
             else
@@ -925,6 +929,9 @@ public class App extends javax.swing.JFrame
                 
                 jStatusbar.setText( "Message shown. It was not encrypted." );
             }
+            
+            jRecv_PassphrasePasswordbox.setEditable(true);
+            jRecv_PassphrasePasswordbox.setEnabled(true);
         }
         catch (Exception ex)
         {
@@ -1202,8 +1209,9 @@ public class App extends javax.swing.JFrame
         jRecv_CompressionCheckbox.setSelected( false );
         jRecv_Radix64Checkbox.setSelected( false );
         jRecv_SignatureCheckbox.setSelected( false );
+        jRecv_PassphrasePasswordbox.setEditable( false );
 
-        setEnableReceiveTabComponents( false );
+        // setEnableReceiveTabComponents( false );
         jRecv_PassphrasePasswordbox.setEnabled( jRecv_SignatureCheckbox.isSelected() );
     }//GEN-LAST:event_jRecv_TabComponentShown
 
@@ -1396,12 +1404,20 @@ public class App extends javax.swing.JFrame
 
     private void setEnableReceiveTabComponents( boolean enable )
     {
-        jRecv_FromTextbox.setEnabled( enable );
-        jRecv_ToTextbox.setEnabled( enable );
-        jRecv_BodyTextarea.setEnabled( enable );
-        jRecv_EncryptionTextbox.setEnabled( enable );
-        jRecv_PassphrasePasswordbox.setEnabled( enable );
-        jRecv_DecryptButton.setEnabled( enable );
+        if (!enable)
+        {
+            jRecv_FromTextbox.setEnabled( enable );
+            jRecv_ToTextbox.setEnabled( enable );
+            jRecv_BodyTextarea.setEnabled( enable );
+            jRecv_EncryptionTextbox.setEnabled( enable );
+            jRecv_PassphrasePasswordbox.setEnabled( enable );
+            jRecv_DecryptButton.setEnabled( enable );
+        }
+        else
+        {
+            jRecv_PassphrasePasswordbox.setEnabled( enable );
+            jRecv_DecryptButton.setEnabled( enable );
+        }
     }
 
 
