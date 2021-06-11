@@ -845,6 +845,7 @@ public class App extends javax.swing.JFrame
 
     private void jRecv_SaveButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_SaveButtonActionPerformed
     {//GEN-HEADEREND:event_jRecv_SaveButtonActionPerformed
+        jStatusbar.setText("");
         String from = jRecv_FromTextbox.getText();
         String message = jRecv_BodyTextarea.getText();
         
@@ -869,6 +870,7 @@ public class App extends javax.swing.JFrame
 
     private void jRecv_OpenButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_OpenButtonActionPerformed
     {//GEN-HEADEREND:event_jRecv_OpenButtonActionPerformed
+        jStatusbar.setText("");
         String encryptedFilePath = FileUtils.getUserSelectedFilePath( FileUtils.OPEN_DIALOG, FileUtils.PGP_MESSAGE_FILE );
         if( encryptedFilePath == null )
         {
@@ -1123,12 +1125,20 @@ public class App extends javax.swing.JFrame
 
     private void jRecv_DecryptButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_DecryptButtonActionPerformed
     {//GEN-HEADEREND:event_jRecv_DecryptButtonActionPerformed
+        jStatusbar.setText("");
+        
         char[] passphrase = jRecv_PassphrasePasswordbox.getPassword();
         
         // TODO(uros): Check if the passphrase is valid
         
         try {
             Encryption.decryptPgpMessage(passphrase, pgpMessage);
+            
+            jRecv_FromTextbox.setText((String) PGPKeys
+                        .getPublicKeyRing(pgpMessage.senderSecretKeyId)
+                        .getPublicKey()
+                        .getUserIDs()
+                        .next());
             
             jRecv_BodyTextarea.setText(new String(pgpMessage.decryptedMessage));
             
@@ -1149,7 +1159,14 @@ public class App extends javax.swing.JFrame
                 jRecv_SignatureCheckbox.setSelected(true);
             }
             
-        } catch (Exception ex) {
+            jStatusbar.setText("Successfully decrypted message");
+        } 
+        catch (PGPException ex)
+        {
+            jStatusbar.setText("Invalid passphrase.");
+        }
+        catch (IOException ex)
+        {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jRecv_DecryptButtonActionPerformed

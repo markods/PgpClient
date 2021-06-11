@@ -680,8 +680,8 @@ public class Encryption
         PGPSignatureList p3 = (PGPSignatureList) pds.pgpObjectFactory.nextObject();
         if (pds.onePassSignature.verify(p3.get(0)))
         {
-            String str = new String((byte[]) pds.signerPublicKey.getRawUserIDs().next(),StandardCharsets.UTF_8);
-            System.out.println("Signature verified: " + str);
+            String str = new String((byte[]) pds.signerPublicKey.getRawUserIDs().next(), StandardCharsets.UTF_8);
+            pgpMessage.senderSecretKeyId = pds.signerPublicKey.getKeyID();
         }
         else
         {
