@@ -1,6 +1,7 @@
 # PGP files
 *.asc
-*.pgp
+*.gpg
+*.sig
 
 # Compiled class file
 *.class
@@ -40,6 +41,5 @@ nbdist/
 # Microsoft Office
 *.tmp
 ~$*
-
 
 
