@@ -85,7 +85,8 @@ public class Encryption
         public boolean isSigned = false;
         public boolean isCompressed = false;
         public boolean isRadix64Encoded = false;
-        public boolean isValid = true;
+        public boolean isIntegrityVerified = false;
+        public boolean isSignatureVerified = false;
     }
 
     // create a literal data packet from the given message
@@ -647,13 +648,9 @@ public class Encryption
         {
             if( pds.publicKeyEncryptedData.isIntegrityProtected() )
             {
-                if( !pds.publicKeyEncryptedData.verify() )
+                if( pds.publicKeyEncryptedData.verify() )
                 {
-                    throw new PGPException( "message failed integrity check" );
-                }
-                else
-                {
-                    System.out.println( "Integrity checked successfully!" );
+                    pgpMessage.isIntegrityVerified = true;
                 }
             }
             else
@@ -681,6 +678,7 @@ public class Encryption
         {
             String str = new String( ( byte[] )pds.signerPublicKey.getRawUserIDs().next(), StandardCharsets.UTF_8 );
             pgpMessage.senderSecretKeyId = pds.signerPublicKey.getKeyID();
+            pgpMessage.isSignatureVerified = true;
         }
         else
         {

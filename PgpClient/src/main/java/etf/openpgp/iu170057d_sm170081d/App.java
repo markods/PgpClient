@@ -39,8 +39,7 @@ public class App extends javax.swing.JFrame
      */
     @SuppressWarnings( "unchecked" )
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jTabs = new javax.swing.JTabbedPane();
         jSend_Tab = new javax.swing.JPanel();
@@ -77,6 +76,8 @@ public class App extends javax.swing.JFrame
         jRecv_EncryptionTextbox = new javax.swing.JTextField();
         jRecv_FromTextbox = new javax.swing.JTextField();
         jRecv_ToTextbox = new javax.swing.JTextField();
+        jRecv_SignatureVerifiedCheckbox = new javax.swing.JCheckBox();
+        jRecv_IntegrityVerifiedCheckbox = new javax.swing.JCheckBox();
         jPubl_Tab = new javax.swing.JPanel();
         jPubl_PublicKeyringsScrollpane = new javax.swing.JScrollPane();
         jPubl_PublicKeyringsTable = new javax.swing.JTable();
@@ -109,19 +110,15 @@ public class App extends javax.swing.JFrame
         jTabs.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         jTabs.setDoubleBuffered(true);
         jTabs.setPreferredSize(new java.awt.Dimension(640, 480));
-        jTabs.addChangeListener(new javax.swing.event.ChangeListener()
-        {
-            public void stateChanged(javax.swing.event.ChangeEvent evt)
-            {
+        jTabs.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jTabsStateChanged(evt);
             }
         });
 
         jSend_Tab.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 30, 25, 30));
-        jSend_Tab.addComponentListener(new java.awt.event.ComponentAdapter()
-        {
-            public void componentShown(java.awt.event.ComponentEvent evt)
-            {
+        jSend_Tab.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
                 jSend_TabComponentShown(evt);
             }
         });
@@ -142,10 +139,8 @@ public class App extends javax.swing.JFrame
 
         jSend_SendButton.setText("Send");
         jSend_SendButton.setPreferredSize(new java.awt.Dimension(58, 32));
-        jSend_SendButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jSend_SendButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSend_SendButtonActionPerformed(evt);
             }
         });
@@ -165,30 +160,25 @@ public class App extends javax.swing.JFrame
         jSend_Radix64Checkbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
         jSend_TestButton.setText("Test");
-        jSend_TestButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jSend_TestButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSend_TestButtonActionPerformed(evt);
             }
         });
 
         jSend_SignatureCheckbox.setSelected(true);
         jSend_SignatureCheckbox.setText("Signature");
+        jSend_SignatureCheckbox.setActionCommand("Signed");
         jSend_SignatureCheckbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        jSend_SignatureCheckbox.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jSend_SignatureCheckbox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSend_SignatureCheckboxActionPerformed(evt);
             }
         });
 
         jSend_AddRecipientButton.setText("Select Recipient");
-        jSend_AddRecipientButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jSend_AddRecipientButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSend_AddRecipientButtonActionPerformed(evt);
             }
         });
@@ -197,13 +187,6 @@ public class App extends javax.swing.JFrame
         jSend_Tab.setLayout(jSend_TabLayout);
         jSend_TabLayout.setHorizontalGroup(
             jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jSend_TabLayout.createSequentialGroup()
-                .addComponent(jSend_CompressionCheckbox)
-                .addGap(18, 18, 18)
-                .addComponent(jSend_Radix64Checkbox)
-                .addGap(18, 18, 18)
-                .addComponent(jSend_SignatureCheckbox)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jSend_BodyScrollpane)
             .addGroup(jSend_TabLayout.createSequentialGroup()
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -218,13 +201,21 @@ public class App extends javax.swing.JFrame
                     .addComponent(jSend_SendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSend_AddRecipientButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addGroup(jSend_TabLayout.createSequentialGroup()
-                .addComponent(jSend_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jSend_TabLayout.createSequentialGroup()
+                        .addComponent(jSend_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSend_EncryptionCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(jSend_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jSend_TabLayout.createSequentialGroup()
+                        .addComponent(jSend_CompressionCheckbox)
+                        .addGap(18, 18, 18)
+                        .addComponent(jSend_Radix64Checkbox)
+                        .addGap(29, 29, 29)
+                        .addComponent(jSend_SignatureCheckbox)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSend_EncryptionCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(jSend_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSend_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
+                .addComponent(jSend_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSend_TestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -243,7 +234,7 @@ public class App extends javax.swing.JFrame
                         .addComponent(jSend_AddRecipientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSend_ToLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jSend_BodyScrollpane, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                .addComponent(jSend_BodyScrollpane, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jSend_TestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -255,16 +246,15 @@ public class App extends javax.swing.JFrame
                 .addGroup(jSend_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jSend_CompressionCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSend_Radix64Checkbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSend_SignatureCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jSend_SignatureCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
         );
 
         jTabs.addTab("Send email", jSend_Tab);
 
         jRecv_Tab.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 30, 25, 30));
-        jRecv_Tab.addComponentListener(new java.awt.event.ComponentAdapter()
-        {
-            public void componentShown(java.awt.event.ComponentEvent evt)
-            {
+        jRecv_Tab.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
                 jRecv_TabComponentShown(evt);
             }
         });
@@ -295,42 +285,34 @@ public class App extends javax.swing.JFrame
         jRecv_Radix64Checkbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
         jRecv_DecryptButton.setText("Decrypt");
-        jRecv_DecryptButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jRecv_DecryptButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRecv_DecryptButtonActionPerformed(evt);
             }
         });
 
         jRecv_PassphrasePasswordbox.setEditable(false);
 
-        jRecv_SignatureCheckbox.setText("Signature");
+        jRecv_SignatureCheckbox.setText("Signed");
         jRecv_SignatureCheckbox.setEnabled(false);
         jRecv_SignatureCheckbox.setFocusable(false);
         jRecv_SignatureCheckbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        jRecv_SignatureCheckbox.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jRecv_SignatureCheckbox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRecv_SignatureCheckboxActionPerformed(evt);
             }
         });
 
         jRecv_OpenButton.setText("Open");
-        jRecv_OpenButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jRecv_OpenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRecv_OpenButtonActionPerformed(evt);
             }
         });
 
         jRecv_SaveButton.setText("Save");
-        jRecv_SaveButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jRecv_SaveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRecv_SaveButtonActionPerformed(evt);
             }
         });
@@ -340,6 +322,26 @@ public class App extends javax.swing.JFrame
         jRecv_FromTextbox.setEditable(false);
 
         jRecv_ToTextbox.setEditable(false);
+
+        jRecv_SignatureVerifiedCheckbox.setText("Signature Verified");
+        jRecv_SignatureVerifiedCheckbox.setEnabled(false);
+        jRecv_SignatureVerifiedCheckbox.setFocusable(false);
+        jRecv_SignatureVerifiedCheckbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jRecv_SignatureVerifiedCheckbox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRecv_SignatureVerifiedCheckboxActionPerformed(evt);
+            }
+        });
+
+        jRecv_IntegrityVerifiedCheckbox.setText("Integrity Verified");
+        jRecv_IntegrityVerifiedCheckbox.setEnabled(false);
+        jRecv_IntegrityVerifiedCheckbox.setFocusable(false);
+        jRecv_IntegrityVerifiedCheckbox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jRecv_IntegrityVerifiedCheckbox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRecv_IntegrityVerifiedCheckboxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jRecv_TabLayout = new javax.swing.GroupLayout(jRecv_Tab);
         jRecv_Tab.setLayout(jRecv_TabLayout);
@@ -359,22 +361,31 @@ public class App extends javax.swing.JFrame
                     .addComponent(jRecv_SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addComponent(jRecv_BodyScrollpane, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jRecv_TabLayout.createSequentialGroup()
-                .addComponent(jRecv_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRecv_EncryptionTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jRecv_TabLayout.createSequentialGroup()
+                        .addComponent(jRecv_EncryptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRecv_EncryptionTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jRecv_TabLayout.createSequentialGroup()
+                        .addComponent(jRecv_CompressionCheckbox)
+                        .addGap(18, 18, 18)
+                        .addComponent(jRecv_Radix64Checkbox)))
                 .addGap(36, 36, 36)
-                .addComponent(jRecv_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRecv_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRecv_DecryptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jRecv_TabLayout.createSequentialGroup()
-                .addComponent(jRecv_CompressionCheckbox)
-                .addGap(18, 18, 18)
-                .addComponent(jRecv_Radix64Checkbox)
-                .addGap(18, 18, 18)
-                .addComponent(jRecv_SignatureCheckbox)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jRecv_PassphraseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRecv_SignatureCheckbox))
+                .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jRecv_TabLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRecv_PassphrasePasswordbox, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRecv_DecryptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jRecv_TabLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(jRecv_SignatureVerifiedCheckbox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jRecv_IntegrityVerifiedCheckbox)
+                        .addGap(29, 29, 29))))
         );
         jRecv_TabLayout.setVerticalGroup(
             jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -393,7 +404,7 @@ public class App extends javax.swing.JFrame
                         .addGap(0, 0, 0)
                         .addComponent(jRecv_SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jRecv_BodyScrollpane, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                .addComponent(jRecv_BodyScrollpane, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRecv_DecryptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -405,73 +416,62 @@ public class App extends javax.swing.JFrame
                 .addGroup(jRecv_TabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRecv_CompressionCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRecv_Radix64Checkbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRecv_SignatureCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jRecv_SignatureCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRecv_SignatureVerifiedCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRecv_IntegrityVerifiedCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34))
         );
 
         jTabs.addTab("Receive email", jRecv_Tab);
 
         jPubl_Tab.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 30, 25, 30));
-        jPubl_Tab.addComponentListener(new java.awt.event.ComponentAdapter()
-        {
-            public void componentShown(java.awt.event.ComponentEvent evt)
-            {
+        jPubl_Tab.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
                 jPubl_TabComponentShown(evt);
             }
         });
 
         jPubl_PublicKeyringsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
 
             },
-            new String []
-            {
+            new String [] {
                 "Email", "Key Id", "PublicKeyValue"
             }
-        )
-        {
-            boolean[] canEdit = new boolean []
-            {
+        ) {
+            boolean[] canEdit = new boolean [] {
                 true, true, false
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex)
-            {
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         jPubl_PublicKeyringsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jPubl_PublicKeyringsScrollpane.setViewportView(jPubl_PublicKeyringsTable);
-        if (jPubl_PublicKeyringsTable.getColumnModel().getColumnCount() > 0)
-        {
+        if (jPubl_PublicKeyringsTable.getColumnModel().getColumnCount() > 0) {
             jPubl_PublicKeyringsTable.getColumnModel().getColumn(2).setMinWidth(0);
             jPubl_PublicKeyringsTable.getColumnModel().getColumn(2).setPreferredWidth(0);
             jPubl_PublicKeyringsTable.getColumnModel().getColumn(2).setMaxWidth(0);
         }
 
         jPubl_DeleteButton.setText("Delete");
-        jPubl_DeleteButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jPubl_DeleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPubl_DeleteButtonActionPerformed(evt);
             }
         });
 
         jPubl_ImportButton.setText("Import");
-        jPubl_ImportButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jPubl_ImportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPubl_ImportButtonActionPerformed(evt);
             }
         });
 
         jPubl_ExportButton.setText("Export");
-        jPubl_ExportButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jPubl_ExportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPubl_ExportButtonActionPerformed(evt);
             }
         });
@@ -503,67 +503,53 @@ public class App extends javax.swing.JFrame
         jTabs.addTab("Public Keys", jPubl_Tab);
 
         jPriv_Tab.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 30, 25, 30));
-        jPriv_Tab.addComponentListener(new java.awt.event.ComponentAdapter()
-        {
-            public void componentShown(java.awt.event.ComponentEvent evt)
-            {
+        jPriv_Tab.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
                 jPriv_TabComponentShown(evt);
             }
         });
 
         jPriv_PrivateKeyringsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
 
             },
-            new String []
-            {
+            new String [] {
                 "Name", "Email", "Key Id", "PrivateKeyId"
             }
-        )
-        {
-            boolean[] canEdit = new boolean []
-            {
+        ) {
+            boolean[] canEdit = new boolean [] {
                 true, true, true, false
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex)
-            {
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         jPriv_PrivateKeyringsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jPriv_PrivateKeyringsScrollpane.setViewportView(jPriv_PrivateKeyringsTable);
-        if (jPriv_PrivateKeyringsTable.getColumnModel().getColumnCount() > 0)
-        {
+        if (jPriv_PrivateKeyringsTable.getColumnModel().getColumnCount() > 0) {
             jPriv_PrivateKeyringsTable.getColumnModel().getColumn(3).setMinWidth(0);
             jPriv_PrivateKeyringsTable.getColumnModel().getColumn(3).setPreferredWidth(0);
             jPriv_PrivateKeyringsTable.getColumnModel().getColumn(3).setMaxWidth(0);
         }
 
         jPriv_GenerateButton.setText("Generate");
-        jPriv_GenerateButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jPriv_GenerateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPriv_GenerateButtonActionPerformed(evt);
             }
         });
 
         jPriv_ImportButton.setText("Import");
-        jPriv_ImportButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jPriv_ImportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPriv_ImportButtonActionPerformed(evt);
             }
         });
 
         jPriv_ExportButton.setText("Export");
-        jPriv_ExportButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jPriv_ExportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPriv_ExportButtonActionPerformed(evt);
             }
         });
@@ -575,10 +561,8 @@ public class App extends javax.swing.JFrame
         jPriv_EmailLabel.setText("Email");
 
         jPriv_DeleteButton.setText("Delete");
-        jPriv_DeleteButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jPriv_DeleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPriv_DeleteButtonActionPerformed(evt);
             }
         });
@@ -961,11 +945,16 @@ public class App extends javax.swing.JFrame
                 pgpMessage.decryptedMessage = "???".getBytes();
             }
             jRecv_BodyTextarea.setText( new String( pgpMessage.decryptedMessage ) );
-            jRecv_EncryptionTextbox.setText( "None" );
+            if (!pgpMessage.isEncrypted)
+            {
+                jRecv_EncryptionTextbox.setText( "None" );
+            }
 
             jRecv_CompressionCheckbox.setSelected( pgpMessage.isCompressed );
             jRecv_Radix64Checkbox.setSelected( pgpMessage.isRadix64Encoded );
             jRecv_SignatureCheckbox.setSelected( pgpMessage.isSigned );
+            jRecv_SignatureVerifiedCheckbox.setSelected( pgpMessage.isSignatureVerified );
+            jRecv_IntegrityVerifiedCheckbox.setSelected( pgpMessage.isIntegrityVerified );
 
             if( pgpMessage.isEncrypted )
             {
@@ -1228,6 +1217,8 @@ public class App extends javax.swing.JFrame
             jRecv_CompressionCheckbox.setSelected( pgpMessage.isCompressed );
             jRecv_Radix64Checkbox.setSelected( pgpMessage.isRadix64Encoded );
             jRecv_SignatureCheckbox.setSelected( pgpMessage.isSigned );
+            jRecv_SignatureVerifiedCheckbox.setSelected( pgpMessage.isSignatureVerified );
+            jRecv_IntegrityVerifiedCheckbox.setSelected( pgpMessage.isIntegrityVerified );
 
             jStatusbar.setText( "Successfully decrypted message" );
         }
@@ -1312,6 +1303,14 @@ public class App extends javax.swing.JFrame
         jSend_ToCombobox.insertItemAt( newItem, currIndex );
         jSend_ToCombobox.setSelectedIndex( currIndex );
     }//GEN-LAST:event_jSend_AddRecipientButtonActionPerformed
+
+    private void jRecv_SignatureVerifiedCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRecv_SignatureVerifiedCheckboxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRecv_SignatureVerifiedCheckboxActionPerformed
+
+    private void jRecv_IntegrityVerifiedCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRecv_IntegrityVerifiedCheckboxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRecv_IntegrityVerifiedCheckboxActionPerformed
 
     private void populateEmailFromCombobox()
     {
@@ -1501,12 +1500,14 @@ public class App extends javax.swing.JFrame
     private javax.swing.JTextField jRecv_EncryptionTextbox;
     private javax.swing.JLabel jRecv_FromLabel;
     private javax.swing.JTextField jRecv_FromTextbox;
+    private javax.swing.JCheckBox jRecv_IntegrityVerifiedCheckbox;
     private javax.swing.JButton jRecv_OpenButton;
     private javax.swing.JLabel jRecv_PassphraseLabel;
     private javax.swing.JPasswordField jRecv_PassphrasePasswordbox;
     private javax.swing.JCheckBox jRecv_Radix64Checkbox;
     private javax.swing.JButton jRecv_SaveButton;
     private javax.swing.JCheckBox jRecv_SignatureCheckbox;
+    private javax.swing.JCheckBox jRecv_SignatureVerifiedCheckbox;
     private javax.swing.JPanel jRecv_Tab;
     private javax.swing.JLabel jRecv_ToLabel;
     private javax.swing.JTextField jRecv_ToTextbox;
