@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.bouncycastle.bcpg.ArmoredInputStream;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.bcpg.HashAlgorithmTags;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -746,6 +747,10 @@ public class Encryption
         InputStream inputStream = new ByteArrayInputStream( pgpMessage.encryptedMessage );
         inputStream = removeRadix64Encoding( inputStream );
 
+        // check if message is radix64 encoded
+        pgpMessage.isRadix64Encoded = inputStream instanceof ArmoredInputStream;
+
+        // check if the message is encrypted
         checkIfEncrypted( inputStream, pgpMessage, pds );
 
         if( pgpMessage.isEncrypted )  // Message is encrypted, try to decrypt it
@@ -760,13 +765,11 @@ public class Encryption
         // If compressed, decompress
         decompress( pgpMessage, pds );
 
+        // check if the message is signed
         checkIfSigned( pgpMessage, pds );
 
         // Unpack literal, optionally verify message integrity
         // and read and check signature
         unpackLiteral( pgpMessage, pds );
-
-        // TODO(urosisakovic): Determine this
-        pgpMessage.isRadix64Encoded = true;
     }
 }
