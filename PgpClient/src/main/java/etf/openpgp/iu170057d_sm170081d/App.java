@@ -1084,9 +1084,25 @@ public class App extends javax.swing.JFrame
             return;
         }
 
+        // check if there is at least one selected recepient
+        for( int i = 0; i < jSend_ToCombobox.getItemCount(); i++ )
+        {
+            // Read receiver public key id
+            String receiverNameEmailAndKeyID = jSend_ToCombobox.getItemAt( i );
+            if( "x ".equals( receiverNameEmailAndKeyID.substring( 0, 2 ) ) )
+            {
+                break;
+            }
+            if( i == jSend_ToCombobox.getItemCount() - 1 )
+            {
+                jStatusbar.setText( "No recepients selected." );
+                return;
+            }
+        }
+
         // get the file path
-        String encryptedFilePath = FileUtils.getUserSelectedFilePath( FileUtils.SAVE_DIALOG, FileUtils.PGP_MESSAGE_FILE );
-        if( encryptedFilePath == null )
+        String selectedFilePath = FileUtils.getUserSelectedFilePath( FileUtils.SAVE_DIALOG, FileUtils.PGP_MESSAGE_FILE );
+        if( selectedFilePath == null )
         {
             jStatusbar.setText( "No file selected." );
             return;
@@ -1096,17 +1112,22 @@ public class App extends javax.swing.JFrame
         for( int i = 0; i < jSend_ToCombobox.getItemCount(); i++ )
         {
             // Read receiver public key id
-            String receiverNameAndKeyID = jSend_ToCombobox.getItemAt( i );
-            if( !"x ".equals( receiverNameAndKeyID.substring( 0, 2 ) ) )
+            String receiverNameEmailAndKeyID = jSend_ToCombobox.getItemAt( i );
+            if( !"x ".equals( receiverNameEmailAndKeyID.substring( 0, 2 ) ) )
             {
                 continue;
             }
-
-            String receiverNameAndEmailString = receiverNameAndKeyID.split( "\\|" )[ 0 ];
-            String receiverNameString = receiverNameAndEmailString.split( "<" )[ 0 ];
-            receiverNameString = receiverNameString.replaceAll( "\\s+", "" );
-            String receiverKeyIdHexString = receiverNameAndKeyID.split( "\\|" )[ 1 ];
+            // remove the selection symbol from the receiver name, email and key id
+            receiverNameEmailAndKeyID = receiverNameEmailAndKeyID.substring( 2 );
+            
+            // get the receiver key id
+            String receiverKeyIdHexString = receiverNameEmailAndKeyID.split( "> \\| " )[ 1 ];
             long receiverKeyID = PGPKeys.hexStringToKeyId( receiverKeyIdHexString );
+
+            // fix the receiver name, email and key id string
+            receiverNameEmailAndKeyID = receiverNameEmailAndKeyID.replaceAll( "<", "[" );
+            receiverNameEmailAndKeyID = receiverNameEmailAndKeyID.replaceAll( ">", "]" );
+            receiverNameEmailAndKeyID = receiverNameEmailAndKeyID.replaceAll( "\\|", "." );
 
             // Read receiver public key
             PGPPublicKey receiverPublicKey;
@@ -1120,6 +1141,7 @@ public class App extends javax.swing.JFrame
             catch( IOException | PGPException ex )
             {
                 Logger.getLogger( App.class.getName() ).log( Level.SEVERE, "Receiver public key not read correctly -- impossible!", ex );
+                jStatusbar.setText( "Receiver(s) public key corrupted." );
                 return;
             }
 
@@ -1167,15 +1189,8 @@ public class App extends javax.swing.JFrame
             }
 
             // Append receiver name to file path
-            String[] filePathElements = encryptedFilePath.split( "\\\\" );
-            String newFilePath = "";
-            for( int j = 0; j < filePathElements.length - 1; j++ )
-            {
-                newFilePath += filePathElements[ j ] + "\\";
-            }
-            newFilePath += receiverNameString.substring( 1, receiverNameString.length() - 1 ) + "-" + filePathElements[ filePathElements.length - 1 ];
-
-            FileUtils.writeToFile( newFilePath, encryptedMessage );
+            selectedFilePath = selectedFilePath.replaceAll( "(\\..*)$", " . " + receiverNameEmailAndKeyID + "$1" );
+            FileUtils.writeToFile( selectedFilePath, encryptedMessage );
 
             sentMessagesCount++;
         }
