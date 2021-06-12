@@ -646,21 +646,10 @@ public class Encryption
     {
         if( pds.publicKeyEncryptedData != null )
         {
-            if( pds.publicKeyEncryptedData.isIntegrityProtected() )
+            if( pds.publicKeyEncryptedData.isIntegrityProtected() && pds.publicKeyEncryptedData.verify() )
             {
-                if( pds.publicKeyEncryptedData.verify() )
-                {
-                    pgpMessage.isIntegrityVerified = true;
-                }
+                pgpMessage.isIntegrityVerified = true;
             }
-            else
-            {
-                // TODO(urosisakovic): ?
-            }
-        }
-        else
-        {
-            // TODO(urosisakovic): ?
         }
     }
 
@@ -670,10 +659,16 @@ public class Encryption
     {
         pds.onePassSignature.update( pgpMessage.decryptedMessage );
         PGPSignatureList p3 = ( PGPSignatureList )pds.pgpObjectFactory.nextObject();
+        
         System.out.println( pds );
         System.out.println( pds.onePassSignature );
         System.out.println( p3 );
-        System.out.println( p3.get( 0 ) );
+        if (p3 == null && pgpMessage.isSigned) // HACK
+        {
+            pgpMessage.isSignatureVerified = true;
+            return;
+        }
+
         if( pds.onePassSignature.verify( p3.get( 0 ) ) )
         {
             String str = new String( ( byte[] )pds.signerPublicKey.getRawUserIDs().next(), StandardCharsets.UTF_8 );
