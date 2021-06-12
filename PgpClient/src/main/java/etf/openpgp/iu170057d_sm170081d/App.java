@@ -938,7 +938,6 @@ public class App extends javax.swing.JFrame
 
     private void jRecv_OpenButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_OpenButtonActionPerformed
     {//GEN-HEADEREND:event_jRecv_OpenButtonActionPerformed
-        jStatusbar.setText( "" );
         String encryptedFilePath = FileUtils.getUserSelectedFilePath( FileUtils.OPEN_DIALOG, FileUtils.PGP_MESSAGE_FILE );
         if( encryptedFilePath == null )
         {
@@ -955,6 +954,18 @@ public class App extends javax.swing.JFrame
         try
         {
             Encryption.readPgpMessage( pgpMessage );
+            resetReceiveTabComponents();
+
+            if( pgpMessage.decryptedMessage == null )
+            {
+                pgpMessage.decryptedMessage = "???".getBytes();
+            }
+            jRecv_BodyTextarea.setText( new String( pgpMessage.decryptedMessage ) );
+            jRecv_EncryptionTextbox.setText( "None" );
+
+            jRecv_CompressionCheckbox.setSelected( pgpMessage.isCompressed );
+            jRecv_Radix64Checkbox.setSelected( pgpMessage.isRadix64Encoded );
+            jRecv_SignatureCheckbox.setSelected( pgpMessage.isSigned );
 
             if( pgpMessage.isEncrypted )
             {
@@ -971,26 +982,6 @@ public class App extends javax.swing.JFrame
             else
             {
                 // TODO (urosisakovic): Fill From and To fields
-
-                jRecv_BodyTextarea.setText( new String( pgpMessage.decryptedMessage ) );
-
-                jRecv_EncryptionTextbox.setText( "None" );
-
-                if( pgpMessage.isCompressed )
-                {
-                    jRecv_CompressionCheckbox.setSelected( true );
-                }
-
-                if( pgpMessage.isRadix64Encoded )
-                {
-                    jRecv_Radix64Checkbox.setSelected( true );
-                }
-
-                if( pgpMessage.isSigned )
-                {
-                    jRecv_SignatureCheckbox.setSelected( true );
-                }
-
                 jStatusbar.setText( "Message shown. It was not encrypted." );
             }
         }
@@ -1009,7 +1000,7 @@ public class App extends javax.swing.JFrame
         String senderKeyIdHexString = senderNameAndKeyID.split( "\\|" )[ 1 ];
         long senderKeyID = PGPKeys.hexStringToKeyId( senderKeyIdHexString );
 
-        PGPSecretKeyRing senderSecretKeyring = null;
+        PGPSecretKeyRing senderSecretKeyring;
         try
         {
             senderSecretKeyring = PGPKeys.getSecretKeyRing( senderKeyID );
@@ -1060,8 +1051,8 @@ public class App extends javax.swing.JFrame
         long senderKeyID = PGPKeys.hexStringToKeyId( senderKeyIdHexString );
 
         // Read sender secret key
-        PGPSecretKeyRing senderSecretKeyring = null;
-        PGPSecretKey senderSecretKey = null;
+        PGPSecretKeyRing senderSecretKeyring;
+        PGPSecretKey senderSecretKey;
         try
         {
             senderSecretKeyring = PGPKeys.getSecretKeyRing( senderKeyID );
@@ -1119,7 +1110,7 @@ public class App extends javax.swing.JFrame
             }
             // remove the selection symbol from the receiver name, email and key id
             receiverNameEmailAndKeyID = receiverNameEmailAndKeyID.substring( 2 );
-            
+
             // get the receiver key id
             String receiverKeyIdHexString = receiverNameEmailAndKeyID.split( "> \\| " )[ 1 ];
             long receiverKeyID = PGPKeys.hexStringToKeyId( receiverKeyIdHexString );
@@ -1169,7 +1160,7 @@ public class App extends javax.swing.JFrame
             }
 
             // Encryption
-            byte[] encryptedMessage = null;
+            byte[] encryptedMessage;
             try
             {
                 encryptedMessage = Encryption.createPgpMessage(
@@ -1211,7 +1202,7 @@ public class App extends javax.swing.JFrame
 
     private void jRecv_DecryptButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRecv_DecryptButtonActionPerformed
     {//GEN-HEADEREND:event_jRecv_DecryptButtonActionPerformed
-        jStatusbar.setText( "" );
+        jStatusbar.setText( "Status" );
 
         char[] passphrase = jRecv_PassphrasePasswordbox.getPassword();
 
@@ -1232,23 +1223,11 @@ public class App extends javax.swing.JFrame
             }
 
             jRecv_BodyTextarea.setText( new String( pgpMessage.decryptedMessage ) );
-
             jRecv_EncryptionTextbox.setText( pgpMessage.encryptionAlgorithm );
 
-            if( pgpMessage.isCompressed )
-            {
-                jRecv_CompressionCheckbox.setSelected( true );
-            }
-
-            if( pgpMessage.isRadix64Encoded )
-            {
-                jRecv_Radix64Checkbox.setSelected( true );
-            }
-
-            if( pgpMessage.isSigned )
-            {
-                jRecv_SignatureCheckbox.setSelected( true );
-            }
+            jRecv_CompressionCheckbox.setSelected( pgpMessage.isCompressed );
+            jRecv_Radix64Checkbox.setSelected( pgpMessage.isRadix64Encoded );
+            jRecv_SignatureCheckbox.setSelected( pgpMessage.isSigned );
 
             jStatusbar.setText( "Successfully decrypted message" );
         }
@@ -1285,18 +1264,7 @@ public class App extends javax.swing.JFrame
 
     private void jRecv_TabComponentShown(java.awt.event.ComponentEvent evt)//GEN-FIRST:event_jRecv_TabComponentShown
     {//GEN-HEADEREND:event_jRecv_TabComponentShown
-        jRecv_FromTextbox.setText( "" );
-        jRecv_ToTextbox.setText( "" );
-        jRecv_BodyTextarea.setText( "" );
-        jRecv_EncryptionTextbox.setText( "" );
-        jRecv_PassphrasePasswordbox.setText( "" );
-        jRecv_CompressionCheckbox.setSelected( false );
-        jRecv_Radix64Checkbox.setSelected( false );
-        jRecv_SignatureCheckbox.setSelected( false );
-        jRecv_PassphrasePasswordbox.setEditable( false );
-
-        // setEnableReceiveTabComponents( false );
-        jRecv_PassphrasePasswordbox.setEnabled( jRecv_SignatureCheckbox.isSelected() );
+        resetReceiveTabComponents();
     }//GEN-LAST:event_jRecv_TabComponentShown
 
     private void jPubl_TabComponentShown(java.awt.event.ComponentEvent evt)//GEN-FIRST:event_jPubl_TabComponentShown
@@ -1486,24 +1454,20 @@ public class App extends javax.swing.JFrame
         }
     }
 
-    private void setEnableReceiveTabComponents( boolean enable )
+    private void resetReceiveTabComponents()
     {
-        if( !enable )
-        {
-            jRecv_FromTextbox.setEnabled( enable );
-            jRecv_ToTextbox.setEnabled( enable );
-            jRecv_BodyTextarea.setEnabled( enable );
-            jRecv_EncryptionTextbox.setEnabled( enable );
-            jRecv_PassphrasePasswordbox.setEnabled( enable );
-            jRecv_DecryptButton.setEnabled( enable );
-        }
-        else
-        {
-            jRecv_PassphrasePasswordbox.setEnabled( enable );
-            jRecv_DecryptButton.setEnabled( enable );
-        }
-    }
+        jRecv_FromTextbox.setText( "" );
+        jRecv_ToTextbox.setText( "" );
+        jRecv_BodyTextarea.setText( "" );
+        jRecv_EncryptionTextbox.setText( "" );
+        jRecv_PassphrasePasswordbox.setText( "" );
+        jRecv_CompressionCheckbox.setSelected( false );
+        jRecv_Radix64Checkbox.setSelected( false );
+        jRecv_SignatureCheckbox.setSelected( false );
+        jRecv_PassphrasePasswordbox.setEditable( false );
 
+        jRecv_PassphrasePasswordbox.setEnabled( jRecv_SignatureCheckbox.isSelected() );
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> jPriv_DSABitsCombobox;

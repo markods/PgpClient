@@ -3,6 +3,8 @@
 *.gpg
 *.sig
 
+!**/Primeri/**
+
 # Compiled class file
 *.class
 
@@ -41,5 +43,3 @@ nbdist/
 # Microsoft Office
 *.tmp
 ~$*
-
-
