@@ -88,6 +88,22 @@ public class PGPKeys
     private PGPKeys()
     {
     }
+    
+    public static void saveSecretKeysToFile() throws IOException
+    {
+        try( ArmoredOutputStream aos = new ArmoredOutputStream( new FileOutputStream( SECRET_KEY_RING_COLLECTION_FILE_PATH ) ) )
+        {
+            secretKeyRingCollection.encode( aos );
+        }
+    }
+
+    public static void savePublicKeysToFile() throws IOException
+    {
+        try( ArmoredOutputStream aos = new ArmoredOutputStream( new FileOutputStream( PUBLIC_KEY_RING_COLLECTION_FILE_PATH ) ) )
+        {
+            publicKeyRingCollection.encode( aos );
+        }
+    }
 
     public static PGPSecretKeyRingCollection getSecretKeysCollection()
             throws IOException, PGPException
@@ -121,22 +137,6 @@ public class PGPKeys
     public static final void removeSecretKey( PGPSecretKeyRing secretKeyRing ) throws IOException
     {
         secretKeyRingCollection = PGPSecretKeyRingCollection.removeSecretKeyRing( secretKeyRingCollection, secretKeyRing );
-    }
-
-    public static void saveSecretKeysToFile() throws IOException
-    {
-        try( ArmoredOutputStream aos = new ArmoredOutputStream( new FileOutputStream( SECRET_KEY_RING_COLLECTION_FILE_PATH ) ) )
-        {
-            secretKeyRingCollection.encode( aos );
-        }
-    }
-
-    public static void savePublicKeysToFile() throws IOException
-    {
-        try( ArmoredOutputStream aos = new ArmoredOutputStream( new FileOutputStream( PUBLIC_KEY_RING_COLLECTION_FILE_PATH ) ) )
-        {
-            publicKeyRingCollection.encode( aos );
-        }
     }
 
     public static void exportPublicKey( PGPPublicKeyRing publicKeyRing, File file ) throws IOException

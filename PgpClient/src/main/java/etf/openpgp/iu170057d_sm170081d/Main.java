@@ -7,7 +7,7 @@ public class Main
      * If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
      * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
      */
-    public static void SetLookAndFeel( String lookAndFeelName )
+    private static void SetLookAndFeel( String lookAndFeelName )
     {
         if( lookAndFeelName == null )
             return;
