@@ -18,13 +18,16 @@ public class FileUtils
 
     public static void writeToFile( String filePath, byte[] content )
     {
-        File outputFile = new File(filePath);
-        try {
+        File outputFile = new File( filePath );
+        try
+        {
             outputFile.createNewFile();
-        } catch (IOException ex) {
-            Logger.getLogger(FileUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        catch( IOException ex )
+        {
+            Logger.getLogger( FileUtils.class.getName() ).log( Level.SEVERE, null, ex );
+        }
+
         FileOutputStream fos = null;
         try
         {
@@ -52,13 +55,16 @@ public class FileUtils
             }
         }
     }
-    
+
     public static void writeToFile( String filePath, String content )
     {
-        try (PrintWriter out = new PrintWriter(filePath)) {
-            out.println(content);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(FileUtils.class.getName()).log(Level.SEVERE, null, ex);
+        try( PrintWriter out = new PrintWriter( filePath ) )
+        {
+            out.println( content );
+        }
+        catch( FileNotFoundException ex )
+        {
+            Logger.getLogger( FileUtils.class.getName() ).log( Level.SEVERE, null, ex );
         }
     }
 
@@ -185,7 +191,6 @@ public class FileUtils
         if( dialogStatus != JFileChooser.APPROVE_OPTION )
             return null;
 
-
         String filePath = jFileChooser.getSelectedFile().getAbsolutePath();
         switch( allowedFileType )
         {
@@ -202,7 +207,7 @@ public class FileUtils
                 break;
             }
         }
-        
+
         return filePath;
     }
 }

@@ -46,7 +46,7 @@ public class PGPKeys
 
     private static PGPPublicKeyRingCollection publicKeyRingCollection;
     private static PGPSecretKeyRingCollection secretKeyRingCollection;
-    
+
     // Set up security provider and load public and secret key ring files
     static
     {
@@ -189,7 +189,7 @@ public class PGPKeys
     {
         PGPKeyPair dsaPgpKeyPair = new JcaPGPKeyPair( PGPPublicKey.DSA, dsaKeyPair, new Date() );
         PGPKeyPair elGamalPgpKeyPair = new JcaPGPKeyPair( PGPPublicKey.ELGAMAL_ENCRYPT, elGamalKeyPair, new Date() );
-        PGPDigestCalculator shaCalc = new JcaPGPDigestCalculatorProviderBuilder().build().get( HashAlgorithmTags.SHA256 );
+        PGPDigestCalculator shaCalc = new JcaPGPDigestCalculatorProviderBuilder().build().get( HashAlgorithmTags.SHA1 );
 
         PGPKeyRingGenerator keyRingGen = new PGPKeyRingGenerator(
                 PGPSignature.POSITIVE_CERTIFICATION,
@@ -238,18 +238,18 @@ public class PGPKeys
                 }
             }
         }
-        
+
         throw new IllegalArgumentException( "Invalid public key index." );
     }
 
     public static PGPSecretKeyRing getSecretKeyRing( long keyID ) throws IOException, PGPException
     {
         Iterator<PGPSecretKeyRing> iter = PGPKeys.getSecretKeysCollection().getKeyRings();
-        while( iter.hasNext())
+        while( iter.hasNext() )
         {
             PGPSecretKeyRing keyRing = iter.next();
             Iterator<PGPSecretKey> keyIter = keyRing.getSecretKeys();
-            
+
             while( keyIter.hasNext() )
             {
                 PGPSecretKey key = keyIter.next();
@@ -259,7 +259,7 @@ public class PGPKeys
                 }
             }
         }
-        
+
         throw new IllegalArgumentException( "Invalid secret key index." );
     }
 
@@ -291,26 +291,26 @@ public class PGPKeys
     {
         if( secretKeyring == null || passphrase == null )
             return false;
-        
+
         try
         {
             Iterator secretKeyIter = secretKeyring.getSecretKeys();
             PGPSecretKey secretKey = null;
             for( int i = 0; i <= index && secretKeyIter.hasNext(); i++ )
                 secretKey = ( PGPSecretKey )secretKeyIter.next();
-            
+
             if( secretKey == null )
             {
                 Logger.getLogger( PGPKeys.class.getName() ).log( Level.FINE, "Secret key at given index missing - it could not be checked against passphrase." );
                 return false;
             }
-                        
+
             secretKey.extractPrivateKey(
                     new JcePBESecretKeyDecryptorBuilder()
                             .setProvider( "BC" )
                             .build( passphrase )
             );
-            
+
             Logger.getLogger( PGPKeys.class.getName() ).log( Level.FINE, "Valid passphrase used to decode secret key." );
             return true;
         }

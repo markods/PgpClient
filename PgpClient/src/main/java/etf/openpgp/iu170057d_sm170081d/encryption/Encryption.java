@@ -453,10 +453,10 @@ public class Encryption
 
         return message;
     }
-    
-    private static String symmetricAlgorithmIntToString(int code)
+
+    private static String symmetricAlgorithmIntToString( int code )
     {
-        switch (code) 
+        switch( code )
         {
             case 0:
                 return "None";
@@ -490,7 +490,7 @@ public class Encryption
                 return "Unknown algorithm code.";
         }
     }
-    
+
     private static class PgpDecryptionState
     {
         PGPEncryptedDataList encryptedDataList = null;
@@ -501,163 +501,163 @@ public class Encryption
         PGPOnePassSignature onePassSignature = null;
         PGPPublicKey signerPublicKey = null;
     }
-    
+
     private static void checkIfEncrypted(
             InputStream inputStream,
             PgpMessage pgpMessage,
-            PgpDecryptionState pgpDecryptionState) throws IOException
-    {        
-        PGPObjectFactory pgpObjectFactory = new PGPObjectFactory(inputStream, new BcKeyFingerprintCalculator());
+            PgpDecryptionState pgpDecryptionState ) throws IOException
+    {
+        PGPObjectFactory pgpObjectFactory = new PGPObjectFactory( inputStream, new BcKeyFingerprintCalculator() );
         pgpDecryptionState.pgpObject = pgpObjectFactory.nextObject();
-                
+
         // Determine if the message is encrypted
         pgpMessage.isEncrypted = false;
-        if (pgpDecryptionState.pgpObject instanceof PGPEncryptedDataList)
+        if( pgpDecryptionState.pgpObject instanceof PGPEncryptedDataList )
         {
-            pgpDecryptionState.encryptedDataList = (PGPEncryptedDataList) pgpDecryptionState.pgpObject;
+            pgpDecryptionState.encryptedDataList = ( PGPEncryptedDataList )pgpDecryptionState.pgpObject;
             pgpMessage.isEncrypted = true;
         }
-        else if (pgpDecryptionState.pgpObject instanceof PGPMarker)
+        else if( pgpDecryptionState.pgpObject instanceof PGPMarker )
         {
             pgpDecryptionState.pgpObject = pgpObjectFactory.nextObject();
-            if (pgpDecryptionState.pgpObject instanceof PGPEncryptedDataList)
+            if( pgpDecryptionState.pgpObject instanceof PGPEncryptedDataList )
             {
-                pgpDecryptionState.encryptedDataList = (PGPEncryptedDataList) pgpDecryptionState.pgpObject;
+                pgpDecryptionState.encryptedDataList = ( PGPEncryptedDataList )pgpDecryptionState.pgpObject;
                 pgpMessage.isEncrypted = true;
             }
         }
     }
-    
-    private static InputStream removeRadix64Encoding(InputStream inputStream) throws IOException
+
+    private static InputStream removeRadix64Encoding( InputStream inputStream ) throws IOException
     {
-        return PGPUtil.getDecoderStream(new BufferedInputStream(inputStream));
+        return PGPUtil.getDecoderStream( new BufferedInputStream( inputStream ) );
     }
-    
+
     private static void decrypt(
             PgpMessage pgpMessage,
             PgpDecryptionState pds,
-            char[] passphrase) throws PGPException, IOException
+            char[] passphrase ) throws PGPException, IOException
     {
-        if (!pgpMessage.isEncrypted)
+        if( !pgpMessage.isEncrypted )
         {
             return;
         }
-        
+
         PGPPrivateKey secretKey = null;
-        
+
         Iterator<PGPEncryptedData> it = pds.encryptedDataList.getEncryptedDataObjects();
 
         PGPSecretKeyRingCollection pgpSecretKeyRingCollection = PGPKeys.getSecretKeysCollection();
-        while (secretKey == null && it.hasNext())
+        while( secretKey == null && it.hasNext() )
         {
-            pds.publicKeyEncryptedData = (PGPPublicKeyEncryptedData) it.next();
-            PGPSecretKey pgpSecKey = pgpSecretKeyRingCollection.getSecretKey(pds.publicKeyEncryptedData.getKeyID());
+            pds.publicKeyEncryptedData = ( PGPPublicKeyEncryptedData )it.next();
+            PGPSecretKey pgpSecKey = pgpSecretKeyRingCollection.getSecretKey( pds.publicKeyEncryptedData.getKeyID() );
 
-            if (pgpSecKey != null)
+            if( pgpSecKey != null )
             {
-                Provider provider = Security.getProvider("BC");  
+                Provider provider = Security.getProvider( "BC" );
                 secretKey = pgpSecKey.extractPrivateKey(
                         new JcePBESecretKeyDecryptorBuilder(
                                 new JcaPGPDigestCalculatorProviderBuilder()
-                                        .setProvider(provider)
-                                        .build())
-                                .setProvider(provider)
-                                .build(passphrase));
+                                        .setProvider( provider )
+                                        .build() )
+                                .setProvider( provider )
+                                .build( passphrase ) );
             }
         }
 
         // Secret key not found in private key ring collection - not possible to decrypt
-        if (secretKey == null)
+        if( secretKey == null )
         {
-            throw new IllegalArgumentException("Secret key for message not found.");
+            throw new IllegalArgumentException( "Secret key for message not found." );
         }
         // Secret key found and message is decrypted
         else
         {
-            System.out.println("Decryption successful!");
+            System.out.println( "Decryption successful!" );
         }
 
         int symmetricAlogirthTag = pds.publicKeyEncryptedData.getSymmetricAlgorithm(
                 new JcePublicKeyDataDecryptorFactoryBuilder()
-                        .setProvider("BC")
-                        .build(secretKey));
-        pgpMessage.encryptionAlgorithm = symmetricAlgorithmIntToString(symmetricAlogirthTag); 
-        
+                        .setProvider( "BC" )
+                        .build( secretKey ) );
+        pgpMessage.encryptionAlgorithm = symmetricAlgorithmIntToString( symmetricAlogirthTag );
+
         InputStream clear = pds.publicKeyEncryptedData.getDataStream(
                 new JcePublicKeyDataDecryptorFactoryBuilder()
-                        .setProvider("BC")
-                        .build(secretKey));
-        pds.pgpObjectFactory = new PGPObjectFactory(clear, null);
+                        .setProvider( "BC" )
+                        .build( secretKey ) );
+        pds.pgpObjectFactory = new PGPObjectFactory( clear, null );
         pds.currentMessage = pds.pgpObjectFactory.nextObject();
     }
-    
+
     private static void decompress(
             PgpMessage pgpMessage,
-            PgpDecryptionState pds) throws IOException, PGPException
+            PgpDecryptionState pds ) throws IOException, PGPException
     {
         pgpMessage.isCompressed = false;
-        if (pds.currentMessage instanceof PGPCompressedData)
+        if( pds.currentMessage instanceof PGPCompressedData )
         {
             pgpMessage.isCompressed = true;
-            PGPCompressedData compressedData = (PGPCompressedData) pds.currentMessage;
-            pds.pgpObjectFactory = new PGPObjectFactory(new BufferedInputStream(compressedData.getDataStream()), null);
+            PGPCompressedData compressedData = ( PGPCompressedData )pds.currentMessage;
+            pds.pgpObjectFactory = new PGPObjectFactory( new BufferedInputStream( compressedData.getDataStream() ), null );
             pds.currentMessage = pds.pgpObjectFactory.nextObject();
         }
     }
-    
-    private static void checkIfSigned(PgpMessage pgpMessage, PgpDecryptionState pds) throws PGPException, IOException
+
+    private static void checkIfSigned( PgpMessage pgpMessage, PgpDecryptionState pds ) throws PGPException, IOException
     {
         // Determined if the message is signed
         pgpMessage.isSigned = false;
-        if (pds.currentMessage instanceof PGPOnePassSignatureList)
+        if( pds.currentMessage instanceof PGPOnePassSignatureList )
         {
-            PGPOnePassSignatureList p1 = (PGPOnePassSignatureList) pds.currentMessage;
-            pds.onePassSignature = p1.get(0);
+            PGPOnePassSignatureList p1 = ( PGPOnePassSignatureList )pds.currentMessage;
+            pds.onePassSignature = p1.get( 0 );
             long keyId = pds.onePassSignature.getKeyID();
             pgpMessage.isSigned = true;
-            
-            // Get signer public key
-            pds.signerPublicKey = PGPKeys.getPublicKeysCollection().getPublicKey(keyId);
 
-            pds.onePassSignature.init(new JcaPGPContentVerifierBuilderProvider().setProvider("BC"), pds.signerPublicKey);
+            // Get signer public key
+            pds.signerPublicKey = PGPKeys.getPublicKeysCollection().getPublicKey( keyId );
+
+            pds.onePassSignature.init( new JcaPGPContentVerifierBuilderProvider().setProvider( "BC" ), pds.signerPublicKey );
 
             pds.currentMessage = pds.pgpObjectFactory.nextObject();
         }
     }
-    
+
     private static void unpackLiteral(
             PgpMessage pgpMessage,
-            PgpDecryptionState pds) throws PGPException, IOException
+            PgpDecryptionState pds ) throws PGPException, IOException
     {
-        if (pds.currentMessage instanceof PGPLiteralData)
+        if( pds.currentMessage instanceof PGPLiteralData )
         {
-            pgpMessage.decryptedMessage = IOUtils.toByteArray(((PGPLiteralData) pds.currentMessage).getInputStream());
-            
-            verifyIntegrity(pgpMessage, pds);
-            
+            pgpMessage.decryptedMessage = IOUtils.toByteArray( (( PGPLiteralData )pds.currentMessage).getInputStream() );
+
+            verifyIntegrity( pgpMessage, pds );
+
             // Read signature
-            if (pgpMessage.isSigned)
+            if( pgpMessage.isSigned )
             {
-                readSignature(pgpMessage, pds);
+                readSignature( pgpMessage, pds );
             }
         }
     }
-    
+
     private static void verifyIntegrity(
             PgpMessage pgpMessage,
-            PgpDecryptionState pds) throws PGPException, IOException
+            PgpDecryptionState pds ) throws PGPException, IOException
     {
-        if(pds.publicKeyEncryptedData != null)
+        if( pds.publicKeyEncryptedData != null )
         {
-            if (pds.publicKeyEncryptedData.isIntegrityProtected())
+            if( pds.publicKeyEncryptedData.isIntegrityProtected() )
             {
-                if (!pds.publicKeyEncryptedData.verify())
+                if( !pds.publicKeyEncryptedData.verify() )
                 {
-                    throw new PGPException("message failed integrity check");
+                    throw new PGPException( "message failed integrity check" );
                 }
                 else
                 {
-                    System.out.println("Integrity checked successfully!");
+                    System.out.println( "Integrity checked successfully!" );
                 }
             }
             else
@@ -670,107 +670,107 @@ public class Encryption
             // TODO(urosisakovic): ?
         }
     }
-    
+
     private static void readSignature(
             PgpMessage pgpMessage,
-            PgpDecryptionState pds) throws PGPException, IOException
+            PgpDecryptionState pds ) throws PGPException, IOException
     {
-        pds.onePassSignature.update(pgpMessage.decryptedMessage);
-        PGPSignatureList p3 = (PGPSignatureList) pds.pgpObjectFactory.nextObject();
-        System.out.println(pds);
-        System.out.println(pds.onePassSignature);
-        System.out.println(p3);
-        System.out.println(p3.get(0));
-        if (pds.onePassSignature.verify(p3.get(0)))
+        pds.onePassSignature.update( pgpMessage.decryptedMessage );
+        PGPSignatureList p3 = ( PGPSignatureList )pds.pgpObjectFactory.nextObject();
+        System.out.println( pds );
+        System.out.println( pds.onePassSignature );
+        System.out.println( p3 );
+        System.out.println( p3.get( 0 ) );
+        if( pds.onePassSignature.verify( p3.get( 0 ) ) )
         {
-            String str = new String((byte[]) pds.signerPublicKey.getRawUserIDs().next(), StandardCharsets.UTF_8);
+            String str = new String( ( byte[] )pds.signerPublicKey.getRawUserIDs().next(), StandardCharsets.UTF_8 );
             pgpMessage.senderSecretKeyId = pds.signerPublicKey.getKeyID();
         }
         else
         {
-            throw new PGPException("Signature verification failed!");
+            throw new PGPException( "Signature verification failed!" );
         }
     }
-    
+
     private static void getPublicKeyId(
             PgpMessage pgpMessage,
-            PgpDecryptionState pds) throws IOException, PGPException
+            PgpDecryptionState pds ) throws IOException, PGPException
     {
-         if (!pgpMessage.isEncrypted)
+        if( !pgpMessage.isEncrypted )
         {
             return;
         }
-        
+
         PGPPrivateKey secretKey = null;
-        
+
         Iterator<PGPEncryptedData> it = pds.encryptedDataList.getEncryptedDataObjects();
 
         PGPSecretKeyRingCollection pgpSecretKeyRingCollection = PGPKeys.getSecretKeysCollection();
-        while (secretKey == null && it.hasNext())
+        while( secretKey == null && it.hasNext() )
         {
-            pds.publicKeyEncryptedData = (PGPPublicKeyEncryptedData) it.next();
-            PGPSecretKey pgpSecKey = pgpSecretKeyRingCollection.getSecretKey(pds.publicKeyEncryptedData.getKeyID());
+            pds.publicKeyEncryptedData = ( PGPPublicKeyEncryptedData )it.next();
+            PGPSecretKey pgpSecKey = pgpSecretKeyRingCollection.getSecretKey( pds.publicKeyEncryptedData.getKeyID() );
 
-            if (pgpSecKey != null)
+            if( pgpSecKey != null )
             {
                 pgpMessage.receiverPublicKeyId = pds.publicKeyEncryptedData.getKeyID();
                 return;
             }
-        }       
+        }
     }
-    
-    public static void readPgpMessage(PgpMessage pgpMessage) throws Exception
+
+    public static void readPgpMessage( PgpMessage pgpMessage ) throws Exception
     {
-        InputStream inputStream = new ByteArrayInputStream(pgpMessage.encryptedMessage);
-        inputStream = removeRadix64Encoding(inputStream);
-        
+        InputStream inputStream = new ByteArrayInputStream( pgpMessage.encryptedMessage );
+        inputStream = removeRadix64Encoding( inputStream );
+
         PgpDecryptionState pds = new PgpDecryptionState();
-        checkIfEncrypted(inputStream, pgpMessage, pds);
+        checkIfEncrypted( inputStream, pgpMessage, pds );
 
         // If the message is not encrpyted, decoode it to extract all the data
         // without a passphrase
-        if (!pgpMessage.isEncrypted)
+        if( !pgpMessage.isEncrypted )
         {
             pgpMessage.decryptedMessage = pgpMessage.encryptedMessage;
-            decryptPgpMessage(null, pgpMessage);
+            decryptPgpMessage( null, pgpMessage );
         }
         // If the message is encrypted, get the `To` information so that user
         // know which passphrase to enter
         else
         {
-            getPublicKeyId(pgpMessage, pds);
+            getPublicKeyId( pgpMessage, pds );
         }
     }
-    
+
     public static void decryptPgpMessage(
             char[] passphrase,
-            PgpMessage pgpMessage) throws IOException, PGPException
+            PgpMessage pgpMessage ) throws IOException, PGPException
     {
         PgpDecryptionState pds = new PgpDecryptionState();
-        
-        InputStream inputStream = new ByteArrayInputStream(pgpMessage.encryptedMessage);
-        inputStream = removeRadix64Encoding(inputStream);
-        
-        checkIfEncrypted(inputStream, pgpMessage, pds);
 
-        if (pgpMessage.isEncrypted)  // Message is encrypted, try to decrypt it
+        InputStream inputStream = new ByteArrayInputStream( pgpMessage.encryptedMessage );
+        inputStream = removeRadix64Encoding( inputStream );
+
+        checkIfEncrypted( inputStream, pgpMessage, pds );
+
+        if( pgpMessage.isEncrypted )  // Message is encrypted, try to decrypt it
         {
-            decrypt(pgpMessage, pds, passphrase);
+            decrypt( pgpMessage, pds, passphrase );
         }
         else  // Message is not encrypted
         {
             pds.currentMessage = pds.pgpObject;
         }
-        
+
         // If compressed, decompress
-        decompress(pgpMessage, pds);
-        
-        checkIfSigned(pgpMessage, pds);
-        
+        decompress( pgpMessage, pds );
+
+        checkIfSigned( pgpMessage, pds );
+
         // Unpack literal, optionally verify message integrity
         // and read and check signature
-        unpackLiteral(pgpMessage, pds);
-        
+        unpackLiteral( pgpMessage, pds );
+
         // TODO(urosisakovic): Determine this
         pgpMessage.isRadix64Encoded = true;
     }
