@@ -128,13 +128,15 @@ public class FileUtils
     public static final int PGP_MESSAGE_FILE = 1;
     public static final int PGP_KEY_FILE = 2;
     public static final int TXT_FILE = 3;
+    // file chooser previous path
+    private static File previousPath = null;
 
     public static String getUserSelectedFilePath( int dialogType, int allowedFileType )
     {
         JFileChooser jFileChooser = new javax.swing.JFileChooser();
         jFileChooser.setFileSelectionMode( JFileChooser.FILES_ONLY );
         jFileChooser.setMultiSelectionEnabled( false );
-        // jFileChooser.setCurrentDirectory(new File("."));
+        jFileChooser.setCurrentDirectory( previousPath );
 
         switch( allowedFileType )
         {
@@ -144,7 +146,7 @@ public class FileUtils
             }
             case PGP_MESSAGE_FILE:
             {
-                jFileChooser.setFileFilter( new FileNameExtensionFilter( "PGP message (*.gpg)", "gpg" ) );
+                jFileChooser.setFileFilter( new FileNameExtensionFilter( "PGP message (*.gpg, *.sig)", "gpg", "sig" ) );
                 break;
             }
             case PGP_KEY_FILE:
@@ -189,7 +191,9 @@ public class FileUtils
         }
 
         if( dialogStatus != JFileChooser.APPROVE_OPTION )
+        {
             return null;
+        }
 
         String filePath = jFileChooser.getSelectedFile().getAbsolutePath();
         switch( allowedFileType )
@@ -208,6 +212,7 @@ public class FileUtils
             }
         }
 
+        previousPath = jFileChooser.getCurrentDirectory();
         return filePath;
     }
 }

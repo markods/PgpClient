@@ -1189,8 +1189,8 @@ public class App extends javax.swing.JFrame
             }
 
             // Append receiver name to file path
-            selectedFilePath = selectedFilePath.replaceAll( "(\\..*)$", " . " + receiverNameEmailAndKeyID + "$1" );
-            FileUtils.writeToFile( selectedFilePath, encryptedMessage );
+            String filePath = selectedFilePath.replaceAll( "(\\..*)$", " . " + receiverNameEmailAndKeyID + "$1" );
+            FileUtils.writeToFile( filePath, encryptedMessage );
 
             sentMessagesCount++;
         }
