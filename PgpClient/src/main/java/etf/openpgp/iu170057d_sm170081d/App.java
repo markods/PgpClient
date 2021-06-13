@@ -1017,6 +1017,52 @@ public class App extends javax.swing.JFrame
             passphrase[ i ] = '\0';
     }//GEN-LAST:event_jSend_TestButtonActionPerformed
 
+    private static String ConvertToSimplifiedRFC822(String emailFrom, String emailTo, String message)
+    {
+        String srfc822 = "From: " + emailFrom + "\n"
+                + "To: " + emailTo + "\n"
+                + "Message: " + "\n"
+                + message;
+       
+        return srfc822;
+    }
+    
+    public static class ReceivedMessage 
+    {
+        public String emailFrom;
+        public String emailTo;
+        public String message;
+        
+        public ReceivedMessage(String emailFrom, String emailTo, String message)
+        {
+            this.emailFrom = emailFrom;
+            this.emailTo = emailTo;
+            this.message = message;
+        }
+        
+        public static ReceivedMessage fromSimplifiedRFC822(String srfc822) {
+            int emailFromIndex = srfc822.indexOf("\n");
+            String emailFrom = srfc822.substring(6, emailFromIndex);  // From: 
+            srfc822 = srfc822.substring(emailFromIndex + 1, srfc822.length());
+            
+            int emailToIndex = srfc822.indexOf("\n");
+            String emailTo = srfc822.substring(4, emailToIndex);  // To:
+            srfc822 = srfc822.substring(emailToIndex + 1, srfc822.length());
+            
+            int messageStartIndex = srfc822.indexOf("\n");
+            String message = srfc822.substring(messageStartIndex + 1, srfc822.length());
+            
+            return new ReceivedMessage(emailFrom, emailTo, message);
+        }
+        
+        public void print()
+        {
+            System.out.println("From: " + emailFrom);
+            System.out.println("To: " + emailTo);
+            System.out.println("Message:\n" + message);
+        }
+    };
+    
     private void jSend_SendButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jSend_SendButtonActionPerformed
     {//GEN-HEADEREND:event_jSend_SendButtonActionPerformed
         // Read original message

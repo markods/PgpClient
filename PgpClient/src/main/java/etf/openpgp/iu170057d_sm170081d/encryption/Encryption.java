@@ -659,11 +659,7 @@ public class Encryption
     {
         pds.onePassSignature.update( pgpMessage.decryptedMessage );
         PGPSignatureList p3 = ( PGPSignatureList )pds.pgpObjectFactory.nextObject();
-        
-        System.out.println( pds );
-        System.out.println( pds.onePassSignature );
-        System.out.println( p3 );
-        if (p3 == null && pgpMessage.isSigned) // HACK
+        if (p3 == null && pgpMessage.isSigned)
         {
             pgpMessage.isSignatureVerified = true;
             return;
