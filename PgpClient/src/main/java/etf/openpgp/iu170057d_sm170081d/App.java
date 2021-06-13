@@ -1142,6 +1142,7 @@ public class App extends javax.swing.JFrame
             // Read receiver public key id
             String receiverNameEmailAndKeyID = jSend_ToCombobox.getItemAt( i );
             String originalReceiverNameEmailAndKeyID = jSend_ToCombobox.getItemAt( i );
+            originalReceiverNameEmailAndKeyID = originalReceiverNameEmailAndKeyID.substring(2, originalReceiverNameEmailAndKeyID.length());
             if( !"x ".equals( receiverNameEmailAndKeyID.substring( 0, 2 ) ) )
             {
                 continue;
