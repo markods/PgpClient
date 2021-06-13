@@ -940,16 +940,6 @@ public class App extends javax.swing.JFrame
             Encryption.readPgpMessage( pgpMessage );
             resetReceiveTabComponents();
 
-            if( pgpMessage.decryptedMessage == null )
-            {
-                pgpMessage.decryptedMessage = "???".getBytes();
-            }
-            jRecv_BodyTextarea.setText( new String( pgpMessage.decryptedMessage ) );
-            if (!pgpMessage.isEncrypted)
-            {
-                jRecv_EncryptionTextbox.setText( "None" );
-            }
-
             jRecv_CompressionCheckbox.setSelected( pgpMessage.isCompressed );
             jRecv_Radix64Checkbox.setSelected( pgpMessage.isRadix64Encoded );
             jRecv_SignatureCheckbox.setSelected( pgpMessage.isSigned );
@@ -958,6 +948,7 @@ public class App extends javax.swing.JFrame
 
             if( pgpMessage.isEncrypted )
             {
+                jRecv_BodyTextarea.setText("???" );
                 jRecv_ToTextbox.setText( ( String )PGPKeys
                         .getPublicKeyRing( pgpMessage.receiverPublicKeyId )
                         .getPublicKey()
@@ -970,7 +961,11 @@ public class App extends javax.swing.JFrame
             }
             else
             {
-                // TODO (urosisakovic): Fill From and To fields
+                ReceivedMessage rm = ReceivedMessage.fromSimplifiedRFC822(new String(pgpMessage.decryptedMessage));
+                jRecv_FromTextbox.setText(rm.emailFrom);
+                jRecv_ToTextbox.setText(rm.emailTo);
+                jRecv_BodyTextarea.setText(rm.message);
+                jRecv_EncryptionTextbox.setText( "None" );
                 jStatusbar.setText( "Message shown. It was not encrypted." );
             }
         }
@@ -1016,16 +1011,6 @@ public class App extends javax.swing.JFrame
         for( int i = 0; i < passphrase.length; i++ )
             passphrase[ i ] = '\0';
     }//GEN-LAST:event_jSend_TestButtonActionPerformed
-
-    private static String ConvertToSimplifiedRFC822(String emailFrom, String emailTo, String message)
-    {
-        String srfc822 = "From: " + emailFrom + "\n"
-                + "To: " + emailTo + "\n"
-                + "Message: " + "\n"
-                + message;
-       
-        return srfc822;
-    }
     
     public static class ReceivedMessage 
     {
@@ -1055,6 +1040,16 @@ public class App extends javax.swing.JFrame
             return new ReceivedMessage(emailFrom, emailTo, message);
         }
         
+        public String ConvertToSimplifiedRFC822()
+        {
+            String srfc822 = "From: " + emailFrom + "\n"
+                    + "To: " + emailTo + "\n"
+                    + "Message: " + "\n"
+                    + message;
+
+            return srfc822;
+        }
+        
         public void print()
         {
             System.out.println("From: " + emailFrom);
@@ -1067,7 +1062,6 @@ public class App extends javax.swing.JFrame
     {//GEN-HEADEREND:event_jSend_SendButtonActionPerformed
         // Read original message
         String textMessage = jSend_BodyTextarea.getText();
-        byte[] byteMessage = textMessage.getBytes();
 
         // Read encryption metadata
         boolean addSignature = jSend_SignatureCheckbox.isSelected();
@@ -1137,8 +1131,12 @@ public class App extends javax.swing.JFrame
         int sentMessagesCount = 0;
         for( int i = 0; i < jSend_ToCombobox.getItemCount(); i++ )
         {
+            // Read sender email
+            String senderNameEmailAndKeyID = jSend_FromCombobox.getItemAt( jSend_FromCombobox.getSelectedIndex() );
+            
             // Read receiver public key id
             String receiverNameEmailAndKeyID = jSend_ToCombobox.getItemAt( i );
+            String originalReceiverNameEmailAndKeyID = jSend_ToCombobox.getItemAt( i );
             if( !"x ".equals( receiverNameEmailAndKeyID.substring( 0, 2 ) ) )
             {
                 continue;
@@ -1193,6 +1191,8 @@ public class App extends javax.swing.JFrame
                     break;
                 }
             }
+            
+            byte[] byteMessage = new ReceivedMessage(senderNameEmailAndKeyID, originalReceiverNameEmailAndKeyID, textMessage).ConvertToSimplifiedRFC822().getBytes();
 
             // Encryption
             byte[] encryptedMessage;
@@ -1248,16 +1248,19 @@ public class App extends javax.swing.JFrame
 
             System.out.println( "pgpMessage.senderSecretKeyId: " + pgpMessage.senderSecretKeyId );
 
-            if( pgpMessage.senderSecretKeyId != 0 )
+            /*if( pgpMessage.senderSecretKeyId != 0 )
             {
                 jRecv_FromTextbox.setText( ( String )PGPKeys
                         .getPublicKeyRing( pgpMessage.senderSecretKeyId )
                         .getPublicKey()
                         .getUserIDs()
                         .next() );
-            }
-
-            jRecv_BodyTextarea.setText( new String( pgpMessage.decryptedMessage ) );
+            }*/
+            
+            ReceivedMessage rm = ReceivedMessage.fromSimplifiedRFC822(new String(pgpMessage.decryptedMessage));
+            jRecv_FromTextbox.setText(rm.emailFrom);
+            jRecv_ToTextbox.setText(rm.emailTo);
+            jRecv_BodyTextarea.setText(rm.message);
             jRecv_EncryptionTextbox.setText( pgpMessage.encryptionAlgorithm );
 
             jRecv_CompressionCheckbox.setSelected( pgpMessage.isCompressed );
