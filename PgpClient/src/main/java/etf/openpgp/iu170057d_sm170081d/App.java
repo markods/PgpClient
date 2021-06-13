@@ -898,7 +898,7 @@ public class App extends javax.swing.JFrame
         String from = jRecv_FromTextbox.getText();
         String message = jRecv_BodyTextarea.getText();
 
-        if( "".equals( from ) )
+        if( "".equals( message ) )
         {
             jStatusbar.setText( "A message must be opened first." );
             return;
