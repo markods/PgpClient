@@ -961,7 +961,7 @@ public class App extends javax.swing.JFrame
             }
             else
             {
-                ReceivedMessage rm = ReceivedMessage.fromSimplifiedRFC822(new String(pgpMessage.decryptedMessage));
+                SimpleRFC288Message rm = SimpleRFC288Message.fromSimplifiedRFC822(new String(pgpMessage.decryptedMessage));
                 jRecv_FromTextbox.setText(rm.emailFrom);
                 jRecv_ToTextbox.setText(rm.emailTo);
                 jRecv_BodyTextarea.setText(rm.message);
@@ -1012,20 +1012,20 @@ public class App extends javax.swing.JFrame
             passphrase[ i ] = '\0';
     }//GEN-LAST:event_jSend_TestButtonActionPerformed
     
-    public static class ReceivedMessage 
+    public static class SimpleRFC288Message 
     {
         public String emailFrom;
         public String emailTo;
         public String message;
         
-        public ReceivedMessage(String emailFrom, String emailTo, String message)
+        public SimpleRFC288Message(String emailFrom, String emailTo, String message)
         {
             this.emailFrom = emailFrom;
             this.emailTo = emailTo;
             this.message = message;
         }
         
-        public static ReceivedMessage fromSimplifiedRFC822(String srfc822) {
+        public static SimpleRFC288Message fromSimplifiedRFC822(String srfc822) {
             int emailFromIndex = srfc822.indexOf("\n");
             String emailFrom = srfc822.substring(6, emailFromIndex);  // From: 
             srfc822 = srfc822.substring(emailFromIndex + 1, srfc822.length());
@@ -1037,7 +1037,7 @@ public class App extends javax.swing.JFrame
             int messageStartIndex = srfc822.indexOf("\n");
             String message = srfc822.substring(messageStartIndex + 1, srfc822.length());
             
-            return new ReceivedMessage(emailFrom, emailTo, message);
+            return new SimpleRFC288Message(emailFrom, emailTo, message);
         }
         
         public String ConvertToSimplifiedRFC822()
@@ -1192,7 +1192,7 @@ public class App extends javax.swing.JFrame
                 }
             }
             
-            byte[] byteMessage = new ReceivedMessage(senderNameEmailAndKeyID, originalReceiverNameEmailAndKeyID, textMessage).ConvertToSimplifiedRFC822().getBytes();
+            byte[] byteMessage = new SimpleRFC288Message(senderNameEmailAndKeyID, originalReceiverNameEmailAndKeyID, textMessage).ConvertToSimplifiedRFC822().getBytes();
 
             // Encryption
             byte[] encryptedMessage;
@@ -1257,7 +1257,7 @@ public class App extends javax.swing.JFrame
                         .next() );
             }*/
             
-            ReceivedMessage rm = ReceivedMessage.fromSimplifiedRFC822(new String(pgpMessage.decryptedMessage));
+            SimpleRFC288Message rm = SimpleRFC288Message.fromSimplifiedRFC822(new String(pgpMessage.decryptedMessage));
             jRecv_FromTextbox.setText(rm.emailFrom);
             jRecv_ToTextbox.setText(rm.emailTo);
             jRecv_BodyTextarea.setText(rm.message);
