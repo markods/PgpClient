@@ -1026,18 +1026,23 @@ public class App extends javax.swing.JFrame
         }
         
         public static SimpleRFC288Message fromSimplifiedRFC822(String srfc822) {
-            int emailFromIndex = srfc822.indexOf("\n");
-            String emailFrom = srfc822.substring(6, emailFromIndex);  // From: 
-            srfc822 = srfc822.substring(emailFromIndex + 1, srfc822.length());
-            
-            int emailToIndex = srfc822.indexOf("\n");
-            String emailTo = srfc822.substring(4, emailToIndex);  // To:
-            srfc822 = srfc822.substring(emailToIndex + 1, srfc822.length());
-            
-            int messageStartIndex = srfc822.indexOf("\n");
-            String message = srfc822.substring(messageStartIndex + 1, srfc822.length());
-            
-            return new SimpleRFC288Message(emailFrom, emailTo, message);
+            try {
+                int emailFromIndex = srfc822.indexOf("\n");
+                String emailFrom = srfc822.substring(6, emailFromIndex);  // From: 
+                srfc822 = srfc822.substring(emailFromIndex + 1, srfc822.length());
+
+                int emailToIndex = srfc822.indexOf("\n");
+                String emailTo = srfc822.substring(4, emailToIndex);  // To:
+                srfc822 = srfc822.substring(emailToIndex + 1, srfc822.length());
+
+                int messageStartIndex = srfc822.indexOf("\n");
+                String message = srfc822.substring(messageStartIndex + 1, srfc822.length());
+
+                return new SimpleRFC288Message(emailFrom, emailTo, message);
+            }
+            catch(Exception e) {
+                return new SimpleRFC288Message("", "", srfc822);
+            }
         }
         
         public String ConvertToSimplifiedRFC822()
