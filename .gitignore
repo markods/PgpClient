@@ -2,8 +2,8 @@
 *.asc
 *.gpg
 *.sig
-
 !**/Primeri/**
+/π README.txt
 
 # Compiled class file
 *.class
